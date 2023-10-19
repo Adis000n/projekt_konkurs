@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body>
+    <button type="button" class="btn btn-dark btn-lg" onclick="goBack()" id="back">Wróć</button>
     <form method="post">
     <!-- potrzebna nazwa, co to jest(kartkówka,sprawdzian,czy zadanie), jak ważne, komentarz, data na kiedy, i od kiedy do kiedy chcesz to robić -->
     <div class="form-floating mb-3">
@@ -29,13 +30,13 @@
     </div>
     <br>
     <div class="form-floating">
-    <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+    <select class="form-select" id="floatingSelect2" aria-label="Floating label select example">
         <option selected>Klinij aby otworzyć menu</option>
         <option value="3">Bardzo ważny</option>
         <option value="2">Średnio ważny</option>
         <option value="1">Mało ważny</option>
     </select>
-    <label for="floatingSelect">Wybierz jak ważny jest element</label>
+    <label for="floatingSelect2">Wybierz jak ważny jest element</label>
     </div>
     <br>
     <input type="text" name="data" value="<?php echo date("m/d/Y") ?>" />
@@ -45,9 +46,16 @@
         <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
         <label for="floatingTextarea2">Komentarz</label>
     </div>
+    <br>
+    <input class="btn btn-primary" type="submit" value="Submit" style="width:100%">
     </form>
 </body>
 <style>
+    #back{
+        position: absolute;
+        right: 2%;
+        top: 2%;
+    }
     body{
         justify-content: center;
         display: flex;
@@ -55,9 +63,15 @@
     form{
         background-color: rgb(225,225,225);
         padding: 2%;
-        border-radius: 4%;
+        border-radius: 3%;
         margin-top: 5%;
         width: 50%;
+    }
+        @media only screen and (max-width: 600px) {
+    form {
+        margin-top: 20%;
+        width: 90%;
+    }
     }
 </style>
 <script>
@@ -69,5 +83,8 @@
         maxYear: parseInt(moment().format('YYYY'),10)
     });
     });
+    function goBack(){
+        location.href = "index.php";
+    }
 </script>
 </html>
