@@ -14,10 +14,18 @@
         <button class="newViewBtn">widok1</button>
         <button class="newViewBtn">widok2</button>
         <button class="newViewBtn">widok3</button>
-        <button class="menu_btn"></button>
-        
+        <button class="menu_btn"></button>       
 
     </div>
+    <div class="calendar">
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container"></div>
+    </div>  
     
 </body>
 <script>
