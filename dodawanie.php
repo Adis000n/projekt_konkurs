@@ -10,6 +10,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
+    <script src="assets/plugins/global/plugins.bundle.js"></script>
 </head>
 <body>
     <button type="button" class="btn btn-dark btn-lg" onclick="goBack()" id="back">Wróć</button>
@@ -39,9 +41,15 @@
     <label for="floatingSelect2">Wybierz jak ważny jest element</label>
     </div>
     <br>
-    <input type="text" name="data" value="<?php echo date("m/d/Y") ?>" />
+    <div class="mb-0">
     <label for="floatingSelect">Data elementu</label>
-    <br><br>
+    <input class="form-control form-control-solid" placeholder="Pick date rage" id="kt_daterangepicker_3"/>
+    </div>
+    <div class="mb-0">
+    <label for="floatingSelect">Data elementu</label>
+    <input class="form-control form-control-solid" placeholder="Pick date rage" id="kt_daterangepicker_1"/>
+    </div>
+    <br>
     <div class="form-floating">
         <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
         <label for="floatingTextarea2">Komentarz</label>
@@ -69,22 +77,21 @@
     }
         @media only screen and (max-width: 600px) {
     form {
-        margin-top: 20%;
+        margin-top: 15%;
         width: 90%;
     }
     }
 </style>
 <script>
-    $(function() {
-    $('input[name="data"]').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format('YYYY'),10)
-    });
-    });
     function goBack(){
         location.href = "index.php";
     }
+    $("#kt_daterangepicker_3").daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 1901,
+        maxYear: parseInt(moment().format("YYYY"),12)
+    });
+    $("#kt_daterangepicker_1").daterangepicker();
 </script>
 </html>
