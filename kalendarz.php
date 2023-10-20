@@ -22,6 +22,7 @@
     <div class="calendar">
         <!-- first element-->
         <div class="container">
+            <div class="nameDay">Nazwa dnia tygodnia</div>
             <div class="informations"> test 123</div>
             <div class="informations"> test 123</div>
             <div class="informations"> test 123</div>
@@ -61,8 +62,10 @@
         <div class="container">
 
 
-        </div>
-    </div>  
+        </div>          
+    
+      </div>  
+      <footer>© by Nazwiska</footer>
     
 </body>
 <script>
