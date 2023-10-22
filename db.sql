@@ -1,3 +1,4 @@
+-- Tu macie bazke danych konkurs i tabele "user" jak cos bedziecie chcieli dodac to dodajcie.
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
