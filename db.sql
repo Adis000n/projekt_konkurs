@@ -32,7 +32,7 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `password` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `email` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL
+  `email` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=ucs2 COLLATE=ucs2_polish_ci;
 
 --
@@ -66,3 +66,22 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE TABLE IF NOT EXISTS `wydarzenia` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `nazwa` VARCHAR(255) NOT NULL,
+    `typ `VARCHAR(255) NOT NULL,
+    `waznosc` INT NOT NULL,
+    `data` DATE NOT NULL,
+    `komentarz` TEXT,
+    `user_id` INT,
+    FOREIGN KEY (`user_id`) REFERENCES `user`(`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `daty_nauki` (
+    `id `INT AUTO_INCREMENT PRIMARY KEY,
+    `wydarzenie_id` INT, -- Klucz obcy powiązany z tabelą "wydarzenia"
+    `data_nauki` DATE NOT NULL,
+    FOREIGN KEY (`wydarzenie_id`) REFERENCES `wydarzenia`(`id`)
+);
+

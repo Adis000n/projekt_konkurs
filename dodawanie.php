@@ -80,8 +80,8 @@
         background-position: center;
     }
     form{
-        background: rgba(200, 200, 200, 0.8); /* Transparent white background */
-        backdrop-filter: blur(1px); /* Adjust the blur intensity as needed */
+        background: rgba(200, 200, 200, 0.6); /* Transparent white background */
+        backdrop-filter: blur(1.5px); /* Adjust the blur intensity as needed */
         border-radius: 3%;
         padding: 2%;
         width: 50%;
