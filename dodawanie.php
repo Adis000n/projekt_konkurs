@@ -34,9 +34,9 @@
     <div class="form-floating">
     <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" name="waznosc">
         <option selected>Wybierz jak ważny jest wydarzenie</option>
-        <option value="3">Bardzo ważny</option>
-        <option value="2">Średnio ważny</option>
-        <option value="1">Mało ważny</option>
+        <option value="bardzo">Bardzo ważny</option>
+        <option value="srednio">Średnio ważny</option>
+        <option value="malo">Mało ważny</option>
     </select>
     <label for="floatingSelect2">Klinij aby otworzyć menu</label>
     </div>
