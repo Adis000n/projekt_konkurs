@@ -6,7 +6,9 @@
     <title>Strona głowna</title>
 </head>
 <body>
-    test
-    a
+    <form action="login.php">
+    <input type="submit" method="post" value="Zaloguj się">   
+    
 </body>
 </html>
+
