@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nie mam pojecia</title>
+    <title>Strona głowna</title>
 </head>
 <body>
     test
