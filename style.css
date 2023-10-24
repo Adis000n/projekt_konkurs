@@ -64,13 +64,14 @@ body{
 }
 .list_Menu{
     /* visibility: hidden; */
+    
+    display: none;
     transform: scale(1.2);
-    opacity: 0;
     width: 30vh;
     height: 12vh;
     position: fixed;
     background-color: rgba(211, 211, 211, 0.75);    
-    display: flex;
+    /* display: flex; */
     align-items: center;
     justify-content: space-evenly;
     flex-direction: column;
@@ -89,7 +90,7 @@ body{
 }
 
 .l_Btn{
-    display: block !important;
+    
     height: 4vh;
     width: 25vh;
     border-radius: 5px;
@@ -99,8 +100,7 @@ body{
     font-size: 2vh; 
     background-color: rgba(116, 116, 116, 0.3);
     box-shadow: 1.2px 4px 3px 0px;
-    /* margin-bottom: 10px;
-    margin-top: 10px;   */
+    
 }
 .l_Btn:hover{
     background-color: rgba(116, 116, 116, 0.75)
@@ -112,9 +112,12 @@ ul{
 }
  .menu_btn:focus:nth-child(5)+.list_Menu {
     /* visibility: visible; */
-    opacity: 1;     
+    display: flex;   
 
 }
+
+
+
 
 #goUpBtn{
      

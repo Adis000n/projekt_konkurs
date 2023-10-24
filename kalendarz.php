@@ -147,7 +147,10 @@ document.getElementById('normalny').addEventListener('click',function(){
         function goToDodawanie(){
         location.href = "dodawanie.php";
     }
-    
+    // wybór tła kalendarz
+    function changeBgc(){
+      
+    }
   
   </script>
 
