@@ -26,7 +26,7 @@ body{
     justify-content:space-around;    
     background-color: transparent    ; 
 }
-.menu::before{ /* linia pod elementem*/
+.menu::before{    /* linia pod elementem*/
     width: 100%;    
     content: "";
     position: absolute;
