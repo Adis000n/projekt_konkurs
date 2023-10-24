@@ -22,6 +22,7 @@
           <img src="img/awatar.png" width="10% "  height="45%"> Nazwa uzytkownika
         </button>        
         
+        
         <div class="list_Menu">
           <button class="l_Btn" onclick="document.location='myaccount.php'">⚙️ Ustawienia profilu&nbsp;</button>
           <button class="l_Btn" onclick="alert()">⚠️ Wyloguj się&nbsp;</button>

@@ -106,11 +106,7 @@ body{
 .l_Btn:hover{
     background-color: rgba(116, 116, 116, 0.75)
 }
-/* ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-} */
+
  .menu_btn:focus:nth-child(5)+.list_Menu {
     visibility: visible;    
     transition: 0.1s;
