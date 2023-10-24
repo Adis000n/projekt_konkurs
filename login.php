@@ -1,3 +1,4 @@
+!!!!!!! login z naszej poprzedniej strony - ui do wgrania 
 <?php
  session_start();
  if((isset($_SESSION['logged in'])) && ($_SESSION['logged in']==true))
