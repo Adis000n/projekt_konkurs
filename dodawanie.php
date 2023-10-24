@@ -14,56 +14,74 @@
 </head>
 <body>
     <button type="button" class="btn btn-dark btn-lg" onclick="goBack()" id="back">Wróć</button>
-    <form method="post">
-    <!-- potrzebna nazwa, co to jest(kartkówka,sprawdzian,czy zadanie), jak ważne, komentarz, data na kiedy, i od kiedy do kiedy chcesz to robić -->
-    <div class="form-floating mb-3">
-        <input class="form-control" id="floatingInput" placeholder="Przykładowy_przedmiot" name="nazwa">
-        <label for="floatingInput">Nazwa wydarzenia</label>
-    </div>
-    <div class="form-floating">
-    <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="typ">
-        <option selected>Wybierz typ wydarzenia</option>
-        <option value="sprawdzian">Sprawdzian</option>
-        <option value="kartkowka">Kartkówka</option>
-        <option value="zadanie">Zadanie domowe</option>
-        <option value="obowiazek">Obowiązek domowy</option>
-    </select>
-    <label for="floatingSelect">Klinij aby otworzyć menu </label>
-    </div>
-    <br>
-    <div class="form-floating">
-    <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" name="waznosc">
-        <option selected>Wybierz jak ważny jest wydarzenie</option>
-        <option value="bardzo">Bardzo ważny</option>
-        <option value="srednio">Średnio ważny</option>
-        <option value="malo">Mało ważny</option>
-    </select>
-    <label for="floatingSelect2">Klinij aby otworzyć menu</label>
-    </div>
-    <br>
-    <label>Wybierz date wydarzenia</label>
-    <input type="date" id="dateInput" min="<?php echo date("Y-m-d") ?>" value="<?php echo date("Y-m-d") ?>" style="border-radius:5px"/>
-    <br><br>
-    <div id="studyDatesContainer">Data zrobienia/nauki:<br></div>
-    <br>
-    <button type="button" class="btn btn-success" onclick="addStudyDate()" id="add">Dodaj datę nauki/zrobienia</button>
-    <br><br>
-    <div class="form-floating">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="komentarz"></textarea>
-        <label for="floatingTextarea2">Komentarz</label>
-    </div>
-    <br>
-    <input class="btn btn-primary" type="submit" value="Submit" style="width:100%">
-    </form>
+            <!-- ########################################################################### -->
+            <form method="post">
+            <!-- potrzebna nazwa, co to jest(kartkówka,sprawdzian,czy zadanie), jak ważne, komentarz, data na kiedy, i od kiedy do kiedy chcesz to robić -->
+            <div class="form-floating mb-3">
+                <input class="form-control" id="floatingInput" placeholder="Przykładowy_przedmiot" name="nazwa">
+                <label for="floatingInput">Nazwa wydarzenia</label>
+            </div>
+            <div class="form-floating">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="typ">
+                <option selected>Wybierz typ wydarzenia</option>
+                <option value="sprawdzian">Sprawdzian</option>
+                <option value="kartkowka">Kartkówka</option>
+                <option value="zadanie">Zadanie domowe</option>
+                <option value="obowiazek">Obowiązek domowy</option>
+            </select>
+            <label for="floatingSelect">Klinij aby otworzyć menu </label>
+            </div>
+            <br>
+            <div class="form-floating">
+            <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" name="waznosc">
+                <option selected>Wybierz jak ważne jest wydarzenie</option>
+                <option value="bardzo">Bardzo ważny</option>
+                <option value="srednio">Średnio ważny</option>
+                <option value="malo">Mało ważny</option>
+            </select>
+            <label for="floatingSelect2">Klinij aby otworzyć menu</label>
+            </div>
+            <br>
+            <label>Wybierz date wydarzenia</label>
+            <input type="date" id="dateInput" min="<?php echo date("Y-m-d") ?>" value="<?php echo date("Y-m-d") ?>" style="border-radius:5px" name="data_wydarzenia" />
+            <br><br>
+            <div id="studyDatesContainer">Data zrobienia/nauki:<br></div>
+            <br>
+            <button type="button" class="btn btn-success" onclick="addStudyDate()" id="add">Dodaj datę nauki/zrobienia</button>
+            <br><br>
+            <button type="button" class="btn btn-danger" onclick="deleteStudyDate()" id="delete" style="display: none; width:100%;">Usuń datę nauki/zrobienia</button>
+            <br>
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="komentarz"></textarea>
+                <label for="floatingTextarea2">Komentarz</label>
+            </div>
+            <br>
+            <input class="btn btn-primary" type="submit" value="Submit" style="width:100%">
+            </form>
+            <!-- ########################################################################### -->
     <?php
-    // if(isset($_POST["nazwa"])){
-    //     $nazwa = $_POST["nazwa"];
-    //     $typ = $_POST["typ"];
-    //     $waznosc = $_POST["waznosc"];
-    //     $data = $_POST["data"];
-    //     $komentarz = $_POST["komentarz"];
-    //     echo $nazwa." ".$typ." ".$waznosc." ".$data." ".$data_od_do." ".$komentarz;   
-    // }
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nazwa = $_POST["nazwa"];
+        $typ = $_POST["typ"];
+        $data_wydarzenia = $_POST["data_wydarzenia"];
+        $komentarz = $_POST["komentarz"];
+    
+        // Check if the fields are not empty and not equal to default values
+        if (!empty($nazwa) && $nazwa !== "Przykładowy_przedmiot" &&
+            !empty($typ) && $typ !== "Wybierz typ wydarzenia" &&
+            !empty($data_wydarzenia) && $data_wydarzenia !== date("Y-m-d")) {
+    
+            // Echo the data
+            echo "Nazwa: " . $nazwa . "<br>";
+            echo "Typ: " . $typ . "<br>";
+            echo "Data wydarzenia: " . $data_wydarzenia . "<br>";
+    
+            // Check if the comment field is not empty
+            if (!empty($komentarz)) {
+                echo "Komentarz: " . $komentarz;
+            }
+        }
+    }
     ?>
 </body>
 <style>
@@ -128,57 +146,74 @@
     if (selectElement.value === "obowiazek") {
         dateInput.disabled = true;
     }
+    const deleteButton = document.getElementById("delete");
+
     function addStudyDate() {
-    const studyDatesContainer = document.getElementById('studyDatesContainer');
-    const dateInputs = studyDatesContainer.getElementsByTagName('input');
-    
-    // Get the selected event date
-    const eventDate = new Date(dateInput.value);
+        const studyDatesContainer = document.getElementById('studyDatesContainer');
+        const dateInputs = studyDatesContainer.getElementsByTagName('input');
 
-    // Calculate the number of days between today and the event date
-    const today = new Date();
-    const daysUntilEvent = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+        // Get the selected event date
+        const eventDate = new Date(dateInput.value);
 
-    // Check if there are more study dates to add
-    if (dateInputs.length < daysUntilEvent) {
-        const newDateInput = document.createElement('input');
-        newDateInput.type = 'date';
+        // Calculate the number of days between today and the event date
+        const today = new Date();
+        const daysUntilEvent = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
 
-        // Set the min attribute to the current date
-        const currentDate = today.toISOString().split('T')[0];
-        newDateInput.min = currentDate;
+        // Show the "Delete Study Day" button after adding the first study date
+        if (dateInputs.length === 0) {
+            deleteButton.style.display = "block";
+        }
 
-        // Set the max attribute to one day before the event date
-        eventDate.setDate(eventDate.getDate() - 1);
-        const formattedEventDate = eventDate.toISOString().split('T')[0];
-        newDateInput.max = formattedEventDate;
-        newDateInput.style.borderRadius = "5px";
-        document.getElementById("add").innerHTML = "Dodaj kolejną datę nauki/zrobienia";
+        // Check if there are more study dates to add
+        if (dateInputs.length < daysUntilEvent) {
+            const newDateInput = document.createElement('input');
+            newDateInput.type = 'date';
 
-        studyDatesContainer.appendChild(newDateInput);
+            // Set the min attribute to the current date
+            const currentDate = today.toISOString().split('T')[0];
+            newDateInput.min = currentDate;
 
-        // Check for duplicate dates
-        if (hasDuplicateDates()) {
-            // Display an alert if duplicate dates are found
+            // Set the max attribute to one day before the event date
+            eventDate.setDate(eventDate.getDate() - 1);
+            const formattedEventDate = eventDate.toISOString().split('T')[0];
+            newDateInput.max = formattedEventDate;
+            newDateInput.style.borderRadius = "5px";
+            document.getElementById("add").innerHTML = "Dodaj kolejną datę nauki/zrobienia";
+
+            studyDatesContainer.appendChild(newDateInput);
+
+            if (hasDuplicateDates()) {
+                // Display an alert if duplicate dates are found
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oho...',
+                    text: 'Nie można dodać dwóch takich samych dat nauki/zrobienia.',
+                });
+
+                // Remove the duplicate date input
+                studyDatesContainer.removeChild(newDateInput);
+            }
+        } else {
+            // If the maximum number of study dates has been reached, display a message
             Swal.fire({
                 icon: 'error',
                 title: 'Oho...',
-                text: 'Nie można dodać dwóch takich samych dat nauki/zrobienia.',
+                text: 'Dodałeś maksymalną ilość dni, w których możesz się uczyć/zadanie zrobić!',
             });
-
-            // Remove the duplicate date input
-            studyDatesContainer.removeChild(newDateInput);
         }
-    } else {
-        // If the maximum number of study dates has been reached, display a message
-        Swal.fire({
-            icon: 'error',
-            title: 'Oho...',
-            text: 'Dodałeś maksymalną ilość dni, w których możesz się uczyć/zadanie zrobić!',
-        });
     }
-}
 
+    function deleteStudyDate() {
+        const studyDatesContainer = document.getElementById('studyDatesContainer');
+        const dateInputs = studyDatesContainer.getElementsByTagName('input');
+        if (dateInputs.length > 0) {
+            studyDatesContainer.removeChild(dateInputs[dateInputs.length - 1]);
+        }
+        if (dateInputs.length === 0) {
+            // Hide the "Delete Study Day" button when there are no study dates left
+            deleteButton.style.display = "none";
+        }
+    }
 // Function to check for duplicate dates
 function hasDuplicateDates() {
     const dateInputs = studyDatesContainer.getElementsByTagName('input');
