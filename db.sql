@@ -70,8 +70,8 @@ COMMIT;
 CREATE TABLE IF NOT EXISTS `wydarzenia` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `nazwa` VARCHAR(255) NOT NULL,
-    `typ `VARCHAR(255) NOT NULL,
-    `waznosc` INT NOT NULL,
+    `typ `ENUM(`sprawdzian`,`kartkowka`,`zadanie`,`obowiazek`) NOT NULL,
+    `waznosc` ENUM(`bardzo`,`srednio`,`malo`) NOT NULL,
     `data` DATE NOT NULL,
     `komentarz` TEXT,
     `user_id` INT,
