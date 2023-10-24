@@ -13,63 +13,61 @@
    <div class="web"> 
    <button onclick="topFunction()" id="goUpBtn" title="Go to top">Do Góry!</button>
     <div class="menu">
-        <button class="menu_btn" onclick="goToDodawanie()"></button>
-        <button  class="btn btn-secondary dropdown-toggle"   data-bs-theme="dark" type="button"  style="width:30vh;height:45px">widok1</button>
-        <button  class="btn btn-secondary dropdown-toggle"   data-bs-theme="dark" type="button"  style="width:30vh;height:45px">widok2</button>
-        <button  class="btn btn-secondary dropdown-toggle"   data-bs-theme="dark" type="button"  style="width:30vh;height:45px">widok3</button>
-        <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle"   data-bs-theme="dark" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width:35vh">
-     <img src="img/awatar.png" width="10% "  height="10%"> Nazwa uzytkownika
-      </button>
-  <ul class="dropdown-menu">
-    <li><button class="dropdown-item" type="button" onclick="document.location=">Ustawienia użytkownika</button></li>
-<li><button  class="dropdown-item" onclick="alert()">Wyloguj się</button></li>
-</ul>
-</div>
+        <button class="menu_btn" onclick="goToDodawanie()">➕ Dodaj&nbsp;</button>
+        <button  class="menu_btn">widok1</button>
+        <button  class="menu_btn">widok2</button>
+        <button  class="menu_btn">widok3</button>       
+       
+        <button class="menu_btn" type="button">
+          <img src="img/awatar.png" width="10% "  height="45%"> Nazwa uzytkownika
+        </button>        
+        
+        <div class="list_Menu">
+          <button class="l_Btn" onclick="document.location=">⚙️ Ustawienia&nbsp;</button>
+          <button class="l_Btn" onclick="alert()">⚠️ Wyloguj się&nbsp;</button>
+        </div>
+ 
+    </div>
 
     </div>
     <div class="calendar">
         <!-- first element-->
-        <div class="container">
-            <div class="nameDay">Nazwa dnia tygodnia</div>
-            <div class="informations"> test 123</div>
-            <div class="informations"> test 123</div>
-            <div class="informations"> test 123</div>
-            <div class="informations"> test 123</div>
-            <div class="informations"> test 123</div>
-            <div class="informations"> test 123</div>
-            <div class="informations"> test 123</div>
-            <div class="informations"> test 123</div>
-            <!-- Maksymalna ilość zadań możliwych do zapisania 8! -->
+        <div class="container" id="first">
+            <div class="nameDay"><a id="Today"></a></div>
+            <!-- <div class="informations">test</div>
+            <div class="informations">Sprawdzian</div>
+            <div class="informations">Zadanie</div>
+            <div class="informations">Kartkówka</div> -->
+            
         </div>
         <!-- next element 2-->
-        <div class="container">
-
+        <div class="container" id="second">
+          <div class="nameDay">Wt</div>
 
         </div>
         <!-- next element 3-->
-        <div class="container">
-
+        <div class="container" id="third">
+          <div class="nameDay">śr</div>
 
         </div>
         <!-- next element 4-->
-        <div class="container">
-
+        <div class="container" id="fourth">
+          <div class="nameDay">czw</div>
 
         </div>
         <!-- next element 5-->
-        <div class="container">
-
+        <div class="container" id="fifth">
+          <div class="nameDay">pt</div>
 
         </div>
         <!-- next element 6-->
-        <div class="container">
-
+        <div class="container" id="sixth">
+          <div class="nameDay">sb</div>
 
         </div>
         <!-- next element 7-->
-        <div class="container">
-
+        <div class="container" id="seventh"> 
+          <div class="nameDay">nd</div>
 
         </div>          
     
@@ -78,44 +76,14 @@
     
 </body>
 <script>
-
-  //funkcja od wylogowywania sie
-
-function alert(){
-    Swal.fire({
-  title: 'Jestes pewien?',
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Tak',
-  cancelButtonText: 'Nie'
-}).then((result) => {
-  if (result.isConfirmed) {
-    Swal.fire(
-      'Wylogowano!',
-    )
-  }
-})
-    }
-documnt.getElementById('normalny').addEventListener('click',function(){
-    alert('Alert zwykly')
-})
-
-
-
-
-        function goToDodawanie(){
-        location.href = "dodawanie.php";
-    }
+    // przycisk do góry! UWAGA ZAWSZE TEN SKRYPT MA BYĆ PIERWSZY INACZEJ NIE DZIAŁA niewiadomo czemu.
     
-    // przycisk do góry!
  let timer;
 let mybutton = document.getElementById("goUpBtn");
 document.onmousemove = function() {
 // document.getElementById('myBtn').style.display = "block";
 
-if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
      mybutton.style.visibility = "visible";
      mybutton.style.opacity = "1";
      // console.log(timer);
@@ -134,14 +102,53 @@ timer = setTimeout(function() {
 }, 2600);
 };
 
- 
-//  window.onscroll = function() {scrollFunction()};
-
 
  function topFunction() {
    document.body.scrollTop = 0;
    document.documentElement.scrollTop = 0;
  }
+ //funkcja ustawiająca kafelki (na razie nazywajaca jeden pierwszy kafelek)
+
+ function getDayName(date = new Date(), locale = 'en-US') {
+  return date.toLocaleDateString(locale, {weekday: 'long'});
+  
+}
+console.log(getDayName()); //wywala nazwe dnia console log
+document.getElementById("Today").innerHTML = getDayName();
+ 
+
+ 
+ //funkcja od wylogowywania sie
+
+function alert(){
+    Swal.fire({
+  title: 'Jestes pewien?',
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Tak',
+  cancelButtonText: 'Nie'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire(
+      'Wylogowano!',
+    )
+  }
+})
+    }
+document.getElementById('normalny').addEventListener('click',function(){
+    alert('Alert zwykly')
+})
+
+
+
+
+        function goToDodawanie(){
+        location.href = "dodawanie.php";
+    }
+    
+  
   </script>
 
 </html>
