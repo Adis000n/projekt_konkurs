@@ -154,49 +154,58 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    
+    align-items: center;
     margin-left: 10%;
     margin-right: 10%;
     height: auto;
     
     width:80%;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.4);
     box-sizing: border-box;
     border-radius: 25px;
     padding-bottom: 30px;
     /* padding-bottom: 1vh; */
     }
 
-.container{   
+.container, .bContainer{   
     display: flex;
-    flex-wrap:wrap;  
-    /* flex-direction: row-reverse;   */
-    justify-content: space-between; 
-    align-items: center;   
+    flex-wrap:wrap;     
+    justify-content: space-between;       
+    /* margin: 0; */
     margin-top: 30px;
     height: 7vh;
     width: 80%;
     background-color: rgba(211, 211, 211, 0.75);
     border-radius: 25px;
     box-shadow: 1.2px 4px 3px 0px;   
-    transition: .3s;
+    transition: .4s ;
     
     
+    }
+    .bContainer{
+        width: 80%;
+        border-radius: 30px;
+        height: 35vh;
     }
 .container:hover{
     height: 35vh;
     border-radius: 30px;
     transition: .3s;
-
-
-
 }
     .nameDay{
-    text-align: left;    
-    width: auto;
-    font-size: 17px;    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;    
+    width: 20%;
+    height: 7vh;
+    font-size: 18px;    
     color: black;
+    /* background-color: purple; */
 }
+
+
+
+
     .informations{
     /* margin-top: 5px; */
     text-align: center;
@@ -213,12 +222,15 @@ footer{
     text-align: center;    
     position: relative;
     /* margin-top: 30px; */
-    height: 2vh;
+    height: 3vh;
     width: 100%; 
     margin-top: 5px  ; 
-    font-size: 12px;
+    font-size: 14px;
+    width: auto;     
     color: black;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.9);
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255,0.75) 50%, transparent 100%);
+
     box-sizing: border-box;
 }
 footer::before{ /* linia pod elementem*/
