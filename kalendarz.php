@@ -44,44 +44,38 @@
 
     </div>
     <div class="calendar">
-        <!-- first element-->
-        <div class="container" id="first">
+        
+        <!-- <div class="container" id="first">
             <div class="nameDay"><a id="Today"></a></div>
-            <!-- <div class="informations">test</div>
-            <div class="informations">Sprawdzian</div>
-            <div class="informations">Zadanie</div>
-            <div class="informations">Kartkówka</div> -->
-            
-        </div>
-        <!-- next element 2-->
-        <div class="container" id="second">
-          <div class="nameDay">Wt</div>
+                 
+        </div> -->
+        <?php
+ 
+          $nameDays = array(" ","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"); // od 0 zaczyna sie array!
+          $rawDate = date("Y-m-d H:i:s");
+          $today = date('N', strtotime($rawDate)); 
+          $i = 1;
+          
+            while($i <= 8){
+              if($i==1){
+                echo '<div class="bContainer"><div class="nameDay">'."Dzisiaj".'</div></div>';
+                $i++;
+        
+              }else{
+                 echo '<div class="container"><div class="nameDay">'.$nameDays[$today].'</div></div>';
+              } 
 
-        </div>
-        <!-- next element 3-->
-        <div class="container" id="third">
-          <div class="nameDay">śr</div>
-
-        </div>
-        <!-- next element 4-->
-        <div class="container" id="fourth">
-          <div class="nameDay">czw</div>
-
-        </div>
-        <!-- next element 5-->
-        <div class="container" id="fifth">
-          <div class="nameDay">pt</div>
-
-        </div>
-        <!-- next element 6-->
-        <div class="container" id="sixth">
-          <div class="nameDay">sb</div>
-
-        </div>
-        <!-- next element 7-->
-        <div class="container" id="seventh"> 
-          <div class="nameDay">nd</div>
-
+            $today++;
+   
+            if($today >= 8){
+             $today = 1;
+            }
+    
+            $i++;
+            }
+ 
+        ?>
+       
         </div>          
     
       </div>  
