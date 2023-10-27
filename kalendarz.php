@@ -7,8 +7,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <link type="text/css" rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
     <title>Kalendarz</title>
 </head>
+<?php 
+ session_start();
+ if(!isset($_SESSION['logged in']))
+ {
+    header('Location: login.php');
+    exit();
+ }
+ ?>
 <body>
    <div class="web"> 
    <button onclick="topFunction()" id="goUpBtn" title="Go to top">Do Góry!</button>
@@ -19,7 +29,10 @@
         <button  class="menu_btn">widok3</button>       
        
         <button class="menu_btn" type="button">
-          <img src="img/awatar.png" width="10% "  height="45%"> Nazwa uzytkownika
+          <img src="img/awatar.png" width="10% "  height="45%"> 
+    <?php 
+        echo $_SESSION['user'];
+    ?>
         </button>        
                        
         <div class="list_Menu">
@@ -132,8 +145,9 @@ function alert(){
 }).then((result) => {
   if (result.isConfirmed) {
     Swal.fire(
-      'Wylogowano!',
+      location.href = "logout.php"
     )
+    
   }
 })
     }
