@@ -35,7 +35,7 @@
                     $_SESSION['Email'] = $row['email'];
                     unset($_SESSION['error']);
                     $result->close();
-                    header('Location: myaccount.php');  
+                    header('Location: kalendarz.php');  
                 }
                 else 
                 {
