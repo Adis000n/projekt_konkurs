@@ -62,7 +62,7 @@ session_start();
             <button type="button" class="btn btn-danger" onclick="deleteStudyDate()" id="delete" style="display: none; width:100%;">Usuń datę nauki/zrobienia</button>
             <br>
             <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="komentarz"></textarea>
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="komentarz" maxlength="200"></textarea>
                 <label for="floatingTextarea2">Komentarz</label>
             </div>
             <br>
