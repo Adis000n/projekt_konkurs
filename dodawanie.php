@@ -69,7 +69,7 @@ session_start();
             <input class="btn btn-primary" type="submit" value="Submit" style="width:100%">
             </form>
             <!-- ########################################################################### -->
-            <?php
+<?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nazwa = $_POST["nazwa"];
     $typ = $_POST["typ"];
@@ -106,25 +106,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $id = $_SESSION['id'];
 
-        // Create and execute a prepared statement
+        // Create and execute a prepared statement to insert into wydarzenia table
         $stmt = mysqli_prepare($con, "INSERT INTO `wydarzenia` (`id`, `nazwa`, `typ`, `waznosc`, `data`, `komentarz`, `user_id`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
         mysqli_stmt_bind_param($stmt, "sssssi", $nazwa, $typ, $waznosc, $data_wydarzenia, $komentarz, $id);
 
         if (mysqli_stmt_execute($stmt)) {
+            // Get the ID of the newly added event
+            $event_id = mysqli_insert_id($con);
+
+            // Insert study dates into daty_nauki table
+            if ($typ !== "obowiazek") {
+                foreach ($_POST as $key => $value) {
+                    if (strpos($key, 'studyDate') === 0) {
+                        $studyDate = $value;
+
+                        // Create and execute a prepared statement to insert into daty_nauki table
+                        $studyStmt = mysqli_prepare($con, "INSERT INTO `daty_nauki` (`id`, `wydarzenie_id`, `data_nauki`) VALUES (NULL, ?, ?)");
+                        mysqli_stmt_bind_param($studyStmt, "is", $event_id, $studyDate);
+                        mysqli_stmt_execute($studyStmt);
+                    }
+                }
+            }
+
             echo '<script>
             Swal.fire({
                 icon: "success",
                 title: "Pomyślnie dodano nowe wydarzenie!",
-                timer: 2500, // Adjust the timer duration (in milliseconds)
+                timer: 2500,
                 showConfirmButton: false
             }).then(() => {
-                window.location.href = "kalendarz.php"; // Redirect to "kalendarz.php"
+                window.location.href = "kalendarz.php";
             });
-            </script>';
-
-            // Redirect to "kalendarz.php" after a brief delay
-            echo '<script>
-            sleep(2500).then(() => {window.location.href = "kalendarz.php";
             </script>';
         } else {
             echo "Error: " . mysqli_error($con);
@@ -141,6 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </script>';
     }
 }
+
 ?>
 
 </body>
