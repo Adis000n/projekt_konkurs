@@ -120,7 +120,7 @@
       <div class="bg__dot"></div>
       <div class="bg__dot"></div>
     </div>
-    <form class="form">
+    <form class="form" method="post">
       <div class="form__icon" aria-hidden="true"></div>
       <div class="form__input-container">
         <input aria-label="User" class="form__input" type="text" id="username" name="username" placeholder=" " required>
