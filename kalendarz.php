@@ -45,34 +45,74 @@
     </div>
     <div class="calendar">
         
-        <!-- <div class="container" id="first">
-            <div class="nameDay"><a id="Today"></a></div>
+        <div class="container">
+              <div class="nameDay">Dzisiaj</div>
+              <div class="toDo">
+                <div class="toDoW">Do zrobienia</div>             
+                <div class="information">Zadanie</div>
+                <div class="information">Zad</div>
+                <div class="information">kartkowka</div>              
+                <div class="information">Nauczyć sie na spr.</div>            
+                <div class="information">Nauczyć sie na spr.</div>
+              
+              </div>  
+              <div class="events">
+                <div class="eventsW">Wydarzenia</div>             
+                <div class="information">Zadanie</div>
+                <div class="information">Zadanie</div>
+                <div class="information">Zadanie</div>              
+                <div class="information">Zadanie</div>            
+
+              
+                
+              
+              </div>
                  
-        </div> -->
+        </div>
+        <div class="container">
+              <div class="nameDay">Dzisiaj</div>
+              <div class="toDo">
+                <div class="toDoW">Do zrobienia</div>             
+                <div class="information">Zadanie</div>
+                <div class="information">Zad</div>
+                <div class="information">kartkowka</div>              
+                <div class="information">Nauczyć sie na spr.</div>            
+                <div class="information">Nauczyć sie na spr.</div>              
+              </div>  
+
+              <div class="events">
+                <div class="eventsW">Wydarzenia</div>             
+                <div class="information">Zadanie</div>
+                <div class="information">Zadanie</div>
+                <div class="information">Zadanie</div>            
+                <div class="information">Zadanie</div> 
+              </div>
+                 
+        </div>
         <?php
  
-          $nameDays = array(" ","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"); // od 0 zaczyna sie array!
-          $rawDate = date("Y-m-d H:i:s");
-          $today = date('N', strtotime($rawDate)); 
-          $i = 1;
+          // $nameDays = array(" ","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"); // od 0 zaczyna sie array!
+          // $rawDate = date("Y-m-d H:i:s");
+          // $today = date('N', strtotime($rawDate)); 
+          // $i = 1;
           
-            while($i <= 8){
-              if($i==1){
-                echo '<div class="bContainer"><div class="nameDay">'."Dzisiaj".'</div></div>';
-                $i++;
+          //   while($i <= 8){
+          //     if($i==1){
+          //       echo '<div class="container"><div class="nameDay">'."Dzisiaj".'</div></div>';
+          //       $i++;
         
-              }else{
-                 echo '<div class="container"><div class="nameDay">'.$nameDays[$today].'</div></div>';
-              } 
+          //     }else{
+          //        echo '<div class="container"><div class="nameDay">'.$nameDays[$today].'</div></div>';
+          //     } 
 
-            $today++;
+          //   $today++;
    
-            if($today >= 8){
-             $today = 1;
-            }
+          //   if($today >= 8){
+          //    $today = 1;
+          //   }
     
-            $i++;
-            }
+          //   $i++;
+          //   }
  
         ?>
        
@@ -155,10 +195,7 @@ document.getElementById('normalny').addEventListener('click',function(){
         function goToDodawanie(){
         location.href = "dodawanie.php";
     }
-    // wybór tła kalendarz
-    function changeBgc(){
-      
-    }
+   
   
   </script>
 
