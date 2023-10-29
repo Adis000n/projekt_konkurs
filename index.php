@@ -8,62 +8,84 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Kalam&family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
     <p1 id="tekst">DO</p1>
     <p1 id="tekst">IT</p1>
-    <p>NOW!</p>
+    <p1 id="tekst2">NOW!</p1>
+    <hr class="new5">
+    <h1>O nas:</h1>
+    <h2>(cos tu trzebo napisać ale nie mam pomysłu )</h2>
+    <hr class="new5">
     <form action="login.php">  
     <button  type="submit" method="post">Zaloguj się</button>
 </body>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 
+    hr.new5 {
+  border: 7px solid #ffffff;
+  border-radius: 5px;
+  width:80%;
+  opacity: 0.8;
+}
+h1{
+    font-family: 'Pacifico', cursive;
+    font-size: 4rem;
+}
+h2{
+    font-family: 'Kalam', cursive;
+    font-size: 3rem;
+    width: 80%;
+    text-align: center;
+}
+
     #tekst{
+        transition: 0.3s;
     color: white;
-    text-shadow: 8px 2px 10px rgba(0, 212, 255, 1);
+    text-shadow: 1px 1px 0 #b9bcbd, 1px 2px 0 #b9bcbd, 1px 3px 0 #b9bcbd, 1px 4px 0 #b9bcbd,
+    1px 5px 0 #b9bcbd, 1px 6px 0 #b9bcbd, 1px 7px 0 #b9bcbd, 1px 8px 0 #b9bcbd,
+    5px 13px 15px black;
     }
-    p {
-    color: #63e5ff;
-    position: relative;
-    text-decoration: none;
-    text-shadow: 8px 2px 8px rgba(0, 174, 255, 1);
+    #tekst:hover{
+        text-shadow: 1px -1px 0 #b9bcbd, 1px -2px 0 #b9bcbd, 1px -3px 0 #b9bcbd,
+    1px -4px 0 #b9bcbd, 1px -5px 0 #b9bcbd, 1px -6px 0 #b9bcbd, 1px -7px 0 #b9bcbd,
+    1px -8px 0 #b9bcbd, 5px -13px 15px black, 5px -13px 25px #808080;
     }
-
-    p::before {
-    background: #00c9f2;
-    content: "";
-    inset: 0;
-    position: absolute;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.8s ease-in-out;
-    z-index: -1;
-    color:#adf7ff;
+    #tekst2{
+        transition: 0.3s;
+    color: #0091f2;
+    text-shadow: 1px 1px 0 #0070ba, 1px 2px 0 #0070ba, 1px 3px 0 #0070ba, 1px 4px 0 #0070ba,
+    1px 5px 0 #0070ba, 1px 6px 0 #0070ba, 1px 7px 0 #0070ba, 1px 8px 0 #0070ba,
+    5px 13px 15px black;
     }
-
-    p:hover::before {
-    transform: scaleX(1);
-    transform-origin: left;
+    #tekst2:hover{
+        text-shadow: 1px -1px 0 #0070ba, 1px -2px 0 #0070ba, 1px -3px 0 #0070ba,
+    1px -4px 0 #0070ba, 1px -5px 0 #0070ba, 1px -6px 0 #0070ba, 1px -7px 0 #0070ba,
+    1px -8px 0 #0070ba, 5px -13px 15px black, 5px -13px 25px #808080;
     }
-
+    
     /* Presentational styles */
     body {
     display: flex;
+    color: white;
     flex-direction: column;
-    font-family: system-ui, sans;
-    font-size: 8rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 10rem;
     font-weight: 800;
-    height: 100vh;
+    min-height: 100vh;
     place-items: center;
-    background: #adf7ff;
-    }
+    background: linear-gradient(120deg, rgba(0, 185, 255, 1) 0%, rgba(44, 232, 255, 1) 48%, rgba(130, 251, 255, 1) 100%);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 
 button{
   padding: 25px 30px;
-  background-color: #adf7ff;
-  color: #00c9f2;
+  background-color: #b8f8ff;
+  color: #0091f2;
   font-weight: bold;
   border: none;
   border-radius: 5px;
@@ -72,16 +94,17 @@ button{
   transition: 0.8s;
   cursor: pointer;
   font-size: 3rem;
+  margin-bottom: 40%;
 }
 
 button:hover{
-    background: #00c9f2;
-    color: #adf7ff;
-    box-shadow: 0 0 5px #00c9f2,
-                0 0 25px #00c9f2,
-                0 0 50px #00c9f2,
-                0 0 200px #00c9f2;
-     -webkit-box-reflect:below 1px linear-gradient(transparent, #0006);
+    background: #0091f2;
+    color: #b8f8ff;
+    box-shadow: 0 0 5px #0091f2,
+                0 0 25px #0091f2,
+                0 0 50px #0091f2,
+                0 0 200px #0091f2;
+     -webkit-box-reflect:below 1px linear-gradient(transparent, #0009);
 }
 </style>
 </html>
