@@ -66,7 +66,7 @@ session_start();
                 <label for="floatingTextarea2">Komentarz</label>
             </div>
             <br>
-            <input class="btn btn-primary" type="submit" value="Submit" style="width:100%">
+            <input class="btn btn-primary" type="submit" value="Wyślij" style="width:100%">
             </form>
             <!-- ########################################################################### -->
 <?php

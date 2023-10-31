@@ -25,11 +25,11 @@
     <div class="menu">
         <button class="menu_btn" onclick="goToDodawanie()">➕ Dodaj&nbsp;</button>
         <button  class="menu_btn">widok1</button>
-        <button  class="menu_btn">widok2</button>
+        <button  class="menu_btn" onclick="goto2()">widok2</button>
         <button  class="menu_btn">widok3</button>       
        
         <button class="menu_btn" type="button">
-          <img src="img/awatar.png" width="10% "  height="45%"> 
+          <img src="img/awatar.png" width="20% "  height="auto"> 
     <?php 
         echo $_SESSION['user'];
     ?>
@@ -120,7 +120,7 @@
     
       </div>  
       <footer>© by Nazwiska</footer>
-    
+      
 </body>
 <script>
     // przycisk do góry! UWAGA ZAWSZE TEN SKRYPT MA BYĆ PIERWSZY INACZEJ NIE DZIAŁA niewiadomo czemu.
@@ -196,7 +196,9 @@ document.getElementById('normalny').addEventListener('click',function(){
         location.href = "dodawanie.php";
     }
    
-  
+  function goto2(){
+    location.href = "kalendarz2.php";
+  }
   </script>
 
 </html>
