@@ -20,6 +20,19 @@
 
  <button type="button" class="btn btn-dark btn-lg" onclick="goBack()" id="back">Wróć</button>
  <div class="container light-style flex-grow-1 container-p-y">
+    <?php 
+        if(isset($_SESSION['status'])) {
+                
+
+                
+                echo "<h4>".$_SESSION['status']."</h4>";
+                unset($_SESSION['status']);
+        }
+
+
+
+        ?>
+
         <h4 class="font-weight-bold py-3 mb-4">
             Ustawienia użytkownika
         </h4>
@@ -43,37 +56,52 @@
                             </div>
                             <hr class="border-light m-0">
                             <div class="card-body">
+                            <form  action="code.php" method="POST">
                                 <div class="form-group">
-                                    <label class="form-label">Nazwa użytkownika</label>
-                                    <input type="text" class="form-control mb-1" value="<?php echo $_SESSION['user']; ?>">
+                                    <label class="form-label">Aktualna nazwa użytkownika</label>
+                                    <input type="text" class="form-control mb-1" value="<?php echo $_SESSION['user']; ?>" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">E-mail</label>
-                                    <input type="text" class="form-control mb-1" value="<?php echo $_SESSION['Email']; ?>">
+                                    <label class="form-label">Nowa nazwa użytkownika</label>
+                                    <input type="text" class="form-control mb-1" name="nowa_nazwa">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Aktualny adres e-mail</label>
+                                    <input type="text" class="form-control mb-1" value="<?php echo $_SESSION['Email']; ?>" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nowy adres e-mail</label>
+                                    <input type="text" class="form-control mb-1" name="nowy_email">
+                                    <button type="submit" name="zapisz" class="btn btn-primary">Zapisz Zmiany</button>&nbsp;
+</form>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="account-change-password">
                             <div class="card-body pb-2">
+                                <form action="haslo.php" method="POST">
                                 <div class="form-group">
-                                    <label class="form-label">Obecne hasło</label>
-                                    <input type="password" class="form-control">
+                                    <label class="form-label"> Wpisz obecne hasło</label>
+                                    <input type="password"  name="obecne_haslo" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Nowe hasło</label>
-                                    <input type="password" class="form-control">
+                                    <label class="form-label"> Wpisz nowe hasło</label>
+                                    <input type="password" name="nowe_haslo" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Powtórz nowe hasło</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" name="nowe_haslo2" class="form-control">
+                                    <button type="submit" name="zapisz1" class="btn btn-primary">Zapisz hasło</button>&nbsp;
+</form>                         
                                 </div>
                             </div>
                         </div>
                                     </label>
         <div class="text-right mt-3">
-            <h5 style="color:red"> *-Wymagane</h5>
-            <button type="button" class="btn btn-primary">Zapisz Zmiany</button>&nbsp;
-            <button type="button" class="btn btn-default">Cofnij</button>
+     
+        
+
+    
         </div>
     </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
@@ -83,6 +111,7 @@
  function goBack(){
         location.href = "kalendarz.php";
     }
+
     </script>
 
 
