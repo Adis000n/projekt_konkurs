@@ -20,13 +20,17 @@ if(!isset($_SESSION['logged in']))
     exit();
 }
 $id = $_SESSION["id"];
-$q_sprawdzian = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'sprawdzian'";
+// Modify the SQL queries to filter records within the next week using DATE_ADD
+$q_sprawdzian = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'sprawdzian' AND `data` BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)";
 $result_sprawdzian = mysqli_query($con, $q_sprawdzian);
-$q_kartkowka = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'kartkowka'";
+
+$q_kartkowka = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'kartkowka' AND `data` BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)";
 $result_kartkowka = mysqli_query($con, $q_kartkowka);
-$q_zadanie = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'zadanie'";
+
+$q_zadanie = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'zadanie' AND `data` BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)";
 $result_zadanie = mysqli_query($con, $q_zadanie);
-$q_obowiazek = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'obowiazek'";
+
+$q_obowiazek = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'obowiazek' AND `data` BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)";
 $result_obowiazek = mysqli_query($con, $q_obowiazek);
 ?>
 <body>
@@ -51,16 +55,31 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
         </div>
     </div>
     <div class="calendar">
+        <h1>Wydarzenia w tym tygodniu:</h1>
         <div id="sprawdzian">
-        <h1>Sprawdziany:</h1>
+        <?php
+        // Count the number of "sprawdzian" elements
+        $count_sprawdzian = mysqli_num_rows($result_sprawdzian);
+        ?>
+        <h2>Sprawdziany: <?php echo $count_sprawdzian; ?></h2>
         <hr>
         <div id="elementy-sprawdzian">
         <?php
         if ($result_sprawdzian) {
             while ($row = mysqli_fetch_assoc($result_sprawdzian)) {
                 echo '<div class="event-box">'; // Create a container for the event
-                echo '<h5>Nazwa: ' . $row['nazwa'] . '</h5>';
-                echo '<p>Ważność: ' . $row['waznosc'] . '</p>';
+                echo '<h5>' . $row['nazwa']." " ;
+                        if($row['waznosc']=='bardzo'){
+                            echo '<img src="img/red.png" width="30vw" height="auto">';
+                        }
+                        else if($row['waznosc']=='srednio'){
+                            echo '<img src="img/yellow.png" width="30vw" height="auto">';
+                        }
+                        else{
+                            echo '<img src="img/green.png" width="25vw" height="auto">';
+                        }
+                        echo '</h5>';
+                        echo '<p>Data wydarzenia: ' . $row['data'] . '</p>';
                 echo '</div>'; // Close the container for the event
             }
         } else {
@@ -71,15 +90,29 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
         </div>
         </div>
         <div id="kartkowka">
-            <h1>Kartkówki:</h1>
+            <?php
+            // Count the number of "kartkowka" elements
+            $count_kartkowka = mysqli_num_rows($result_kartkowka);
+            ?>
+            <h2>Kartkówki: <?php echo $count_kartkowka; ?></h2>
             <hr>
             <div id="elementy-kartkowka">
                 <?php
                 if ($result_kartkowka) {
                     while ($row = mysqli_fetch_assoc($result_kartkowka)) {
                         echo '<div class="event-box">'; // Create a container for the event
-                        echo '<h5>Nazwa: ' . $row['nazwa'] . '</h5>';
-                        echo '<p>Ważność: ' . $row['waznosc'] . '</p>';
+                        echo '<h5>' . $row['nazwa']." " ;
+                        if($row['waznosc']=='bardzo'){
+                            echo '<img src="img/red.png" width="30vw" height="auto">';
+                        }
+                        else if($row['waznosc']=='srednio'){
+                            echo '<img src="img/yellow.png" width="30vw" height="auto">';
+                        }
+                        else{
+                            echo '<img src="img/green.png" width="25vw" height="auto">';
+                        }
+                        echo '</h5>';
+                        echo '<p>Data wydarzenia: ' . $row['data'] . '</p>';
                         echo '</div>'; // Close the container for the event
                     }
                 } else {
@@ -90,15 +123,29 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
             </div>
         </div>
         <div id="zadanie">
-            <h1>Zadania:</h1>
+            <?php
+            // Count the number of "zadanie" elements
+            $count_zadanie = mysqli_num_rows($result_zadanie);
+            ?>
+            <h2>Zadania: <?php echo $count_zadanie; ?></h2>
             <hr>
             <div id="elementy-zadanie">
                 <?php
                 if ($result_zadanie) {
                     while ($row = mysqli_fetch_assoc($result_zadanie)) {
                         echo '<div class="event-box">'; // Create a container for the event
-                        echo '<h5>Nazwa: ' . $row['nazwa'] . '</h5>';
-                        echo '<p>Ważność: ' . $row['waznosc'] . '</p>';
+                        echo '<h5>' . $row['nazwa']." " ;
+                        if($row['waznosc']=='bardzo'){
+                            echo '<img src="img/red.png" width="30vw" height="auto">';
+                        }
+                        else if($row['waznosc']=='srednio'){
+                            echo '<img src="img/yellow.png" width="30vw" height="auto">';
+                        }
+                        else{
+                            echo '<img src="img/green.png" width="25vw" height="auto">';
+                        }
+                        echo '</h5>';
+                        echo '<p>Data wydarzenia: ' . $row['data'] . '</p>';
                         echo '</div>'; // Close the container for the event
                     }
                 } else {
@@ -109,15 +156,29 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
             </div>
         </div>
         <div id="obowiazek">
-            <h1>Obowiązki:</h1>
+            <?php
+            // Count the number of "obowiazek" elements
+            $count_obowiazek = mysqli_num_rows($result_obowiazek);
+            ?>
+            <h2>Obowiązki: <?php echo $count_obowiazek; ?></h2>
             <hr>
             <div id="elementy-obowiazek">
                 <?php
                 if ($result_obowiazek) {
                     while ($row = mysqli_fetch_assoc($result_obowiazek)) {
                         echo '<div class="event-box">'; // Create a container for the event
-                        echo '<h5>Nazwa: ' . $row['nazwa'] . '</h5>';
-                        echo '<p>Ważność: ' . $row['waznosc'] . '</p>';
+                        echo '<h5>' . $row['nazwa']." " ;
+                        if($row['waznosc']=='bardzo'){
+                            echo '<img src="img/red.png" width="30vw" height="auto">';
+                        }
+                        else if($row['waznosc']=='srednio'){
+                            echo '<img src="img/yellow.png" width="30vw" height="auto">';
+                        }
+                        else{
+                            echo '<img src="img/green.png" width="25vw" height="auto">';
+                        }
+                        echo '</h5>';
+                        echo '<p>Data wydarzenia: ' . $row['data'] . '</p>';
                         echo '</div>'; // Close the container for the event
                     }
                 } else {
@@ -134,11 +195,13 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
 </body>
 <style>
 .event-box{
-    background-color: rgba(0, 0, 0, 0.3);
+    background: rgb(0,136,255);
+    background: linear-gradient(81deg, rgba(0,136,255,1) 0%, rgba(0,166,255,1) 50%, rgba(53,198,255,1) 100%);
     padding: 0.5%;
     width:100%;
     margin-bottom: 1%;
     border-radius:15px;
+    color: white;
 }
 
 hr{
@@ -147,7 +210,7 @@ hr{
 }
 
 #sprawdzian,#kartkowka,#zadanie,#obowiazek{
-    padding: 0.5%;
+    padding: 1.5%;
     background-color: rgba(255, 255, 255, 0.6);
     width:90%;
     margin: 1%;
@@ -162,7 +225,7 @@ hr{
    
 }
 body{
-    background-image: url(img/cool-background.png);
+    background-image: url(img/cool-background2.png);
     background-size: cover;    
     background-position: center;
     background-attachment: fixed;
@@ -191,7 +254,7 @@ body{
     bottom: 0;
     height: 1px;
     width: 90%;  
-    border-bottom: 3px solid black; 
+    border-bottom: 3px solid white; 
     left: 5%;
     text-align: center;
     
@@ -293,7 +356,7 @@ body{
  
 }
 #goUpBtn:hover {
-    background-color: grey; 
+    background-color: rgb(100, 100, 100); 
     color: white;
     transform: scale(1.2);
     transition: 0.3s;
@@ -319,10 +382,10 @@ body{
     backdrop-filter: blur(1.5px);
     
     width:80%;
-    background: rgba(200, 200, 200, 0.6);
+    background: rgba(255, 255, 255, 0.7);
     box-sizing: border-box;
     border-radius: 25px;
-    padding-bottom: 30px;
+    padding: 30px;
     /* padding-bottom: 1vh; */
     }
     /* odwołanie się do rodzica */
@@ -356,7 +419,7 @@ footer::before{ /* linia pod elementem*/
     top: 0;
     height: 1px;
     width: 90%;  
-    border-top: 3px solid black; 
+    border-top: 3px solid white; 
     left: 5%;
     text-align: center;    
 }
