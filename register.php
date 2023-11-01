@@ -1,4 +1,3 @@
-!!!!!!!!! formularz rejestracji - ui do wgrania
 <?php
  session_start();
  if(isset($_POST['email']))
@@ -109,62 +108,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="login_styles.css" />
   <title>Register Site</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-    }
-    .container {
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .container h2 {
-      text-align: center;
-    }
-    .container label, .container input[type="text"], .container input[type="password"], .container button {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
-    }
-    .container label {
-      font-weight: bold;
-    }
-    .container input[type="text"], .container input[type="password"] {
-      padding: 10px;
-      border-radius: 3px;
-      border: 1px solid #ccc;
-    }
-    .container button {
-      padding: 10px;
-      background-color: #4CAF50;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .container button:hover {
-      background-color: #45a049;
-    }
-    .error
-    {
-      color: red;
-      margin-top: 10px; 
-      margin-bottom: 10px;
-    }
-  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Register</h2>
-    <form method="post">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" placeholder="Enter Username">
-      
+  <body>
+    <div class="bg" aria-hidden="true">
+      <div class="bg__dot"></div>
+      <div class="bg__dot"></div>
+    </div>
+    <form class="form" method="post">
+      <div class="form__icon" aria-hidden="true"></div>
+      <div class="form__input-container">
+        <input aria-label="User" class="form__input" type="text" id="username" name="username" placeholder=" " required>
+        <label class="form__input-label" for="user">Username</label>
+      </div>
       <?php
         if(isset($_SESSION['error_username']))
         {
@@ -172,9 +133,10 @@
           unset($_SESSION['error_username']);
         }
       ?>
-
-      <label for="email">Email:</label>
-      <input type="text" id="email" name="email" placeholder="Enter Email">
+      <div class="form__input-container">
+        <input aria-label="E-mail" class="form__input" type="text" id="email" name="email" placeholder=" " required>
+        <label class="form__input-label" for="email">E-mail</label>
+      </div>
       
       <?php
         if(isset($_SESSION['error_email']))
@@ -183,10 +145,10 @@
           unset($_SESSION['error_email']);
         }
       ?>
-
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" placeholder="Enter Password">
-
+      <div class="form__input-container">
+        <input aria-label="Password" class="form__input" type="password" id="password" name="password" placeholder=" " required>
+        <label class="form__input-label" for="password">Password</label>
+      </div>
       <?php
         if(isset($_SESSION['error_password']))
         {
@@ -194,14 +156,14 @@
           unset($_SESSION['error_password']);
         }
       ?>
-
-      <label for="confirm password">Confirm Password</label>
-      <input type="password" id="confirm password" name="confirm password" placeholder="Confirm Password">
-
-      <label>
-        <input type="checkbox" name="rules"/> Akceptuję zasady i warunki
+      <div class="form__input-container">
+        <input aria-label="Confirm Password" class="form__input" type="password" id="confirm password" name="confirm password" placeholder=" " required>
+        <label class="form__input-label" for="confirm password">Confirm Password</label>
+      </div>
+      <label class="container">
+        <input class="checkbox" type="checkbox" name="rules"> Accept the terms and conditions
+        <span class="checkmark"></span>
       </label>
-      
       <?php
         if(isset($_SESSION['error_rules']))
         {
@@ -209,9 +171,9 @@
           unset($_SESSION['error_rules']);
         }
       ?>
-      
-      <button type="submit">Zarejestruj się teraz</button>
+       <div class="form__spacer"></div>
+      <button class="form__button" type="submit">Register Now</button>
+      <a href="login.php" class="form__register-text"><br>Click here to login</a>
     </form>
-  </div>
 </body>
 </html>

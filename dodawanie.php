@@ -12,6 +12,16 @@
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
 </head>
+<?php
+$con = mysqli_connect("localhost","root","");
+mysqli_select_db($con,"konkurs");
+session_start();
+ if(!isset($_SESSION['logged in']))
+ {
+    header('Location: login.php');
+    exit();
+ }
+?>
 <body>
     <button type="button" class="btn btn-dark btn-lg" onclick="goBack()" id="back">Wróć</button>
             <!-- ########################################################################### -->
@@ -52,37 +62,100 @@
             <button type="button" class="btn btn-danger" onclick="deleteStudyDate()" id="delete" style="display: none; width:100%;">Usuń datę nauki/zrobienia</button>
             <br>
             <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="komentarz"></textarea>
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="komentarz" maxlength="200"></textarea>
                 <label for="floatingTextarea2">Komentarz</label>
             </div>
             <br>
-            <input class="btn btn-primary" type="submit" value="Submit" style="width:100%">
+            <input class="btn btn-primary" type="submit" value="Wyślij" style="width:100%">
             </form>
             <!-- ########################################################################### -->
-    <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nazwa = $_POST["nazwa"];
-        $typ = $_POST["typ"];
-        $data_wydarzenia = $_POST["data_wydarzenia"];
-        $komentarz = $_POST["komentarz"];
-    
-        // Check if the fields are not empty and not equal to default values
-        if (!empty($nazwa) && $nazwa !== "Przykładowy_przedmiot" &&
-            !empty($typ) && $typ !== "Wybierz typ wydarzenia" &&
-            !empty($data_wydarzenia) && $data_wydarzenia !== date("Y-m-d")) {
-    
-            // Echo the data
-            echo "Nazwa: " . $nazwa . "<br>";
-            echo "Typ: " . $typ . "<br>";
-            echo "Data wydarzenia: " . $data_wydarzenia . "<br>";
-    
-            // Check if the comment field is not empty
-            if (!empty($komentarz)) {
-                echo "Komentarz: " . $komentarz;
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nazwa = $_POST["nazwa"];
+    $typ = $_POST["typ"];
+    $waznosc = $_POST["waznosc"];
+    $data_wydarzenia = $_POST["data_wydarzenia"];
+    $komentarz = $_POST["komentarz"];
+
+    if (!empty($nazwa) && $nazwa !== "Przykładowy_przedmiot" &&
+        !empty($typ) && $typ !== "Wybierz typ wydarzenia" &&
+        !empty($waznosc) && $waznosc !== "Wybierz jak ważne jest wydarzenie") {
+        
+        // Check if the event date is the current date
+        if ($data_wydarzenia !== date("Y-m-d")) {
+            // If it's not the current date, perform additional validation
+            if (empty($data_wydarzenia)) {
+                // Handle validation errors for the event date
+                echo '<script>
+                Swal.fire({
+                    icon: "error",
+                    title: "Błąd",
+                    text: "Data wydarzenia jest wymagana, gdy nie jest dzisiejsza.",
+                });
+                </script>';
+                return; // Stop further processing
             }
+
+            // Escape and quote values for SQL
+            $nazwa = mysqli_real_escape_string($con, $nazwa);
+            $typ = mysqli_real_escape_string($con, $typ);
+            $waznosc = mysqli_real_escape_string($con, $waznosc);
+            $data_wydarzenia = mysqli_real_escape_string($con, $data_wydarzenia);
+            $komentarz = mysqli_real_escape_string($con, $komentarz);
         }
+
+        $id = $_SESSION['id'];
+
+        // Create and execute a prepared statement to insert into wydarzenia table
+        $stmt = mysqli_prepare($con, "INSERT INTO `wydarzenia` (`id`, `nazwa`, `typ`, `waznosc`, `data`, `komentarz`, `user_id`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+        mysqli_stmt_bind_param($stmt, "sssssi", $nazwa, $typ, $waznosc, $data_wydarzenia, $komentarz, $id);
+
+        if (mysqli_stmt_execute($stmt)) {
+            // Get the ID of the newly added event
+            $event_id = mysqli_insert_id($con);
+
+            // Insert study dates into daty_nauki table
+            if ($typ !== "obowiazek") {
+                foreach ($_POST as $key => $value) {
+                    if (strpos($key, 'studyDate') === 0) {
+                        $studyDate = $value;
+
+                        // Create and execute a prepared statement to insert into daty_nauki table
+                        $studyStmt = mysqli_prepare($con, "INSERT INTO `daty_nauki` (`id`, `wydarzenie_id`, `data_nauki`) VALUES (NULL, ?, ?)");
+                        mysqli_stmt_bind_param($studyStmt, "is", $event_id, $studyDate);
+                        mysqli_stmt_execute($studyStmt);
+                    }
+                }
+            }
+
+            echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Pomyślnie dodano nowe wydarzenie!",
+                timer: 2500,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = "kalendarz.php";
+            });
+            </script>';
+        } else {
+            echo "Error: " . mysqli_error($con);
+        }
+
+        mysqli_stmt_close($stmt);
+    } else {
+        echo '<script>
+        Swal.fire({
+            icon: "error",
+            title: "Oho...",
+            text: "Nie wszystkie pola zostały wypełnione",
+        });
+        </script>';
     }
-    ?>
+}
+
+?>
+
 </body>
 <style>
     #back{
@@ -134,9 +207,11 @@
         // Disable the date input if "Obowiązek domowy" is selected, or enable it otherwise
         if (selectedValue === "obowiazek") {
             add.disabled = true;
+            document.getElementById('studyDatesContainer').style.color = "red";
             document.getElementById('studyDatesContainer').innerHTML = "Data zrobienia/nauki:<br>!!!Ponieważ wybrałeś obowiązek domowy nie ma daty zrobienia/nauki!!!";
         } else {
             add.disabled = false;
+            document.getElementById('studyDatesContainer').style.color = "black";
             document.getElementById('studyDatesContainer').innerHTML = "Data zrobienia/nauki:<br>";
 
         }
@@ -147,7 +222,7 @@
         dateInput.disabled = true;
     }
     const deleteButton = document.getElementById("delete");
-
+    let dateInputCount = 0;
     function addStudyDate() {
         const studyDatesContainer = document.getElementById('studyDatesContainer');
         const dateInputs = studyDatesContainer.getElementsByTagName('input');
@@ -163,11 +238,12 @@
         if (dateInputs.length === 0) {
             deleteButton.style.display = "block";
         }
-
+        dateInputCount++;
         // Check if there are more study dates to add
         if (dateInputs.length < daysUntilEvent) {
             const newDateInput = document.createElement('input');
             newDateInput.type = 'date';
+            newDateInput.name = `studyDate${dateInputCount}`;
 
             // Set the min attribute to the current date
             const currentDate = today.toISOString().split('T')[0];

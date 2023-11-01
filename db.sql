@@ -32,7 +32,7 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
   `password` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-  `email` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `email` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=ucs2 COLLATE=ucs2_polish_ci;
 
 --
@@ -70,7 +70,7 @@ COMMIT;
 CREATE TABLE IF NOT EXISTS `wydarzenia` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `nazwa` VARCHAR(255) NOT NULL,
-    `typ `ENUM('sprawdzian','kartkowka','zadanie','obowiazek') NOT NULL,
+    `typ`ENUM('sprawdzian','kartkowka','zadanie','obowiazek') NOT NULL,
     `waznosc` ENUM('bardzo','srednio','malo') NOT NULL,
     `data` DATE NOT NULL,
     `komentarz` TEXT,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `wydarzenia` (
 );
 
 CREATE TABLE IF NOT EXISTS `daty_nauki` (
-    `id `INT AUTO_INCREMENT PRIMARY KEY,
+    `id`INT AUTO_INCREMENT PRIMARY KEY,
     `wydarzenie_id` INT, -- Klucz obcy powiązany z tabelą "wydarzenia"
     `data_nauki` DATE NOT NULL,
     FOREIGN KEY (`wydarzenie_id`) REFERENCES `wydarzenia`(`id`)
