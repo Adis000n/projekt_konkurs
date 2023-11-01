@@ -38,7 +38,7 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
 <button onclick="topFunction()" id="goUpBtn" title="Go to top">Do Góry!</button>
     <div class="menu">
         <button class="menu_btn" onclick="goToDodawanie()">➕ Dodaj&nbsp;</button>
-        <button  class="menu_btn">widok1</button>
+        <button  class="menu_btn" onclick="goto1()">widok1</button>
         <button  class="menu_btn" onclick="goto2()">widok2</button>
         <button  class="menu_btn">widok3</button>       
     
@@ -68,18 +68,19 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
         if ($result_sprawdzian) {
             while ($row = mysqli_fetch_assoc($result_sprawdzian)) {
                 echo '<div class="event-box">'; // Create a container for the event
-                echo '<h5>' . $row['nazwa']." " ;
-                        if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="30vw" height="auto">';
-                        }
-                        else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="30vw" height="auto">';
-                        }
-                        else{
-                            echo '<img src="img/green.png" width="25vw" height="auto">';
-                        }
-                        echo '</h5>';
-                        echo '<p>Data wydarzenia: ' . $row['data'] . '</p>';
+                if($row['waznosc']=='bardzo'){
+                    echo '<img src="img/red.png" width="50vw" height="auto">';
+                }
+                else if($row['waznosc']=='srednio'){
+                    echo '<img src="img/yellow.png" width="50vw" height="auto">';
+                }
+                else{
+                    echo '<img src="img/green.png" width="50vw" height="auto">';
+                }
+                    echo '<h3 id="nazwa">';
+                        echo"  ". $row['nazwa'];
+                        echo '</h3>';
+                        echo '<p id="data">' . $row['data'] . '</p>';
                 echo '</div>'; // Close the container for the event
             }
         } else {
@@ -101,18 +102,19 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
                 if ($result_kartkowka) {
                     while ($row = mysqli_fetch_assoc($result_kartkowka)) {
                         echo '<div class="event-box">'; // Create a container for the event
-                        echo '<h5>' . $row['nazwa']." " ;
                         if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="30vw" height="auto">';
+                            echo '<img src="img/red.png" width="50vw" height="auto">';
                         }
                         else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="30vw" height="auto">';
+                            echo '<img src="img/yellow.png" width="50vw" height="auto">';
                         }
                         else{
-                            echo '<img src="img/green.png" width="25vw" height="auto">';
+                            echo '<img src="img/green.png" width="50vw" height="auto">';
                         }
-                        echo '</h5>';
-                        echo '<p>Data wydarzenia: ' . $row['data'] . '</p>';
+                        echo '<h3 id="nazwa">';
+                        echo"  ". $row['nazwa'];
+                        echo '</h3>';
+                        echo '<p id="data">' . $row['data'] . '</p>';
                         echo '</div>'; // Close the container for the event
                     }
                 } else {
@@ -134,18 +136,19 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
                 if ($result_zadanie) {
                     while ($row = mysqli_fetch_assoc($result_zadanie)) {
                         echo '<div class="event-box">'; // Create a container for the event
-                        echo '<h5>' . $row['nazwa']." " ;
                         if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="30vw" height="auto">';
+                            echo '<img src="img/red.png" width="50vw" height="auto">';
                         }
                         else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="30vw" height="auto">';
+                            echo '<img src="img/yellow.png" width="50vw" height="auto">';
                         }
                         else{
-                            echo '<img src="img/green.png" width="25vw" height="auto">';
+                            echo '<img src="img/green.png" width="50vw" height="auto">';
                         }
-                        echo '</h5>';
-                        echo '<p>Data wydarzenia: ' . $row['data'] . '</p>';
+                        echo '<h3 id="nazwa">';
+                        echo"  ". $row['nazwa'];
+                        echo '</h3>';
+                        echo '<p id="data">' . $row['data'] . '</p>';
                         echo '</div>'; // Close the container for the event
                     }
                 } else {
@@ -167,18 +170,19 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
                 if ($result_obowiazek) {
                     while ($row = mysqli_fetch_assoc($result_obowiazek)) {
                         echo '<div class="event-box">'; // Create a container for the event
-                        echo '<h5>' . $row['nazwa']." " ;
                         if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="30vw" height="auto">';
+                            echo '<img src="img/red.png" width="50vw" height="auto">';
                         }
                         else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="30vw" height="auto">';
+                            echo '<img src="img/yellow.png" width="50vw" height="auto">';
                         }
                         else{
-                            echo '<img src="img/green.png" width="25vw" height="auto">';
+                            echo '<img src="img/green.png" width="50vw" height="auto" >';
                         }
-                        echo '</h5>';
-                        echo '<p>Data wydarzenia: ' . $row['data'] . '</p>';
+                        echo '<h3 id="nazwa">';
+                        echo"  ". $row['nazwa'];
+                        echo '</h3>';
+                        echo '<p id="data">' . $row['data'] . '</p>';
                         echo '</div>'; // Close the container for the event
                     }
                 } else {
@@ -197,13 +201,41 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
 .event-box{
     background: rgb(0,136,255);
     background: linear-gradient(81deg, rgba(0,136,255,1) 0%, rgba(0,166,255,1) 50%, rgba(53,198,255,1) 100%);
-    padding: 0.5%;
+    padding: 1%;
     width:100%;
-    margin-bottom: 1%;
+    margin-bottom: 5%;
     border-radius:15px;
     color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; 
 }
+#nazwa{
+    font-size: 2rem;
+    padding-top: 1.5%;
+    width: 50%;
 
+}
+#data{
+    font-size: 2.5rem;
+    text-align: left;
+    padding-top: 1.5%;
+}
+@media only screen and (max-width: 900px) {
+    .event-box{
+        flex-direction: column;
+    }
+    #data{
+    font-size: 2rem;
+    
+}
+#nazwa{
+    width: 100%;
+    text-align: center;
+    font-size: 1.6rem;
+}
+}
 hr{
     border: 2px solid black;
     border-radius: 10px;
@@ -345,18 +377,18 @@ body{
   z-index: 99; 
   border: none; 
   outline: none; 
-  background-color: rgb(185, 185, 185);
+  background-color: rgba(0, 121, 255, 1);
   color: rgba(255, 255, 255); 
   cursor: pointer; 
   padding: 15px; 
   border-radius: 10px; 
   font-size: 18px;
   transform: scale(1); 
-  transition: opacity 1000ms, visibility 1000ms;
+  transition: opacity 500ms, visibility 500ms;
  
 }
 #goUpBtn:hover {
-    background-color: rgb(100, 100, 100); 
+    background-color: rgba(0, 84, 255, 1); 
     color: white;
     transform: scale(1.2);
     transition: 0.3s;
@@ -501,6 +533,9 @@ document.getElementById('normalny').addEventListener('click',function(){
 
 function goto2(){
     location.href = "kalendarz2.php";
+}
+function goto1(){
+    location.href = "kalendarz.php";
 }
 </script>
 

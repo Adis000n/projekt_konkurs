@@ -28,7 +28,7 @@ session_start();
             <form method="post">
             <!-- potrzebna nazwa, co to jest(kartkówka,sprawdzian,czy zadanie), jak ważne, komentarz, data na kiedy, i od kiedy do kiedy chcesz to robić -->
             <div class="form-floating mb-3">
-                <input class="form-control" id="floatingInput" placeholder="Przykładowy_przedmiot" name="nazwa">
+                <input class="form-control" id="floatingInput" placeholder="Przykładowy_przedmiot" name="nazwa" maxlength="70">
                 <label for="floatingInput">Nazwa wydarzenia</label>
             </div>
             <div class="form-floating">
