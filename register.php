@@ -159,10 +159,6 @@
         <input aria-label="Confirm Password" class="form__input" type="password" id="confirm password" name="confirm password" placeholder=" " required>
         <label class="form__input-label" for="confirm password">Powtórz Hasło</label>
       </div>
-      <label class="container">
-        <input class="checkbox" type="checkbox" name="rules"> Akceptuję regulamin
-        <span class="checkmark"></span>
-      </label>
       <?php
         if(isset($_SESSION['error_rules']))
         {
@@ -170,6 +166,10 @@
           unset($_SESSION['error_rules']);
         }
       ?>
+      <label class="container">
+        <input class="checkbox" type="checkbox" name="rules"> Akceptuję regulamin
+        <span class="checkmark"></span>
+      </label>
        <div class="form__spacer"></div>
       <button class="form__button" type="submit">Zarejestruj się</button>
       <a href="login.php" class="form__register-text"><br>Masz już konto? Kliknij tutaj!</a>
