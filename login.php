@@ -7,13 +7,13 @@
  }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head> 
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="login_styles.css" />
-  <title>Login Site</title>
+  <title>Strona logowania</title>
 </head>
 <body>
   <div class="bg" aria-hidden="true">
@@ -24,19 +24,19 @@
     <div class="form__icon" aria-hidden="true"></div>
     <div class="form__input-container">
       <input aria-label="User" class="form__input" type="text" id="username" name="username" placeholder=" " required>
-      <label class="form__input-label" for="user">Username</label>
+      <label class="form__input-label" for="username">Nazwa użytkownika</label>
     </div>
     <div class="form__input-container">
       <input aria-label="Password" class="form__input" type="password" id="password" name="password" placeholder=" " required>
-      <label class="form__input-label" for="password">Password</label>
+      <label class="form__input-label" for="password">Hasło</label>
     </div>
-    <div class="form__spacer" aria-hidden="true"></div>
-    <button class="form__button">Log in</button>
-    <a href="register.php" class="form__register-text"><br>Click here to register</a>
-  </form>
-  <?php
+    <?php
     if(isset($_SESSION['error']))
     echo $_SESSION['error'];
   ?>
+    <div class="form__spacer" aria-hidden="true"></div>
+    <button class="form__button">Zaloguj się</button>
+    <a href="register.php" class="form__register-text"><br>Nie masz konta? Kliknij tutaj!</a>
+  </form>
 </body>
 </html>

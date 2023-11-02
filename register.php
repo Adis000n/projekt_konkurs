@@ -101,7 +101,7 @@
   }
   catch(Exception $error)
   {
-    echo '<span style="color:red;">Błąd serwera! Za niedogodności przepraszamy i prosimy o rejestrację w innym terminie.</span>';
+    echo '<span class= "bladserwera">Błąd serwera! Spróbuj ponownie później!</span>';
   }
  }
 ?>
@@ -112,7 +112,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="login_styles.css" />
-  <title>Register Site</title>
+  <title>Rejestracja</title>
 </head>
 <body>
   <body>
@@ -122,58 +122,57 @@
     </div>
     <form class="form" method="post">
       <div class="form__icon" aria-hidden="true"></div>
-      <div class="form__input-container">
-        <input aria-label="User" class="form__input" type="text" id="username" name="username" placeholder=" " required>
-        <label class="form__input-label" for="user">Username</label>
-      </div>
       <?php
         if(isset($_SESSION['error_username']))
         {
-          echo'<div class="error">'.$_SESSION['error_username'].'</div>';
+          echo'<div class="fe">'.$_SESSION['error_username'].'</div>';
           unset($_SESSION['error_username']);
+        }
+      ?>
+      <div class="form__input-container">
+        <input aria-label="User" class="form__input" type="text" id="username" name="username" placeholder=" " required>
+        <label class="form__input-label" for="username">Nazwa użytkownika</label>
+      </div>
+      <?php
+        if(isset($_SESSION['error_email']))
+        {
+          echo'<div class="fe">'.$_SESSION['error_email'].'</div>';
+          unset($_SESSION['error_email']);
         }
       ?>
       <div class="form__input-container">
         <input aria-label="E-mail" class="form__input" type="text" id="email" name="email" placeholder=" " required>
         <label class="form__input-label" for="email">E-mail</label>
       </div>
-      
-      <?php
-        if(isset($_SESSION['error_email']))
-        {
-          echo'<div class="error">'.$_SESSION['error_email'].'</div>';
-          unset($_SESSION['error_email']);
-        }
-      ?>
-      <div class="form__input-container">
-        <input aria-label="Password" class="form__input" type="password" id="password" name="password" placeholder=" " required>
-        <label class="form__input-label" for="password">Password</label>
-      </div>
       <?php
         if(isset($_SESSION['error_password']))
         {
-          echo'<div class="error">'.$_SESSION['error_password'].'</div>';
+          echo'<div class="fe">'.$_SESSION['error_password'].'</div>';
           unset($_SESSION['error_password']);
         }
       ?>
       <div class="form__input-container">
-        <input aria-label="Confirm Password" class="form__input" type="password" id="confirm password" name="confirm password" placeholder=" " required>
-        <label class="form__input-label" for="confirm password">Confirm Password</label>
+        <input aria-label="Password" class="form__input" type="password" id="password" name="password" placeholder=" " required>
+        <label class="form__input-label" for="password">Hasło</label>
       </div>
-      <label class="container">
-        <input class="checkbox" type="checkbox" name="rules"> Accept the terms and conditions
-        <span class="checkmark"></span>
-      </label>
+      <div class="form__input-container">
+        <input aria-label="Confirm Password" class="form__input" type="password" id="confirm password" name="confirm password" placeholder=" " required>
+        <label class="form__input-label" for="confirm password">Powtórz Hasło</label>
+      </div>
       <?php
         if(isset($_SESSION['error_rules']))
         {
-          echo'<div class="error">'.$_SESSION['error_rules'].'</div>';
+          echo'<div class="fe">'.$_SESSION['error_rules'].'</div>';
           unset($_SESSION['error_rules']);
         }
       ?>
+      <label class="container">
+        <input class="checkbox" type="checkbox" name="rules"> Akceptuję regulamin
+        <span class="checkmark"></span>
+      </label>
        <div class="form__spacer"></div>
-      <button class="form__button" type="submit">Register Now</button>
-      <a href="login.php" class="form__register-text"><br>Click here to login</a>
+      <button class="form__button" type="submit">Zarejestruj się</button>
+      <a href="login.php" class="form__register-text"><br>Masz już konto? Kliknij tutaj!</a>
     </form>
 </body>
 </html>

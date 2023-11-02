@@ -26,9 +26,9 @@ if(!isset($_SESSION['logged in']))
    <button onclick="topFunction()" id="goUpBtn" title="Go to top">Do Góry!</button>
     <div class="menu">
         <button class="menu_btn" onclick="goToDodawanie()">➕ Dodaj&nbsp;</button>
-        <button  class="menu_btn" onclick="goto1()" style="background-color:rgba(47, 204, 255, 1)">widok1</button>
+        <button  class="menu_btn" onclick="goto1()">widok1</button>
         <button  class="menu_btn" onclick="goto2()">widok2</button>
-        <button  class="menu_btn" onclick="goto3()">widok3</button>       
+        <button  class="menu_btn" onclick="goto3()" style="background-color:rgba(47, 204, 255, 1)">widok3</button>       
         
         <button class="menu_btn" type="button">
           <img src="img/awatar.png" width="20% "  height="auto"> 

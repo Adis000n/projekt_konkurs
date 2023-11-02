@@ -1,10 +1,11 @@
 *{
     margin:0;
     padding:0; 
+    /* overflow: hidden; */
    
 }
 body{
-    background-image: url(img/cool-background.png);
+    background-image: url('img/cool-background.png');
     background-size: cover;    
     background-position: center;
     background-attachment: fixed;
@@ -12,13 +13,14 @@ body{
 
 
 /* -- Górne menu */
+
 .web{
     height: auto;
     width: 100%;
 }
 .menu{
    
-    height: 15vh;
+    height: 13vh;
     width: 100%;
     display: flex;
     position: relative;
@@ -26,6 +28,7 @@ body{
     align-items: center;
     justify-content:space-around;    
     background-color: transparent    ; 
+    
 }
 .menu::before{    /* linia pod elementem*/
     width: 100%;    
@@ -42,7 +45,7 @@ body{
 }
 
 .menu_btn{       
-    width: 30vh;
+    width: 15vw;
     height: 7vh;
     border-radius: 5px;
     border: none;
@@ -179,12 +182,13 @@ body{
 .container{   
     height: auto;     
     max-height: 7vh;     
-    transition: max-height 0.8s, border-radius 0.3s linear 0s;     
+    transition: max-height 1.2s, border-radius 0.5s linear 0s;     
     margin-top: 30px;   
     width: 80%;
     background-color: rgba(255, 255, 255, 1)  ;
     border-radius: 5px;
-    box-shadow: 1.2px 4px 3px 0px;  
+    box-shadow: 1.2px 4px 3px 0px; 
+    z-index: 99; 
 
     
     
@@ -284,20 +288,35 @@ body{
 
     .information{
        display: block;
-       cursor: pointer;
+       cursor: pointer;       
         background-color: red;
         color: black;
-        height: 3vh;
+        height: auto;
+        max-height: 3vh;
         width: 100%;
-        padding-left: 5px;
-            
+        padding-left: 5px;        
+        transition: max-height 0.7s;
         border-radius: 7px;
         text-align: left;
+        
         margin: 3px;
         
     }
-    .information:focus{
-        background-color: brown;
+    .disappear{
+       height: 3vh;
+       max-height: 3vh;
+       transition: max-height 0.7s;
+    }
+    .comment{
+        width: 100%;
+        height: auto;
+        margin: 0;
+        word-wrap: wrap; 
+        word-break: break-all;       
+        color: black;       
+        transition: all 0.3s ease-in;        
+        visibility: 0;
+        opacity: 0;
     }
 
 

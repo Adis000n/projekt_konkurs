@@ -1,4 +1,4 @@
-!!! To co sprawdza czy wszystko G
+<!-- !!! To co sprawdza czy wszystko G -->
 <?php
  session_start();
  if((!isset($_POST['username'])) || (!isset($_POST['password'])))
@@ -39,16 +39,16 @@
                 }
                 else 
                 {
-                    $_SESSION['error'] = '<span style="color:red">Incorrect login or password!</span>';
+                    $_SESSION['error'] = '<span class="fe">Niepoprawna nazwa użytkonika lub hasło!</span>';
                     header('Location:login.php');
                 }      
             } else 
             {
-                $_SESSION['error'] = '<span style="color:red">Incorrect login or password!</span>';
+                $_SESSION['error'] = '<span class="fe">Niepoprawna nazwa użytkonika lub hasło!</span>';
                 header('Location:login.php');
             }
 
-        }               
+        }                   
         $connect->close();
     }   
 ?>
