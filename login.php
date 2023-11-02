@@ -30,13 +30,13 @@
       <input aria-label="Password" class="form__input" type="password" id="password" name="password" placeholder=" " required>
       <label class="form__input-label" for="password">Hasło</label>
     </div>
+    <?php
+    if(isset($_SESSION['error']))
+    echo $_SESSION['error'];
+  ?>
     <div class="form__spacer" aria-hidden="true"></div>
     <button class="form__button">Zaloguj się</button>
     <a href="register.php" class="form__register-text"><br>Nie masz konta? Kliknij tutaj!</a>
   </form>
-  <?php
-    if(isset($_SESSION['error']))
-    echo $_SESSION['error'];
-  ?>
 </body>
 </html>
