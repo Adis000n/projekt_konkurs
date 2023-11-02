@@ -28,7 +28,7 @@ session_start();
             <form method="post">
             <!-- potrzebna nazwa, co to jest(kartkówka,sprawdzian,czy zadanie), jak ważne, komentarz, data na kiedy, i od kiedy do kiedy chcesz to robić -->
             <div class="form-floating mb-3">
-                <input class="form-control" id="floatingInput" placeholder="Przykładowy_przedmiot" name="nazwa">
+                <input class="form-control" id="floatingInput" placeholder="Przykładowy_przedmiot" name="nazwa" maxlength="70">
                 <label for="floatingInput">Nazwa wydarzenia</label>
             </div>
             <div class="form-floating">
@@ -62,11 +62,11 @@ session_start();
             <button type="button" class="btn btn-danger" onclick="deleteStudyDate()" id="delete" style="display: none; width:100%;">Usuń datę nauki/zrobienia</button>
             <br>
             <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="komentarz"></textarea>
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="komentarz" maxlength="200"></textarea>
                 <label for="floatingTextarea2">Komentarz</label>
             </div>
             <br>
-            <input class="btn btn-primary" type="submit" value="Submit" style="width:100%">
+            <input class="btn btn-primary" type="submit" value="Wyślij" style="width:100%">
             </form>
             <!-- ########################################################################### -->
 <?php

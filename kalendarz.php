@@ -19,17 +19,17 @@
     exit();
  }
  ?>
-<body>
+<body onClick="collapseAll()">
    <div class="web"> 
    <button onclick="topFunction()" id="goUpBtn" title="Go to top">Do Góry!</button>
     <div class="menu">
         <button class="menu_btn" onclick="goToDodawanie()">➕ Dodaj&nbsp;</button>
         <button  class="menu_btn">widok1</button>
-        <button  class="menu_btn">widok2</button>
+        <button  class="menu_btn" onclick="goto2()">widok2</button>
         <button  class="menu_btn">widok3</button>       
        
         <button class="menu_btn" type="button">
-          <img src="img/awatar.png" width="10% "  height="45%"> 
+          <img src="img/awatar.png" width="20% "  height="auto"> 
     <?php 
         echo $_SESSION['user'];
     ?>
@@ -45,34 +45,65 @@
     </div>
     <div class="calendar">
         
-        <!-- <div class="container" id="first">
-            <div class="nameDay"><a id="Today"></a></div>
+    
+        
+        
+        <!-- drugi -->
+        <div class="container">
+              <div class="nameDay">Dzisiaj</div>
+              <div class="toDo">
+                <div class="toDoW">Do zrobienia</div >
+
+                <div class="information" id='Info1' onclick=" infomation('Info1'); comment('1')" >Zadanie
+                  <div class="comment" id='1'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus quam nec posuere dapibus. Vestibulum id nibh at felis mollis interdum. Morbi ac euismod mi. In eget purus semper, placerat orci sed, consectetur ligula. Phasellus eu leo suscipit, mollis odio efficitur, egestas sapien. Suspendisse lacus nisl, viverra et lacinia nec, interdum eget nunc. Nunc molestie magna libero. Praesent venenatis tortor neque, id egestas ex tincidunt ac. Vivamus eget elit arcu.
+                  In ac eros vel ante lacinia sagittis. In sagittis faucibus convallis. Sed nec suscipit velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec feugiat magna lorem, eget ullamcorper enim euismod volutpat. Duis tincidunt sit amet felis sed ullamcorper. Phasellus nec ullamcorper dolor, a laoreet diam. Quisque maximus volutpat turpis, id blandit tellus commodo sit amet. Nulla gravida leo sit amet semper lacinia. Vestibulum rutrum in ante accumsan volutpat. Morbi magna tellus, elementum in elementum non, tincidunt eu elit. Nunc nunc magna, eleifend nec aliquet lobortis, tempus ut lectus. Sed feugiat laoreet imperdiet. Ut tempus sapien sit amet purus maximus, sit amet ultricies libero fermentum. Duis tincidunt in est ac lobortis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras.
+                  </div>
+               
+                </div>
+
+                <div class="information" id=Info2 onclick=" infomation('Info2'); comment('2')">Zadanie2
+                  <div class="comment" id='2'>TEST</div>
+                </div>   
+              
+                <div class="information" id=Info3 onclick=" infomation('Info3'); comment('3')">Zadanie3
+                  <div class="comment" id='3'>TEST</div>
+                </div>
+                         
+              </div>  
+
+              <div class="events">
+                <div class="eventsW">Wydarzenia</div>             
+               
+              </div>
+              
                  
-        </div> -->
+          </div>
+                 
+        </div>
         <?php
  
-          $nameDays = array(" ","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"); // od 0 zaczyna sie array!
-          $rawDate = date("Y-m-d H:i:s");
-          $today = date('N', strtotime($rawDate)); 
-          $i = 1;
+          // $nameDays = array(" ","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"); // od 0 zaczyna sie array!
+          // $rawDate = date("Y-m-d H:i:s");
+          // $today = date('N', strtotime($rawDate)); 
+          // $i = 1;
           
-            while($i <= 8){
-              if($i==1){
-                echo '<div class="bContainer"><div class="nameDay">'."Dzisiaj".'</div></div>';
-                $i++;
+          //   while($i <= 8){
+          //     if($i==1){
+          //       echo '<div class="container"><div class="nameDay">'."Dzisiaj".'</div></div>';
+          //       $i++;
         
-              }else{
-                 echo '<div class="container"><div class="nameDay">'.$nameDays[$today].'</div></div>';
-              } 
+          //     }else{
+          //        echo '<div class="container"><div class="nameDay">'.$nameDays[$today].'</div></div>';
+          //     } 
 
-            $today++;
+          //   $today++;
    
-            if($today >= 8){
-             $today = 1;
-            }
+          //   if($today >= 8){
+          //    $today = 1;
+          //   }
     
-            $i++;
-            }
+          //   $i++;
+          //   }
  
         ?>
        
@@ -80,17 +111,25 @@
     
       </div>  
       <footer>© by Nazwiska</footer>
-    
+      
 </body>
 <script>
     // przycisk do góry! UWAGA ZAWSZE TEN SKRYPT MA BYĆ PIERWSZY INACZEJ NIE DZIAŁA niewiadomo czemu.
     
  let timer;
-let mybutton = document.getElementById("goUpBtn");
-document.onmousemove = function() {
+ let active =0;
+ 
+ 
+ let dd; // zmienna przechowywująca danego kafelka;
+ let oDd;
+ 
+    // let id = 0;
+    
+ let mybutton = document.getElementById("goUpBtn");
+ document.onmousemove = function() {
 // document.getElementById('myBtn').style.display = "block";
 
-if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
      mybutton.style.visibility = "visible";
      mybutton.style.opacity = "1";
      // console.log(timer);
@@ -103,7 +142,7 @@ if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
    }
 
 timer = setTimeout(function() {
- console.log("timer")
+//  console.log("timer")
  mybutton.style.visibility = "hidden";   
  mybutton.style.opacity = "0"; 
 }, 2600);
@@ -114,16 +153,7 @@ timer = setTimeout(function() {
    document.body.scrollTop = 0;
    document.documentElement.scrollTop = 0;
  }
- //funkcja ustawiająca kafelki (na razie nazywajaca jeden pierwszy kafelek)
-
- function getDayName(date = new Date(), locale = 'en-US') {
-  return date.toLocaleDateString(locale, {weekday: 'long'});
-  
-}
-console.log(getDayName()); //wywala nazwe dnia console log
-document.getElementById("Today").innerHTML = getDayName();
  
-
  
  //funkcja od wylogowywania sie
 
@@ -155,11 +185,128 @@ document.getElementById('normalny').addEventListener('click',function(){
         function goToDodawanie(){
         location.href = "dodawanie.php";
     }
-    // wybór tła kalendarz
-    function changeBgc(){
+   
+  function goto2(){
+    location.href = "kalendarz2.php";
+  }
+
+
+
+  function comment(i){
+      console.log(i);
+      
+     if (active==0)
+     {
+      document.getElementById(i).style.visibility='visible';
+      document.getElementById(i).style.opacity='1';
+      
+     
+      // console.log(`info${i}`);
+      // console.log('ACITIVE:'); 
+      // console.log(active);
+      
+      
+       
+       window.event.stopPropagation();
+       dd = i;
+       active = 1;
+    }
+    else{
+      
+      // collapseAll();
+             
+      // document.getElementById(dd).style.visibility='hidden';
+      // document.getElementById(dd).style.opacity='0';  
+       
+      // active = 0;
+      document.getElementById(dd).style.visibility='hidden';
+      document.getElementById(dd).style.opacity='0'; 
+      document.getElementById(`Info${dd}`).style.maxHeight="3vh";
+      
+      if(dd != i){
+        dd = i;
+      }else{
+        dd = null;
+      }
+      
+      active = 0;
+      // console.log('ELSE');
+      // console.log(i);     
+      
+      commentAfter();
+      
+      
+      
+      
+      
       
     }
-  
+    
+     }
+
+     function commentAfter(){
+      
+      
+     if (active==0)
+     {
+      
+      window.event.stopPropagation();
+      document.getElementById(dd).style.visibility='visible';
+      document.getElementById(dd).style.opacity='1';
+   
+       active = 1;
+    }
+    else{
+     
+      document.getElementById(dd).style.visibility='hidden';
+      document.getElementById(dd).style.opacity='0'; 
+      document.getElementById(`Info${dd}`).style.maxHeight="3vh";
+      
+      if(dd != i){
+        dd = i;
+      }else{
+        dd = null;
+      }
+
+      active = 0;
+
+      console.log('ELSE2');
+      console.log(i);
+      
+     
+        commentAfter();
+      
+      
+      
+    }
+    
+  }
+ 
+    
+     function infomation(i){
+      document.getElementById(i).style.maxHeight="100vh";
+    }
+   
+   
+
+    function collapseAll(){
+      
+      if (active == 1){
+        
+        console.log('Collapse ->')
+        console.log(dd)
+        document.getElementById(dd).style.visibility='hidden';
+      document.getElementById(dd).style.opacity='0';      
+      document.getElementById(`Info${dd}`).style.maxHeight="3vh";
+      // dd = null;
+      active= 0;
+    
+      
+      }
+       
+    
+   }
+   
   </script>
 
 </html>
