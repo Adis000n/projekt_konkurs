@@ -26,9 +26,9 @@ if(!isset($_SESSION['logged in']))
    <button onclick="topFunction()" id="goUpBtn" title="Go to top">Do Góry!</button>
     <div class="menu">
         <button class="menu_btn" onclick="goToDodawanie()">➕ Dodaj&nbsp;</button>
-        <button  class="menu_btn">widok1</button>
+        <button  class="menu_btn" onclick="goto1()">widok1</button>
         <button  class="menu_btn" onclick="goto2()">widok2</button>
-        <button  class="menu_btn">widok3</button>       
+        <button  class="menu_btn" onclick="goto3()" style="background-color:rgba(47, 204, 255, 1)">widok3</button>       
         
         <button class="menu_btn" type="button">
           <img src="img/awatar.png" width="20% "  height="auto"> 
@@ -43,7 +43,7 @@ if(!isset($_SESSION['logged in']))
         $name = implode($row);         
       }
 
-
+      // do skończenia ilość liter...
 
 
 
@@ -70,6 +70,7 @@ if(!isset($_SESSION['logged in']))
           $rawDate = date("Y-m-d H:i:s");
           $today = date('N', strtotime($rawDate)); 
           $i = 1;
+          $k =1; // przypisuje id 
           $dayToAdd = 0;
           $empty = 0; // 1 coś jest 0 pusto
 
@@ -87,7 +88,7 @@ if(!isset($_SESSION['logged in']))
                               <div class='events'>
                                 <div class='eventsW'>Wydarzenia</div>";
                     
-                    $j = 0;
+                    $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
                     $addDay = 0;
                     $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay;");                    
                     $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay;");
@@ -128,11 +129,13 @@ if(!isset($_SESSION['logged in']))
                      
 
                     while($counter > $j){
-                      echo "<div class='information' id='Info".$j."' onclick=\" infomation('Info".$j."'); comment('".$j."')\">".$infoT[$j]."
-                        <div class='comment' id='".$j."'>".$commentT[$j]."</div>
+                      
+                      echo "<div class='information' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\">".$infoT[$j]."
+                        <div class='comment' id='".$k."'>".$commentT[$j]."</div>
                       </div>";
                       
                       
+                      $k++;
                       $j++;
                       
                      }
@@ -202,11 +205,12 @@ if(!isset($_SESSION['logged in']))
                           }
                           
                           while($counter > $j){
-                            echo "<div class='information' id='Info".$j."' onclick=\" infomation('Info".$j."'); comment('".$j."')\">".$infoT[$j]."
-                              <div class='comment' id='".$j."'>".$commentT[$j]."</div>
+                            echo "<div class='information' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\">".$infoT[$j]."
+                              <div class='comment' id='".$k."'>".$commentT[$j]."</div>
                             </div>";
                             
                             
+                            $k++;
                             $j++;
                            
                            }
@@ -282,7 +286,7 @@ timer = setTimeout(function() {
 
 function alert(){
     Swal.fire({
-  title: 'Jestes pewien?',
+  title: 'Jesteś pewien?',
   icon: 'warning',
   showCancelButton: true,
   confirmButtonColor: '#3085d6',
@@ -311,6 +315,12 @@ document.getElementById('normalny').addEventListener('click',function(){
    
   function goto2(){
     location.href = "kalendarz2.php";
+  }
+  function goto1(){
+    location.href = "kalendarz.php";
+  }
+  function goto3(){
+    location.href = "kalendarz3.php";
   }
 
 
@@ -433,3 +443,11 @@ document.getElementById('normalny').addEventListener('click',function(){
   </script>
 
 </html>
+
+
+
+
+
+
+
+

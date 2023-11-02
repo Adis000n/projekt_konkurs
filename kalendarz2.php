@@ -39,8 +39,8 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
     <div class="menu">
         <button class="menu_btn" onclick="goToDodawanie()">➕ Dodaj&nbsp;</button>
         <button  class="menu_btn" onclick="goto1()">widok1</button>
-        <button  class="menu_btn" onclick="goto2()">widok2</button>
-        <button  class="menu_btn">widok3</button>       
+        <button  class="menu_btn" onclick="goto2()" style="background-color:rgba(47, 204, 255, 1)">widok2</button>
+        <button  class="menu_btn" onclick="goto3()">widok3</button>       
     
         <button class="menu_btn" type="button">
         <img src="img/awatar.png" width="20%" height="auto"> 
@@ -536,6 +536,9 @@ function goto2(){
 }
 function goto1(){
     location.href = "kalendarz.php";
+}
+function goto3(){
+    location.href = "kalendarz3.php";
 }
 </script>
 
