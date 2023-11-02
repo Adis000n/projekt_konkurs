@@ -48,7 +48,7 @@
                 header('Location:login.php');
             }
 
-        }               
+        }                   
         $connect->close();
     }   
 ?>
