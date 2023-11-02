@@ -8,16 +8,18 @@
     <link type="text/css" rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="sweetalert2.min.css">
+    <link rel="stylesheet" href="sweetalert2.min.css"> 
     <title>Kalendarz</title>
 </head>
 <?php 
- session_start();
- if(!isset($_SESSION['logged in']))
- {
-    header('Location: login.php');
-    exit();
- }
+$con = mysqli_connect("localhost","root","");
+mysqli_select_db($con,"konkurs");
+session_start();
+if(!isset($_SESSION['logged in']))
+{
+   header('Location: login.php');
+   exit();
+}
  ?>
 <body onClick="collapseAll()">
    <div class="web"> 
@@ -27,7 +29,7 @@
         <button  class="menu_btn">widok1</button>
         <button  class="menu_btn" onclick="goto2()">widok2</button>
         <button  class="menu_btn">widok3</button>       
-       
+        
         <button class="menu_btn" type="button">
           <img src="img/awatar.png" width="20% "  height="auto"> 
     <?php 
@@ -46,64 +48,169 @@
     <div class="calendar">
         
     
-        
-        
-        <!-- drugi -->
-        <div class="container">
-              <div class="nameDay">Dzisiaj</div>
-              <div class="toDo">
-                <div class="toDoW">Do zrobienia</div >
-
-                <div class="information" id='Info1' onclick=" infomation('Info1'); comment('1')" >Zadanie
-                  <div class="comment" id='1'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus quam nec posuere dapibus. Vestibulum id nibh at felis mollis interdum. Morbi ac euismod mi. In eget purus semper, placerat orci sed, consectetur ligula. Phasellus eu leo suscipit, mollis odio efficitur, egestas sapien. Suspendisse lacus nisl, viverra et lacinia nec, interdum eget nunc. Nunc molestie magna libero. Praesent venenatis tortor neque, id egestas ex tincidunt ac. Vivamus eget elit arcu.
-                  In ac eros vel ante lacinia sagittis. In sagittis faucibus convallis. Sed nec suscipit velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec feugiat magna lorem, eget ullamcorper enim euismod volutpat. Duis tincidunt sit amet felis sed ullamcorper. Phasellus nec ullamcorper dolor, a laoreet diam. Quisque maximus volutpat turpis, id blandit tellus commodo sit amet. Nulla gravida leo sit amet semper lacinia. Vestibulum rutrum in ante accumsan volutpat. Morbi magna tellus, elementum in elementum non, tincidunt eu elit. Nunc nunc magna, eleifend nec aliquet lobortis, tempus ut lectus. Sed feugiat laoreet imperdiet. Ut tempus sapien sit amet purus maximus, sit amet ultricies libero fermentum. Duis tincidunt in est ac lobortis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras.
-                  </div>
-               
-                </div>
-
-                <div class="information" id=Info2 onclick=" infomation('Info2'); comment('2')">Zadanie2
-                  <div class="comment" id='2'>TEST</div>
-                </div>   
-              
-                <div class="information" id=Info3 onclick=" infomation('Info3'); comment('3')">Zadanie3
-                  <div class="comment" id='3'>TEST</div>
-                </div>
-                         
-              </div>  
-
-              <div class="events">
-                <div class="eventsW">Wydarzenia</div>             
-               
-              </div>
-              
-                 
-          </div>
-                 
-        </div>
         <?php
- 
-          // $nameDays = array(" ","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"); // od 0 zaczyna sie array!
-          // $rawDate = date("Y-m-d H:i:s");
-          // $today = date('N', strtotime($rawDate)); 
-          // $i = 1;
-          
-          //   while($i <= 8){
-          //     if($i==1){
-          //       echo '<div class="container"><div class="nameDay">'."Dzisiaj".'</div></div>';
-          //       $i++;
-        
-          //     }else{
-          //        echo '<div class="container"><div class="nameDay">'.$nameDays[$today].'</div></div>';
-          //     } 
+          $id = $_SESSION['id'];
+          $nameDays = array(" ","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"); // od 0 zaczyna sie array!
+          $rawDate = date("Y-m-d H:i:s");
+          $today = date('N', strtotime($rawDate)); 
+          $i = 1;
+          $dayToAdd = 0;
+          $empty = 0; // 1 coś jest 0 pusto
 
-          //   $today++;
-   
-          //   if($today >= 8){
-          //    $today = 1;
-          //   }
+          
+            while($i <= 7){
+              if($i==1){  // TU JEST IF ----------------------------------------------------------------------------------------------------------------
+
+                      echo "<div class='container'><div class='nameDay'>Dzisiaj</div>
+                                <div class='toDo'>
+                                  <div class='toDoW'>Do zrobienia</div>         
+                                </div>
+                            
+                              
+                              
+                              <div class='events'>
+                                <div class='eventsW'>Wydarzenia</div>";
+                    
+                    $j = 0;
+                    $addDay = 0;
+                    $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay;");                    
+                    $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay;");
+                                                            
+                    // $counter=mysql_fetch_assoc($infoCounter);                                 
+                   
+                    while($result = mysqli_fetch_row($info)){ 
+                      
+                      if(is_null($result)){
+                        $infoT[] = 'test';
+                        $empty = 0;
+
+                      }else{
+                      $infoT[] = implode($result);
+                      $empty = 1;
+
+                      }             
+                                     
+                                        
+                    }
+                    while($result = mysqli_fetch_row($comment)){ 
+                      
+                      if(is_null($result)){
+                         $commentT[] = 'test';
+                         $empty = 0; 
+                      }else{
+                      $commentT[] = implode($result);
+                      $empty = 1;
+                      }      
+                                        
+                    }
+                 
+                    if($empty == 1){
+                      $counter = count($infoT);
+                    }else{
+                      $counter = 0;
+                    }
+                     
+
+                    while($counter > $j){
+                      echo "<div class='information' id='Info".$j."' onclick=\" infomation('Info".$j."'); comment('".$j."')\">".$infoT[$j]."
+                        <div class='comment' id='".$j."'>".$commentT[$j]."</div>
+                      </div>";
+                      
+                      
+                      $j++;
+                      
+                     }
+                
+              echo  "</div>
+                </div>";
+
+                $i++;
+                $addDay = 1;
+              
+                
+        
+              }         // w else reszta ------------------------------------------------------------------------------------------------
+              else{
+                $j = 0;
+                $empty =0;
+                $infoT = null;
+                $commentT =null;
+                $counter = null;
+                echo "<div class='container'><div class='nameDay'>".$nameDays[$today]."</div>
+                    <div class='toDo'>
+                      <div class='toDoW'>Do zrobienia</div>         
+                    </div>
+                
+                  
+                  
+                    <div class='events'>
+                      <div class='eventsW'>Wydarzenia</div>";
     
-          //   $i++;
-          //   }
+                          
+                          $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay;");                    
+                          $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay;");
+                                                                  
+                          // $counter=mysql_fetch_assoc($infoCounter);                                 
+                        
+                          
+                          while($result = mysqli_fetch_row($info)){ 
+                      
+                            if(is_null($result)){
+                              $infoT[] = 'test';
+                              $empty = 0;
+      
+                            }else{
+                            $infoT[] = implode($result);
+                            $empty = 1;
+      
+                            }             
+                                           
+                                              
+                          }
+                          while($result = mysqli_fetch_row($comment)){ 
+                            
+                            if(is_null($result)){
+                               $commentT[] = 'test';
+                               $empty = 0; 
+                            }else{
+                            $commentT[] = implode($result);
+                            $empty = 1;
+                            }      
+                                              
+                          }
+                       
+                          if($empty == 1){
+                            $counter = count($infoT);
+                          }else{
+                            $counter = null;
+                          }
+                          
+                          while($counter > $j){
+                            echo "<div class='information' id='Info".$j."' onclick=\" infomation('Info".$j."'); comment('".$j."')\">".$infoT[$j]."
+                              <div class='comment' id='".$j."'>".$commentT[$j]."</div>
+                            </div>";
+                            
+                            
+                            $j++;
+                           
+                           }
+                        echo  "</div>
+                          </div>";
+           
+                        $i++;
+                        $j = 0;
+                        $addDay++;
+                
+              } 
+
+            $today++;
+   
+            if($today >= 8){
+             $today = 1;
+            }
+    
+            // $i++;
+            }
  
         ?>
        
@@ -114,7 +221,7 @@
       
 </body>
 <script>
-    // przycisk do góry! UWAGA ZAWSZE TEN SKRYPT MA BYĆ PIERWSZY INACZEJ NIE DZIAŁA niewiadomo czemu.
+    
     
  let timer;
  let active =0;
