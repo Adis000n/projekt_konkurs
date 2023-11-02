@@ -45,7 +45,7 @@ body{
 }
 
 .menu_btn{       
-    width: 30vh;
+    width: 15vw;
     height: 7vh;
     border-radius: 5px;
     border: none;
@@ -311,7 +311,8 @@ body{
         width: 100%;
         height: auto;
         margin: 0;
-        word-wrap: wrap;        
+        word-wrap: wrap; 
+        word-break: break-all;       
         color: black;       
         transition: all 0.3s ease-in;        
         visibility: 0;

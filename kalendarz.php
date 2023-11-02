@@ -33,7 +33,21 @@ if(!isset($_SESSION['logged in']))
         <button class="menu_btn" type="button">
           <img src="img/awatar.png" width="20% "  height="auto"> 
     <?php 
-        echo $_SESSION['user'];
+       $id = $_SESSION['id'];
+       $numOfChars = mysqli_query($con,"SELECT LENGTH(`username`) FROM `user` where id = $id;");
+       $nameQ = mysqli_query($con,"SELECT `username` FROM `user` WHERE id =$id;");
+       while ($row = $numOfChars->fetch_assoc()) {
+         $numChars = implode($row);         
+       }
+       while ($row = $nameQ->fetch_assoc()) {
+        $name = implode($row);         
+      }
+
+
+
+
+
+        echo $name;
     ?>
         </button>        
                        
@@ -41,7 +55,9 @@ if(!isset($_SESSION['logged in']))
           <button class="l_Btn" onclick="document.location='myaccount.php'">⚙️ Ustawienia profilu&nbsp;</button>
           <button class="l_Btn" onclick="alert()">⚠️ Wyloguj się&nbsp;</button>
         </div>
- 
+      <?php
+       
+      ?>
     </div>
 
     </div>
