@@ -107,7 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id = $_SESSION['id'];
 
         // Create and execute a prepared statement to insert into wydarzenia table
-        $stmt = mysqli_prepare($con, "INSERT INTO `wydarzenia` (`id`, `nazwa`, `typ`, `waznosc`, `data`, `komentarz`, `user_id`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+        $stmt = mysqli_prepare($con, "INSERT INTO `wydarzenia` (`id`, `nazwa`, `typ`, `waznosc`, `data`, `komentarz`, `user_id`, `zrobione`)
+        VALUES (NULL, ?, ?, ?, ?, ?, ?, 0);");
         mysqli_stmt_bind_param($stmt, "sssssi", $nazwa, $typ, $waznosc, $data_wydarzenia, $komentarz, $id);
 
         if (mysqli_stmt_execute($stmt)) {
@@ -121,7 +122,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $studyDate = $value;
 
                         // Create and execute a prepared statement to insert into daty_nauki table
-                        $studyStmt = mysqli_prepare($con, "INSERT INTO `daty_nauki` (`id`, `wydarzenie_id`, `data_nauki`) VALUES (NULL, ?, ?)");
+                        $studyStmt = mysqli_prepare($con, "INSERT INTO `daty_nauki` (`id`, `wydarzenie_id`, `data_nauki`, `zrobione`)
+                        VALUES (NULL, ?, ?, 0);
+                        ");
                         mysqli_stmt_bind_param($studyStmt, "is", $event_id, $studyDate);
                         mysqli_stmt_execute($studyStmt);
                     }

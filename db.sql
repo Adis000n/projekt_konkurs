@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `wydarzenia` (
     `data` DATE NOT NULL,
     `komentarz` TEXT,
     `user_id` INT,
+    `zrobione` BOOLEAN,
     FOREIGN KEY (`user_id`) REFERENCES `user`(`id`)
 );
 
@@ -82,6 +83,7 @@ CREATE TABLE IF NOT EXISTS `daty_nauki` (
     `id`INT AUTO_INCREMENT PRIMARY KEY,
     `wydarzenie_id` INT, -- Klucz obcy powiązany z tabelą "wydarzenia"
     `data_nauki` DATE NOT NULL,
+    `zrobione` BOOLEAN,
     FOREIGN KEY (`wydarzenie_id`) REFERENCES `wydarzenia`(`id`)
 );
 

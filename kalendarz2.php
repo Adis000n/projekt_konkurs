@@ -218,7 +218,7 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
 
 }
 #data{
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-align: left;
     padding-top: 1.5%;
 }
@@ -227,7 +227,7 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
         flex-direction: column;
     }
     #data{
-    font-size: 2rem;
+    font-size: 1.6rem;
     
 }
 #nazwa{
