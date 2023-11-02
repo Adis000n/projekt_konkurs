@@ -20,7 +20,7 @@ if(isset($_POST['zapisz'])) {
 
         if($query_run) 
         {
-            $_SESSION['status'] = "Pomyślnie zaaktualizowano dane! (Żeby zobaczyć nowe wyloguj się i zaloguj.)";
+            $_SESSION['status'] = "Pomyślnie zaaktualizowano dane! Zaraz zostaniesz wylogowany";
             header("Location:myaccount.php");
         } else 
         {
