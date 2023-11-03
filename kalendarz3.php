@@ -48,6 +48,22 @@ $dzien4 = $days[$currentDate->modify('+1 day')->format('w')];
 $dzien5 = $days[$currentDate->modify('+1 day')->format('w')];
 $dzien6 = $days[$currentDate->modify('+1 day')->format('w')];
 $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
+
+$dates = array();
+
+for ($i = 0; $i < 7; $i++) {
+    $date = date('Y-m-d', strtotime("+" . $i . " day"));
+    $dates["date_$i"] = $date;
+}
+
+// Access the dates using the generated variable names
+$today = $dates['date_0'];
+$tomorrow = $dates['date_1'];
+$nextDay = $dates['date_2'];
+$nextDay2 = $dates['date_3'];
+$nextDay3 = $dates['date_4'];
+$nextDay4 = $dates['date_5'];
+$nextDay5 = $dates['date_6'];
 ?>
 
 <body>
@@ -78,7 +94,7 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
     <div class="accordion-item">
     <h2 class="accordion-header">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-            <?php echo $dzien1; ?>
+            <?php echo $dzien1." ".$today; ?>
         </button>
     </h2>
     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
@@ -166,7 +182,7 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-          <?php echo $dzien2; ?>
+          <?php echo $dzien2." ".$tomorrow; ?>
         </button>
       </h2>
       <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
@@ -253,7 +269,7 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-          <?php echo $dzien3; ?>
+          <?php echo $dzien3." ".$nextDay; ?>
         </button>
       </h2>
       <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
@@ -340,7 +356,7 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
-          <?php echo $dzien4; ?>
+          <?php echo $dzien4." ".$nextDay2; ?>
         </button>
       </h2>
       <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
@@ -427,7 +443,7 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
-          <?php echo $dzien5; ?>
+          <?php echo $dzien5." ".$nextDay3; ?>
         </button>
       </h2>
       <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
@@ -514,7 +530,7 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false" aria-controls="panelsStayOpen-collapseSix">
-          <?php echo $dzien6; ?>
+          <?php echo $dzien6." ".$nextDay4; ?>
         </button>
       </h2>
       <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse">
@@ -601,7 +617,7 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false" aria-controls="panelsStayOpen-collapseSeven">
-          <?php echo $dzien7; ?>
+          <?php echo $dzien7." ".$nextDay5; ?>
         </button>
       </h2>
       <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse">
