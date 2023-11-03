@@ -20,19 +20,19 @@ if(!isset($_SESSION['logged in']))
     exit();
 }
 $id = $_SESSION["id"];
-$sql1 = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'obowiazek' AND `data` = CURDATE() AND zrobione = 0";
+$sql1 = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'obowiazek' AND `data` = CURDATE() ";
 $result1 = $con->query($sql1);
-$sql2 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 1 DAY) AND zrobione = 0";
+$sql2 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 1 DAY) ";
 $result2 = $con->query($sql2);
-$sql3 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 2 DAY) AND zrobione = 0";
+$sql3 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 2 DAY) ";
 $result3 = $con->query($sql3);
-$sql4 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 3 DAY) AND zrobione = 0";
+$sql4 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 3 DAY) ";
 $result4 = $con->query($sql4);
-$sql5 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 4 DAY) AND zrobione = 0";
+$sql5 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 4 DAY) ";
 $result5 = $con->query($sql5);
-$sql6 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 5 DAY) AND zrobione = 0";
+$sql6 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 5 DAY) ";
 $result6 = $con->query($sql6);
-$sql7 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 6 DAY) AND zrobione = 0";
+$sql7 = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND `data` = DATE_ADD(CURDATE(), INTERVAL 6 DAY) ";
 $result7 = $con->query($sql7);
 
 $days = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -87,27 +87,54 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
             <hr>
             <?php
             if ($result1) {
-                    while ($row = mysqli_fetch_assoc($result1)) {
-                        echo '<div class="event-box">'; // Create a container for the event
-                        if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="50vw" height="auto">';
-                        }
-                        else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="50vw" height="auto">';
-                        }
-                        else{
-                            echo '<img src="img/green.png" width="50vw" height="auto" >';
-                        }
-                        echo '<h3 id="nazwa">';
-                        echo"  ". $row['nazwa'];
-                        echo '</h3>';
-                        echo '</div>'; // Close the container for the event
+                while ($row = mysqli_fetch_assoc($result1)) {
+                    echo '<div class="event-box">'; // Create a container for the event
+                    if ($row['waznosc'] == 'bardzo') {
+                        echo '<img src="img/red.png" width="40vw" height="auto">';
+                    } else if ($row['waznosc'] == 'srednio') {
+                        echo '<img src="img/yellow.png" width="40vw" height="auto">';
+                    } else {
+                        echo '<img src="img/green.png" width="40vw" height="auto" >';
                     }
-                } else {
-                    // Handle the case when the query fails
-                    echo "Error: " . mysqli_error($con);
+                    echo '<h3 id="nazwa">';
+                    echo "  " . $row['nazwa'];
+                    echo '</h3>';
+
+                    if ($row['zrobione'] == 0) {
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
+                    } else {
+                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                    }
+                    echo '</div>'; // Close the container for the event
                 }
-                ?>
+            } else {
+                // Handle the case when the query fails
+                echo "Error: " . mysqli_error($con);
+            }
+
+            // Check if the form has been submitted
+            if (isset($_POST['mark_as_done'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+            ?>
         </div>
     </div>
 </div>
@@ -124,27 +151,54 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
         <hr>
         <?php
             if ($result2) {
-                    while ($row = mysqli_fetch_assoc($result2)) {
-                        echo '<div class="event-box">'; // Create a container for the event
-                        if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="50vw" height="auto">';
-                        }
-                        else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="50vw" height="auto">';
-                        }
-                        else{
-                            echo '<img src="img/green.png" width="50vw" height="auto" >';
-                        }
-                        echo '<h3 id="nazwa">';
-                        echo"  ". $row['nazwa'];
-                        echo '</h3>';
-                        echo '</div>'; // Close the container for the event
+                while ($row = mysqli_fetch_assoc($result2)) {
+                    echo '<div class="event-box">'; // Create a container for the event
+                    if ($row['waznosc'] == 'bardzo') {
+                        echo '<img src="img/red.png" width="40vw" height="auto">';
+                    } else if ($row['waznosc'] == 'srednio') {
+                        echo '<img src="img/yellow.png" width="40vw" height="auto">';
+                    } else {
+                        echo '<img src="img/green.png" width="40vw" height="auto" >';
                     }
-                } else {
-                    // Handle the case when the query fails
-                    echo "Error: " . mysqli_error($con);
+                    echo '<h3 id="nazwa">';
+                    echo "  " . $row['nazwa'];
+                    echo '</h3>';
+
+                    if ($row['zrobione'] == 0) {
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
+                    } else {
+                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                    }
+                    echo '</div>'; // Close the container for the event
                 }
-                ?>
+            } else {
+                // Handle the case when the query fails
+                echo "Error: " . mysqli_error($con);
+            }
+
+            // Check if the form has been submitted
+            if (isset($_POST['mark_as_done'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+            ?>
         </div>
       </div>
     </div>
@@ -161,27 +215,54 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
         <hr>
         <?php
             if ($result3) {
-                    while ($row = mysqli_fetch_assoc($result3)) {
-                        echo '<div class="event-box">'; // Create a container for the event
-                        if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="50vw" height="auto">';
-                        }
-                        else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="50vw" height="auto">';
-                        }
-                        else{
-                            echo '<img src="img/green.png" width="50vw" height="auto" >';
-                        }
-                        echo '<h3 id="nazwa">';
-                        echo"  ". $row['nazwa'];
-                        echo '</h3>';
-                        echo '</div>'; // Close the container for the event
+                while ($row = mysqli_fetch_assoc($result3)) {
+                    echo '<div class="event-box">'; // Create a container for the event
+                    if ($row['waznosc'] == 'bardzo') {
+                        echo '<img src="img/red.png" width="40vw" height="auto">';
+                    } else if ($row['waznosc'] == 'srednio') {
+                        echo '<img src="img/yellow.png" width="40vw" height="auto">';
+                    } else {
+                        echo '<img src="img/green.png" width="40vw" height="auto" >';
                     }
-                } else {
-                    // Handle the case when the query fails
-                    echo "Error: " . mysqli_error($con);
+                    echo '<h3 id="nazwa">';
+                    echo "  " . $row['nazwa'];
+                    echo '</h3>';
+
+                    if ($row['zrobione'] == 0) {
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
+                    } else {
+                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                    }
+                    echo '</div>'; // Close the container for the event
                 }
-                ?>
+            } else {
+                // Handle the case when the query fails
+                echo "Error: " . mysqli_error($con);
+            }
+
+            // Check if the form has been submitted
+            if (isset($_POST['mark_as_done'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+            ?>
       </div>
       </div>
     </div>
@@ -198,27 +279,54 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
         <hr>
         <?php
             if ($result4) {
-                    while ($row = mysqli_fetch_assoc($result4)) {
-                        echo '<div class="event-box">'; // Create a container for the event
-                        if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="50vw" height="auto">';
-                        }
-                        else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="50vw" height="auto">';
-                        }
-                        else{
-                            echo '<img src="img/green.png" width="50vw" height="auto" >';
-                        }
-                        echo '<h3 id="nazwa">';
-                        echo"  ". $row['nazwa'];
-                        echo '</h3>';
-                        echo '</div>'; // Close the container for the event
+                while ($row = mysqli_fetch_assoc($result4)) {
+                    echo '<div class="event-box">'; // Create a container for the event
+                    if ($row['waznosc'] == 'bardzo') {
+                        echo '<img src="img/red.png" width="40vw" height="auto">';
+                    } else if ($row['waznosc'] == 'srednio') {
+                        echo '<img src="img/yellow.png" width="40vw" height="auto">';
+                    } else {
+                        echo '<img src="img/green.png" width="40vw" height="auto" >';
                     }
-                } else {
-                    // Handle the case when the query fails
-                    echo "Error: " . mysqli_error($con);
+                    echo '<h3 id="nazwa">';
+                    echo "  " . $row['nazwa'];
+                    echo '</h3>';
+
+                    if ($row['zrobione'] == 0) {
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
+                    } else {
+                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                    }
+                    echo '</div>'; // Close the container for the event
                 }
-                ?>
+            } else {
+                // Handle the case when the query fails
+                echo "Error: " . mysqli_error($con);
+            }
+
+            // Check if the form has been submitted
+            if (isset($_POST['mark_as_done'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+            ?>
       </div>
       </div>
     </div>
@@ -235,27 +343,54 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
         <hr>
         <?php
             if ($result5) {
-                    while ($row = mysqli_fetch_assoc($result5)) {
-                        echo '<div class="event-box">'; // Create a container for the event
-                        if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="50vw" height="auto">';
-                        }
-                        else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="50vw" height="auto">';
-                        }
-                        else{
-                            echo '<img src="img/green.png" width="50vw" height="auto" >';
-                        }
-                        echo '<h3 id="nazwa">';
-                        echo"  ". $row['nazwa'];
-                        echo '</h3>';
-                        echo '</div>'; // Close the container for the event
+                while ($row = mysqli_fetch_assoc($result5)) {
+                    echo '<div class="event-box">'; // Create a container for the event
+                    if ($row['waznosc'] == 'bardzo') {
+                        echo '<img src="img/red.png" width="40vw" height="auto">';
+                    } else if ($row['waznosc'] == 'srednio') {
+                        echo '<img src="img/yellow.png" width="40vw" height="auto">';
+                    } else {
+                        echo '<img src="img/green.png" width="40vw" height="auto" >';
                     }
-                } else {
-                    // Handle the case when the query fails
-                    echo "Error: " . mysqli_error($con);
+                    echo '<h3 id="nazwa">';
+                    echo "  " . $row['nazwa'];
+                    echo '</h3>';
+
+                    if ($row['zrobione'] == 0) {
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
+                    } else {
+                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                    }
+                    echo '</div>'; // Close the container for the event
                 }
-                ?>
+            } else {
+                // Handle the case when the query fails
+                echo "Error: " . mysqli_error($con);
+            }
+
+            // Check if the form has been submitted
+            if (isset($_POST['mark_as_done'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+            ?>
       </div>
       </div>
     </div>
@@ -272,27 +407,54 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
         <hr>
         <?php
             if ($result6) {
-                    while ($row = mysqli_fetch_assoc($result6)) {
-                        echo '<div class="event-box">'; // Create a container for the event
-                        if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="50vw" height="auto">';
-                        }
-                        else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="50vw" height="auto">';
-                        }
-                        else{
-                            echo '<img src="img/green.png" width="50vw" height="auto" >';
-                        }
-                        echo '<h3 id="nazwa">';
-                        echo"  ". $row['nazwa'];
-                        echo '</h3>';
-                        echo '</div>'; // Close the container for the event
+                while ($row = mysqli_fetch_assoc($result6)) {
+                    echo '<div class="event-box">'; // Create a container for the event
+                    if ($row['waznosc'] == 'bardzo') {
+                        echo '<img src="img/red.png" width="40vw" height="auto">';
+                    } else if ($row['waznosc'] == 'srednio') {
+                        echo '<img src="img/yellow.png" width="40vw" height="auto">';
+                    } else {
+                        echo '<img src="img/green.png" width="40vw" height="auto" >';
                     }
-                } else {
-                    // Handle the case when the query fails
-                    echo "Error: " . mysqli_error($con);
+                    echo '<h3 id="nazwa">';
+                    echo "  " . $row['nazwa'];
+                    echo '</h3>';
+
+                    if ($row['zrobione'] == 0) {
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
+                    } else {
+                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                    }
+                    echo '</div>'; // Close the container for the event
                 }
-                ?>
+            } else {
+                // Handle the case when the query fails
+                echo "Error: " . mysqli_error($con);
+            }
+
+            // Check if the form has been submitted
+            if (isset($_POST['mark_as_done'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+            ?>
       </div>
       </div>
     </div>
@@ -309,27 +471,54 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
         <hr>
         <?php
             if ($result7) {
-                    while ($row = mysqli_fetch_assoc($result7)) {
-                        echo '<div class="event-box">'; // Create a container for the event
-                        if($row['waznosc']=='bardzo'){
-                            echo '<img src="img/red.png" width="50vw" height="auto">';
-                        }
-                        else if($row['waznosc']=='srednio'){
-                            echo '<img src="img/yellow.png" width="50vw" height="auto">';
-                        }
-                        else{
-                            echo '<img src="img/green.png" width="50vw" height="auto" >';
-                        }
-                        echo '<h3 id="nazwa">';
-                        echo"  ". $row['nazwa'];
-                        echo '</h3>';
-                        echo '</div>'; // Close the container for the event
+                while ($row = mysqli_fetch_assoc($result7)) {
+                    echo '<div class="event-box">'; // Create a container for the event
+                    if ($row['waznosc'] == 'bardzo') {
+                        echo '<img src="img/red.png" width="40vw" height="auto">';
+                    } else if ($row['waznosc'] == 'srednio') {
+                        echo '<img src="img/yellow.png" width="40vw" height="auto">';
+                    } else {
+                        echo '<img src="img/green.png" width="40vw" height="auto" >';
                     }
-                } else {
-                    // Handle the case when the query fails
-                    echo "Error: " . mysqli_error($con);
+                    echo '<h3 id="nazwa">';
+                    echo "  " . $row['nazwa'];
+                    echo '</h3>';
+
+                    if ($row['zrobione'] == 0) {
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
+                    } else {
+                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                    }
+                    echo '</div>'; // Close the container for the event
                 }
-                ?>
+            } else {
+                // Handle the case when the query fails
+                echo "Error: " . mysqli_error($con);
+            }
+
+            // Check if the form has been submitted
+            if (isset($_POST['mark_as_done'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+            ?>
       </div>
       </div>
     </div>
@@ -340,12 +529,17 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
     
 </body>
 <style>
+    #form{
+        background: transparent ;
+    }
+
+
   .event-box{
     background: rgb(192,172,255);
     background: linear-gradient(90deg, rgba(192,172,255,1) 0%, rgba(101,0,255,1) 100%);
     padding: 1%;
     width:100%;
-    margin-bottom: 5%;
+    margin-bottom: 2%;
     border-radius:15px;
     color: white;
     display: flex;
@@ -356,8 +550,18 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
 #nazwa{
     font-size: 2rem;
     padding-top: 1.5%;
-    width: 80%;
+    width: 60%;
 
+}
+@media only screen and (max-width: 900px) {
+    .event-box{
+        flex-direction: column;
+    }
+    #nazwa{
+        width: 100%;
+        text-align: center;
+        font-size: 1.6rem;
+    }
 }
 #accordionPanelsStayOpenExample{
   width: 100%;

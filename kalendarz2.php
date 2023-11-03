@@ -203,7 +203,7 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
     background: linear-gradient(81deg, rgba(0,136,255,1) 0%, rgba(0,166,255,1) 50%, rgba(53,198,255,1) 100%);
     padding: 1%;
     width:100%;
-    margin-bottom: 5%;
+    margin-bottom: 2%;
     border-radius:15px;
     color: white;
     display: flex;
