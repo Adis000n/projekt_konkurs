@@ -6,6 +6,7 @@
     header('Location: login.php');
     exit();
  }
+ 
  ?>
  <!DOCTYPE html>
  <html lang="en">
@@ -37,7 +38,7 @@
               }).then((result) => {
                 if (result.isConfirmed) {
                   Swal.fire(
-                    location.href = "logout.php"
+                    location.href = "myaccount.php"
                   )
                   
                 }
@@ -45,7 +46,6 @@
                   
                   </script>
                   <?php
-                echo "<h4>".$_SESSION['status']."</h4>";
                 unset($_SESSION['status']);
         }
 
