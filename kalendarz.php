@@ -174,7 +174,7 @@ if(!isset($_SESSION['logged in']))
                                           
                                           }
                                           else{
-                                            if($sDateT[$j] < $learnDates){ 
+                                            if($sDateT[$j] < $learnDates && $eDateT[$j] > $learnDates){ 
                                               echo "<div class='information' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\">".$infoT[$j]."
                                               <div class='comment' id='".$k."'>".$commentT[$j]."</div>
                                             </div>";
@@ -271,13 +271,33 @@ if(!isset($_SESSION['logged in']))
                 $sDateT = null;
                 $eDateT = null;
 
+                
+
+
+
+                // TU MA BYĆ 
+
+
+
+
+
+
+
 
                 echo "<div class='container'><div class='nameDay'>".$nameDays[$today]."</div>
                     <div class='toDo'>
                       <div class='toDoW'>Do zrobienia</div>";         
                      
                            
-                    // wydarzenia ------------------------------------------------------------------------------------------------------
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                      // wydarzenia ------------------------------------------------------------------------------------------------------
                    echo   "</div> <div class='events'>
                       <div class='eventsW'>Wydarzenia</div>";
                       $j = 0;
