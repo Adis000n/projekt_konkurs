@@ -106,7 +106,10 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                         echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
-                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
                     }
                     echo '</div>'; // Close the container for the event
                 }
@@ -115,7 +118,7 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                 echo "Error: " . mysqli_error($con);
             }
 
-            // Check if the form has been submitted
+            // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
                 $event_id = $_POST['event_id'];
@@ -134,10 +137,31 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                     echo "Error updating record: " . mysqli_error($con);
                 }
             }
+
+            // Check if the form has been submitted to mark an event as undone
+            if (isset($_POST['mark_as_undone'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
             ?>
         </div>
     </div>
 </div>
+
           <!-- DZIEN 2 #################################################################################################### -->
     <div class="accordion-item">
       <h2 class="accordion-header">
@@ -170,7 +194,10 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                         echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
-                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
                     }
                     echo '</div>'; // Close the container for the event
                 }
@@ -179,13 +206,33 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                 echo "Error: " . mysqli_error($con);
             }
 
-            // Check if the form has been submitted
+            // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
                 $event_id = $_POST['event_id'];
 
                 // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
                 $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+
+            // Check if the form has been submitted to mark an event as undone
+            if (isset($_POST['mark_as_undone'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id";
 
                 // Execute the update query
                 if (mysqli_query($con, $updateQuery)) {
@@ -234,7 +281,10 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                         echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
-                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
                     }
                     echo '</div>'; // Close the container for the event
                 }
@@ -243,13 +293,33 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                 echo "Error: " . mysqli_error($con);
             }
 
-            // Check if the form has been submitted
+            // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
                 $event_id = $_POST['event_id'];
 
                 // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
                 $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+
+            // Check if the form has been submitted to mark an event as undone
+            if (isset($_POST['mark_as_undone'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id";
 
                 // Execute the update query
                 if (mysqli_query($con, $updateQuery)) {
@@ -298,7 +368,10 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                         echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
-                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
                     }
                     echo '</div>'; // Close the container for the event
                 }
@@ -307,13 +380,33 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                 echo "Error: " . mysqli_error($con);
             }
 
-            // Check if the form has been submitted
+            // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
                 $event_id = $_POST['event_id'];
 
                 // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
                 $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+
+            // Check if the form has been submitted to mark an event as undone
+            if (isset($_POST['mark_as_undone'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id";
 
                 // Execute the update query
                 if (mysqli_query($con, $updateQuery)) {
@@ -362,7 +455,10 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                         echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
-                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
                     }
                     echo '</div>'; // Close the container for the event
                 }
@@ -371,13 +467,33 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                 echo "Error: " . mysqli_error($con);
             }
 
-            // Check if the form has been submitted
+            // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
                 $event_id = $_POST['event_id'];
 
                 // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
                 $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+
+            // Check if the form has been submitted to mark an event as undone
+            if (isset($_POST['mark_as_undone'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id";
 
                 // Execute the update query
                 if (mysqli_query($con, $updateQuery)) {
@@ -426,7 +542,10 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                         echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
-                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
                     }
                     echo '</div>'; // Close the container for the event
                 }
@@ -435,13 +554,33 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                 echo "Error: " . mysqli_error($con);
             }
 
-            // Check if the form has been submitted
+            // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
                 $event_id = $_POST['event_id'];
 
                 // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
                 $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+
+            // Check if the form has been submitted to mark an event as undone
+            if (isset($_POST['mark_as_undone'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id";
 
                 // Execute the update query
                 if (mysqli_query($con, $updateQuery)) {
@@ -490,7 +629,10 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                         echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
-                        echo '<img src="img/check.png" width="30vw" height="auto">';
+                        echo '<form method="post">';
+                        echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
+                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '</form>';
                     }
                     echo '</div>'; // Close the container for the event
                 }
@@ -499,13 +641,33 @@ $dzien7 = $days[$currentDate->modify('+1 day')->format('w')];
                 echo "Error: " . mysqli_error($con);
             }
 
-            // Check if the form has been submitted
+            // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
                 $event_id = $_POST['event_id'];
 
                 // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
                 $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id";
+
+                // Execute the update query
+                if (mysqli_query($con, $updateQuery)) {
+                    // The record has been updated successfully
+                    // You can add a success message or redirect the user as needed
+                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    exit;
+                } else {
+                    // Handle any errors that may occur during the update
+                    echo "Error updating record: " . mysqli_error($con);
+                }
+            }
+
+            // Check if the form has been submitted to mark an event as undone
+            if (isset($_POST['mark_as_undone'])) {
+                // Retrieve the event ID from the submitted form data
+                $event_id = $_POST['event_id'];
+
+                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id";
 
                 // Execute the update query
                 if (mysqli_query($con, $updateQuery)) {
