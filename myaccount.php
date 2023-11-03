@@ -93,6 +93,7 @@
                                     <label class="form-label">Aktualny adres e-mail</label>
                                     <input type="text" class="form-control mb-1" value="<?php echo $_SESSION['Email']; ?>" readonly>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label class="form-label">Nowy adres e-mail</label>
                                     <input type="text" class="form-control mb-1" name="nowy_email">
