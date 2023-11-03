@@ -67,7 +67,8 @@ if(!isset($_SESSION['logged in']))
         <?php
           $id = $_SESSION['id'];
           $nameDays = array(" ","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"); // od 0 zaczyna sie array!
-          $rawDate = date("Y-m-d H:i:s");
+          $rawDate = date("Y-m-d");
+          $learnDates = $rawDate; // data do "DO ZROBIENIA"
           $today = date('N', strtotime($rawDate)); 
           $i = 1;
           $k =1; // przypisuje id 
@@ -77,17 +78,113 @@ if(!isset($_SESSION['logged in']))
           
             while($i <= 7){
               if($i==1){  // TU JEST IF ----------------------------------------------------------------------------------------------------------------
-
+                    // NAUKA
                       echo "<div class='container'><div class='nameDay'>Dzisiaj</div>
                                 <div class='toDo'>
-                                  <div class='toDoW'>Do zrobienia</div>         
-                                </div>
-                            
+                                  <div class='toDoW'>Do zrobienia</div>";        
+                                
+                                $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
+                                $addDay = 0;
+                                $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id;");
+                                $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id;");
+                                $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id;");
+                                $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id;");
                               
+                                while($result = mysqli_fetch_row($startDate)){
+                                  if(is_null($result)){
+                                    $sDateT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $sDateT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($sDateT);
+                                  
+                                  }             
+                                }
+
+                                while($result = mysqli_fetch_row($endDate)){
+                                  if(is_null($result)){
+                                    $eDateT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $eDateT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($eDateT);
+                                  
+                                  }             
+                                }
+
+                                while($result = mysqli_fetch_row($info)){ 
+                      
+                                  if(is_null($result)){
+                                    $infoT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $infoT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($infoT);
+                                  
+            
+                                  }             
+                                                 
+                                                    
+                                }
+                                while($result = mysqli_fetch_row($comment)){ 
+                                  
+                                  if(is_null($result)){
+                                     $commentT[] = '';
+                                     $empty = 0; 
+                                  }else{
+                                  $commentT[] = implode($result);
+                                  // print_r($commentT);
+                                  $empty = 1;
+                                  }      
+                                                    
+                                }
+                             
+                                if($empty == 1){
+                                  $counter = count($infoT);
+                                  // echo $counter;
+                                }else{
+                                  $counter = 0;
+                                }
+                                
+                                  
+                                    $j = 0;
+                                   
+
+                                      
+                                     
+                                        // echo '<br>'.$learnDates;
+                                        while($counter > $j){
+                                          if($learnDates == $sDateT[$j]){
+                                        
                               
-                              <div class='events'>
+                                          echo "<div class='information' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\">".$infoT[$j]."
+                                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>
+                                          </div>";
+                                          
+                                          
+                                          $k++;
+                                          $j++;
+                                          
+                                          }
+                                          else{
+                                            $j++;
+                                          }
+                                      }
+                              
+                             echo   "</div> <div class='events'>
                                 <div class='eventsW'>Wydarzenia</div>";
+                    // WYDARZENIA
                     
+                    $empty =0;
+                    $infoT = null;
+                    $commentT =null;
+                    $counter = null;
                     $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
                     $addDay = 0;
                     $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay;");                    
@@ -98,11 +195,13 @@ if(!isset($_SESSION['logged in']))
                     while($result = mysqli_fetch_row($info)){ 
                       
                       if(is_null($result)){
-                        $infoT[] = 'test';
+                        $infoT[] = '';
                         $empty = 0;
+                        
 
                       }else{
                       $infoT[] = implode($result);
+                     
                       $empty = 1;
 
                       }             
@@ -112,10 +211,12 @@ if(!isset($_SESSION['logged in']))
                     while($result = mysqli_fetch_row($comment)){ 
                       
                       if(is_null($result)){
-                         $commentT[] = 'test';
+                         $commentT[] = '';
                          $empty = 0; 
+                         
                       }else{
                       $commentT[] = implode($result);
+                      
                       $empty = 1;
                       }      
                                         
@@ -155,16 +256,109 @@ if(!isset($_SESSION['logged in']))
                 $infoT = null;
                 $commentT =null;
                 $counter = null;
+                $sDateT = null;
+                $eDateT = null;
+
+
                 echo "<div class='container'><div class='nameDay'>".$nameDays[$today]."</div>
                     <div class='toDo'>
-                      <div class='toDoW'>Do zrobienia</div>         
-                    </div>
-                
-                  
-                  
-                    <div class='events'>
+                      <div class='toDoW'>Do zrobienia</div>";         
+                      $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
+                      $addDay = 0;
+                      $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id;");
+                      $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id;");
+                      $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id;");
+                      $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id;");
+                    
+                      while($result = mysqli_fetch_row($startDate)){
+                        if(is_null($result)){
+                          $sDateT[] = '';
+                          $empty = 0;
+  
+                        }else{
+                        $sDateT[] = implode($result);
+                        $empty = 1;
+                        // print_r($sDateT);
+                        
+                        }             
+                      }
+
+                      while($result = mysqli_fetch_row($endDate)){
+                        if(is_null($result)){
+                          $eDateT[] = '';
+                          $empty = 0;
+  
+                        }else{
+                        $eDateT[] = implode($result);
+                        $empty = 1;
+                        // print_r($eDateT);
+                        
+                        }             
+                      }
+
+                      while($result = mysqli_fetch_row($info)){ 
+            
+                        if(is_null($result)){
+                          $infoT[] = '';
+                          $empty = 0;
+  
+                        }else{
+                        $infoT[] = implode($result);
+                        $empty = 1;
+                        // print_r($infoT);
+                        
+  
+                        }             
+                                       
+                                          
+                      }
+                      while($result = mysqli_fetch_row($comment)){ 
+                        
+                        if(is_null($result)){
+                           $commentT[] = '';
+                           $empty = 0; 
+                        }else{
+                        $commentT[] = implode($result);
+                        // print_r($commentT);
+                        $empty = 1;
+                        }      
+                                          
+                      }
+                   
+                      if($empty == 1){
+                        $counter = count($infoT);
+                        // echo $counter;
+                      }else{
+                        $counter = 0;
+                      }
+                      
+                        
+                          $j = 0;
+                         
+
+                            
+                           
+                              // echo '<br>'.$learnDates;
+                              while($counter > $j){
+                                if($learnDates == $sDateT[$j]){
+                              
+                    
+                                echo "<div class='information' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\">".$infoT[$j]."
+                                  <div class='comment' id='".$k."'>".$commentT[$j]."</div>
+                                </div>";
+                                
+                                
+                                $k++;
+                                $j++;
+                                
+                                }
+                                else{
+                                  $j++;
+                                }
+                            }
+                    
+                   echo   "</div> <div class='events'>
                       <div class='eventsW'>Wydarzenia</div>";
-    
                           
                           $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay;");                    
                           $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay;");
