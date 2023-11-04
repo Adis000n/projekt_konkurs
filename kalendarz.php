@@ -506,7 +506,7 @@ if(!isset($_SESSION['logged in']))
                             
                            
                               // echo '<br>'.$learnDates;
-                              while($counter >= $j){
+                              while($counter > $j){
                                 
                                 $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND
                                 `id`=$idInDB;");
@@ -554,7 +554,7 @@ if(!isset($_SESSION['logged in']))
                                     </div>";
                                     }
                                   
-                                  $idInDB++;
+                                  // $idInDB++;
                                   $k++;
                                   $j++;
                                   
@@ -581,17 +581,17 @@ if(!isset($_SESSION['logged in']))
                                       </div>";
                                       }
                                     
-                                    $idInDB++;
+                                    // $idInDB++;
                                     $k++;
+                                    // $j++;
                                       
                                     }
                                     
-                                    $j++;
+                                    
                                   }
-                                }else{
-                                  break;
+                                  $j++;
                                 }
-                            
+                                $idInDB++;
                               }
                             // $learnDates = date('Y-m-d', strtotime("+1 day"));
                             // echo $learnDates;
@@ -600,6 +600,7 @@ if(!isset($_SESSION['logged in']))
                    echo   "</div> <div class='events'>
                       <div class='eventsW'>Wydarzenia</div>";
                       $j = 0;
+                      $jII = 0;
                       $idInDB = 1;                      
                       $empty =0;
                       $infoT = null;
@@ -665,8 +666,22 @@ if(!isset($_SESSION['logged in']))
                           }
                           
                           while($counter > $j){
-                            $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `id`=$idInDB;");
-                              
+                            $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' ;");
+                            $dataToCheck = mysqli_query($con,"SELECT `data` FROM `wydarzenia` WHERE `user_id` = $id AND `typ` NOT LIKE 'obowiazek';");
+                            
+                            while($result = mysqli_fetch_row($dataToCheck)){
+                              if(is_null($result)){
+                              $dataToCheckT[] = '';
+                              $empty = 0;                        
+                                }else{
+                                 $dataToCheckT[] = implode($result);
+                                 $empty = 1;
+                                                 
+                                                 
+                                 }             
+                             }    
+                            
+                        $empty = 0;
                             
                       while($result = mysqli_fetch_row($importance)){
                            if(is_null($result)){
@@ -675,26 +690,44 @@ if(!isset($_SESSION['logged in']))
                              }else{
                               $importanceT[] = implode($result);
                               $empty = 1;
+                              // print_r($importanceT);
                                               
                                               
                               }             
                           }
 
+                          
+                          
+                          
+                          while($dataToCheckT[$jII] < $learnDatesInLoop){
+                            $idInDB++;
+                            $jII++;
+                            // echo $jII;
+                           
+                          }
+                        
+                          // if($dataToCheckT[$j] < $learnDatesInLoop){
+                          //   $j++;
+                          //   $idInDB++;
 
-                          if($importanceT[$j] == "bardzo"){
+                          // }
+
+
+
+                          if($importanceT[$jII] == "bardzo"){
                             echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                             <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
                           
                           }
-                          if($importanceT[$j] == "srednio"){
+                          if($importanceT[$jII] == "srednio"){
                             echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                             <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
                           }
-                          if($importanceT[$j] == "malo"){
+                          if($importanceT[$jII] == "malo"){
                             echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                             <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
