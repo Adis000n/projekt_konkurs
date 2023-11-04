@@ -96,9 +96,25 @@ if(!isset($_SESSION['logged in']))
                                 $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
                                 $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
                                 $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                                
+                                $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
                           
-                            //  nowe zmiany
+                                
+                                while($result = mysqli_fetch_row($typ)){
+                                  if(is_null($result)){
+                                    $typT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $typT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($typT);
+                                  
+                                  }             
+                                }
+
+                                $empty = 0;
+
+
                                 while($result = mysqli_fetch_row($startDate)){
                                   if(is_null($result)){
                                     $sDateT[] = '';
@@ -190,21 +206,21 @@ if(!isset($_SESSION['logged in']))
                                           if($learnDates == $sDateT[$j]){
                                           
                                             if($importanceT[$j] == "bardzo"){
-                                              echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."</a>
+                                              echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                                               <div class='break'></div>
                                               <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                             </div>";
                                             
                                             }
                                             if($importanceT[$j] == "srednio"){
-                                              echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'>".$infoT[$j].
-                                              "<div class='break'></div>
+                                              echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                              <div class='break'></div>
                                               <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                             </div>";
                                             }
                                             if($importanceT[$j] == "malo"){
-                                              echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'>".$infoT[$j].
-                                              "<div class='break'></div>
+                                              echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                              <div class='break'></div>
                                               <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                             </div>";
                                             }
@@ -219,19 +235,20 @@ if(!isset($_SESSION['logged in']))
                                           else{
                                             if($sDateT[$j] < $learnDates && $eDateT[$j] > $learnDates){ 
                                               if($importanceT[$j] == "bardzo"){
-                                                echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."</a>
+                                                echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                                                 <div class='break'></div>
                                                 <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                               </div>";
+                                              
                                               }
                                               if($importanceT[$j] == "srednio"){
-                                                echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."</a>
+                                                echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                                                 <div class='break'></div>
                                                 <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                               </div>";
                                               }
                                               if($importanceT[$j] == "malo"){
-                                                echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."</a>
+                                                echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                                                 <div class='break'></div>
                                                 <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                               </div>";
@@ -259,10 +276,29 @@ if(!isset($_SESSION['logged in']))
                     $counter = null;
                     $importanceT = null;
                     $idInDB = 1;
+                    $typ = null;
+                    $typT = null;
                     $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
                     $addDay = 0;
                     $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay  AND `typ` NOT LIKE 'obowiazek' ;");                    
                     $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay  AND `typ` NOT LIKE 'obowiazek' ;");
+                    $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
+                          
+                                
+                                while($result = mysqli_fetch_row($typ)){
+                                  if(is_null($result)){
+                                    $typT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $typT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($typT);
+                                  
+                                  }             
+                                }
+
+                                $empty = 0;
                                                             
                     // $counter=mysql_fetch_assoc($infoCounter);                                 
                    
@@ -321,21 +357,21 @@ if(!isset($_SESSION['logged in']))
 
 
                           if($importanceT[$j] == "bardzo"){
-                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."</a>
+                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                             <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
                           
                           }
                           if($importanceT[$j] == "srednio"){
-                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'>".$infoT[$j].
-                            "<div class='break'></div>
+                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
                           }
                           if($importanceT[$j] == "malo"){
-                            echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'>".$infoT[$j].
-                            "<div class='break'></div>
+                            echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
                           }
@@ -367,6 +403,8 @@ if(!isset($_SESSION['logged in']))
                 $counter = null;
                 $sDateT = null;
                 $eDateT = null;
+                $typ = null;
+                $typT = null;
 
 
                 echo "<div class='container'><div class='nameDay'>".$nameDays[$today]."&nbsp;".$learnDatesInLoop."</div>
@@ -381,6 +419,23 @@ if(!isset($_SESSION['logged in']))
                       $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
                       $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
                       $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                      $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
+                          
+                                
+                                while($result = mysqli_fetch_row($typ)){
+                                  if(is_null($result)){
+                                    $typT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $typT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($typT);
+                                  
+                                  }             
+                                }
+
+                                $empty = 0;
                     
                       while($result = mysqli_fetch_row($startDate)){
                         if(is_null($result)){
@@ -480,21 +535,21 @@ if(!isset($_SESSION['logged in']))
                                   if($learnDatesInLoop == $sDateT[$j]){
                                     
                                     if($importanceT[$j] == "bardzo"){
-                                      echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."</a>
+                                      echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                                       <div class='break'></div>
                                       <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                     </div>";
                                     
                                     }
                                     if($importanceT[$j] == "srednio"){
-                                      echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'>".$infoT[$j].
-                                      "<div class='break'></div>
+                                      echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                      <div class='break'></div>
                                       <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                     </div>";
                                     }
                                     if($importanceT[$j] == "malo"){
-                                      echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'>".$infoT[$j].
-                                      "<div class='break'></div>
+                                      echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                      <div class='break'></div>
                                       <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                     </div>";
                                     }
@@ -507,21 +562,21 @@ if(!isset($_SESSION['logged in']))
                                   else{
                                     if($sDateT[$j] <= $learnDatesInLoop && $eDateT[$j] > $learnDatesInLoop){ 
                                       if($importanceT[$j] == "bardzo"){
-                                        echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."</a>
+                                        echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                                         <div class='break'></div>
                                         <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                       </div>";
                                       
                                       }
                                       if($importanceT[$j] == "srednio"){
-                                        echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'>".$infoT[$j].
-                                        "<div class='break'></div>
+                                        echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                        <div class='break'></div>
                                         <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                       </div>";
                                       }
                                       if($importanceT[$j] == "malo"){
-                                        echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'>".$infoT[$j].
-                                        "<div class='break'></div>
+                                        echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                        <div class='break'></div>
                                         <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                       </div>";
                                       }
@@ -540,26 +595,7 @@ if(!isset($_SESSION['logged in']))
                               }
                             // $learnDates = date('Y-m-d', strtotime("+1 day"));
                             // echo $learnDates;
-                    
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-
-
-
-
-
-
-
-
-
-
-
+          
                       // wydarzenia ------------------------------------------------------------------------------------------------------
                    echo   "</div> <div class='events'>
                       <div class='eventsW'>Wydarzenia</div>";
@@ -571,8 +607,27 @@ if(!isset($_SESSION['logged in']))
                       $counter = null;
                       $sDateT = null;
                       $eDateT = null;
+                      $typT  =null;
+                      $typ = null;
                           $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay AND `typ` NOT LIKE 'obowiazek';");                    
                           $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay AND `typ` NOT LIKE 'obowiazek';");
+                          $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
+                          
+                                
+                                while($result = mysqli_fetch_row($typ)){
+                                  if(is_null($result)){
+                                    $typT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $typT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($typT);
+                                  
+                                  }             
+                                }
+
+                                $empty = 0;
                                                                   
                           // $counter=mysql_fetch_assoc($infoCounter);                                 
                         
@@ -627,21 +682,21 @@ if(!isset($_SESSION['logged in']))
 
 
                           if($importanceT[$j] == "bardzo"){
-                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."</a>
+                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                             <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
                           
                           }
                           if($importanceT[$j] == "srednio"){
-                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'>".$infoT[$j].
-                            "<div class='break'></div>
+                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
                           }
                           if($importanceT[$j] == "malo"){
-                            echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'>".$infoT[$j].
-                            "<div class='break'></div>
+                            echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
                           }
