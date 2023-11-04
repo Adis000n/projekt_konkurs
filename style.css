@@ -189,8 +189,8 @@ body{
     margin: 2vh;
     width: 85%;
     background-color: rgba(255, 255, 255, 1)  ;
-    border-radius: 5px;
-    box-shadow: 1.2px 4px 3px 0px; 
+    border-radius: 15px;
+    /* box-shadow: 1.2px 4px 3px 0px;  */
     z-index: 99; 
     
 
@@ -208,7 +208,7 @@ body{
     height: auto; 
     max-height: 300vh;      
     
-    border-radius: 10px;
+    /* border-radius: 0px; */
     
 }
 
