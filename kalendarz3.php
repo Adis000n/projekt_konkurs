@@ -99,12 +99,13 @@ $nextDay5 = $dates['date_6'];
     </h2>
     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
         <div class="accordion-body">
-            <h6>Wydarzenia:</h6>
+            <h6 >Obowiązki:</h6>
             <hr>
             <?php
             if ($result1) {
                 while ($row = mysqli_fetch_assoc($result1)) {
-                    echo '<div class="event-box">'; // Create a container for the event
+                    echo '<div class="event-box" onclick="komentarz(' . $row['id'] . ')">';
+                    echo '<div class="event-content">';
                     if ($row['waznosc'] == 'bardzo') {
                         echo '<img src="img/red.png" width="40vw" height="auto">';
                     } else if ($row['waznosc'] == 'srednio') {
@@ -119,21 +120,23 @@ $nextDay5 = $dates['date_6'];
                     if ($row['zrobione'] == 0) {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_done" type="submit" id="form">Niezrobione <img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_undone" type="submit" id="form">Zrobione <img src="img/check.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     }
-                    echo '</div>'; // Close the container for the event
+                    echo '</div>';
+                    echo '<div class="comment-text">Kliknij aby wyświetlić/schować komentarz do tego wydarzenia:</div>'; 
+                    echo '<div class="comment" id="komentarz_' . $row['id'] . '" style="display: none;">Komentarz: ' . $row['komentarz'] . '</div>'; 
+                    echo '</div>';
                 }
             } else {
                 // Handle the case when the query fails
                 echo "Error: " . mysqli_error($con);
             }
-
             // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
@@ -146,7 +149,8 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -166,7 +170,7 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -177,7 +181,17 @@ $nextDay5 = $dates['date_6'];
         </div>
     </div>
 </div>
+<script>
+function komentarz(eventId) {
+    var komentarzElement = document.getElementById("komentarz_" + eventId);
+    if (komentarzElement.style.display === "none" || komentarzElement.style.display === "") {
+        komentarzElement.style.display = "block"; // Show the comment
+    } else {
+        komentarzElement.style.display = "none"; // Hide the comment
+    }
+}
 
+</script>
           <!-- DZIEN 2 #################################################################################################### -->
     <div class="accordion-item">
       <h2 class="accordion-header">
@@ -187,12 +201,13 @@ $nextDay5 = $dates['date_6'];
       </h2>
       <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
         <div class="accordion-body">
-        <h6>Wydarzenia:</h6>
+        <h6>Obowiązki:</h6>
         <hr>
         <?php
             if ($result2) {
                 while ($row = mysqli_fetch_assoc($result2)) {
-                    echo '<div class="event-box">'; // Create a container for the event
+                    echo '<div class="event-box" onclick="komentarz(' . $row['id'] . ')">';
+                    echo '<div class="event-content">';
                     if ($row['waznosc'] == 'bardzo') {
                         echo '<img src="img/red.png" width="40vw" height="auto">';
                     } else if ($row['waznosc'] == 'srednio') {
@@ -207,21 +222,23 @@ $nextDay5 = $dates['date_6'];
                     if ($row['zrobione'] == 0) {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_done" type="submit" id="form">Niezrobione <img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_undone" type="submit" id="form">Zrobione <img src="img/check.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     }
-                    echo '</div>'; // Close the container for the event
+                    echo '</div>';
+                    echo '<div class="comment-text">Kliknij aby wyświetlić/schować komentarz do tego wydarzenia:</div>'; 
+                    echo '<div class="comment" id="komentarz_' . $row['id'] . '" style="display: none;">Komentarz: ' . $row['komentarz'] . '</div>'; 
+                    echo '</div>';
                 }
             } else {
                 // Handle the case when the query fails
                 echo "Error: " . mysqli_error($con);
             }
-
             // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
@@ -234,7 +251,8 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -254,7 +272,7 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -263,8 +281,8 @@ $nextDay5 = $dates['date_6'];
             }
             ?>
         </div>
-      </div>
     </div>
+</div>
           <!-- DZIEN 3 #################################################################################################### -->
     <div class="accordion-item">
       <h2 class="accordion-header">
@@ -274,12 +292,13 @@ $nextDay5 = $dates['date_6'];
       </h2>
       <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
         <div class="accordion-body">
-        <h6>Wydarzenia:</h6>
+        <h6>Obowiązki:</h6>
         <hr>
         <?php
             if ($result3) {
                 while ($row = mysqli_fetch_assoc($result3)) {
-                    echo '<div class="event-box">'; // Create a container for the event
+                    echo '<div class="event-box" onclick="komentarz(' . $row['id'] . ')">';
+                    echo '<div class="event-content">';
                     if ($row['waznosc'] == 'bardzo') {
                         echo '<img src="img/red.png" width="40vw" height="auto">';
                     } else if ($row['waznosc'] == 'srednio') {
@@ -294,21 +313,23 @@ $nextDay5 = $dates['date_6'];
                     if ($row['zrobione'] == 0) {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_done" type="submit" id="form">Niezrobione <img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_undone" type="submit" id="form">Zrobione <img src="img/check.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     }
-                    echo '</div>'; // Close the container for the event
+                    echo '</div>';
+                    echo '<div class="comment-text">Kliknij aby wyświetlić/schować komentarz do tego wydarzenia:</div>'; 
+                    echo '<div class="comment" id="komentarz_' . $row['id'] . '" style="display: none;">Komentarz: ' . $row['komentarz'] . '</div>'; 
+                    echo '</div>';
                 }
             } else {
                 // Handle the case when the query fails
                 echo "Error: " . mysqli_error($con);
             }
-
             // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
@@ -321,7 +342,8 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -341,7 +363,7 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -349,9 +371,9 @@ $nextDay5 = $dates['date_6'];
                 }
             }
             ?>
-      </div>
-      </div>
+        </div>
     </div>
+</div>
           <!-- DZIEN 4 #################################################################################################### -->
     <div class="accordion-item">
       <h2 class="accordion-header">
@@ -361,12 +383,13 @@ $nextDay5 = $dates['date_6'];
       </h2>
       <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
         <div class="accordion-body">
-        <h6>Wydarzenia:</h6>
+        <h6>Obowiązki:</h6>
         <hr>
         <?php
             if ($result4) {
                 while ($row = mysqli_fetch_assoc($result4)) {
-                    echo '<div class="event-box">'; // Create a container for the event
+                    echo '<div class="event-box" onclick="komentarz(' . $row['id'] . ')">';
+                    echo '<div class="event-content">';
                     if ($row['waznosc'] == 'bardzo') {
                         echo '<img src="img/red.png" width="40vw" height="auto">';
                     } else if ($row['waznosc'] == 'srednio') {
@@ -381,21 +404,23 @@ $nextDay5 = $dates['date_6'];
                     if ($row['zrobione'] == 0) {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_done" type="submit" id="form">Niezrobione <img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_undone" type="submit" id="form">Zrobione <img src="img/check.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     }
-                    echo '</div>'; // Close the container for the event
+                    echo '</div>';
+                    echo '<div class="comment-text">Kliknij aby wyświetlić/schować komentarz do tego wydarzenia:</div>'; 
+                    echo '<div class="comment" id="komentarz_' . $row['id'] . '" style="display: none;">Komentarz: ' . $row['komentarz'] . '</div>'; 
+                    echo '</div>';
                 }
             } else {
                 // Handle the case when the query fails
                 echo "Error: " . mysqli_error($con);
             }
-
             // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
@@ -408,7 +433,8 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -428,7 +454,7 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -436,9 +462,9 @@ $nextDay5 = $dates['date_6'];
                 }
             }
             ?>
-      </div>
-      </div>
+        </div>
     </div>
+</div>
           <!-- DZIEN 5 #################################################################################################### -->
     <div class="accordion-item">
       <h2 class="accordion-header">
@@ -448,12 +474,13 @@ $nextDay5 = $dates['date_6'];
       </h2>
       <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
         <div class="accordion-body">
-        <h6>Wydarzenia:</h6>
+        <h6>Obowiązki:</h6>
         <hr>
         <?php
             if ($result5) {
                 while ($row = mysqli_fetch_assoc($result5)) {
-                    echo '<div class="event-box">'; // Create a container for the event
+                    echo '<div class="event-box" onclick="komentarz(' . $row['id'] . ')">';
+                    echo '<div class="event-content">';
                     if ($row['waznosc'] == 'bardzo') {
                         echo '<img src="img/red.png" width="40vw" height="auto">';
                     } else if ($row['waznosc'] == 'srednio') {
@@ -468,21 +495,23 @@ $nextDay5 = $dates['date_6'];
                     if ($row['zrobione'] == 0) {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_done" type="submit" id="form">Niezrobione <img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_undone" type="submit" id="form">Zrobione <img src="img/check.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     }
-                    echo '</div>'; // Close the container for the event
+                    echo '</div>';
+                    echo '<div class="comment-text">Kliknij aby wyświetlić/schować komentarz do tego wydarzenia:</div>'; 
+                    echo '<div class="comment" id="komentarz_' . $row['id'] . '" style="display: none;">Komentarz: ' . $row['komentarz'] . '</div>'; 
+                    echo '</div>';
                 }
             } else {
                 // Handle the case when the query fails
                 echo "Error: " . mysqli_error($con);
             }
-
             // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
@@ -495,7 +524,8 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -515,7 +545,7 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -523,9 +553,9 @@ $nextDay5 = $dates['date_6'];
                 }
             }
             ?>
-      </div>
-      </div>
+        </div>
     </div>
+</div>
           <!-- DZIEN 6 #################################################################################################### -->
     <div class="accordion-item">
       <h2 class="accordion-header">
@@ -535,12 +565,13 @@ $nextDay5 = $dates['date_6'];
       </h2>
       <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse">
         <div class="accordion-body">
-        <h6>Wydarzenia:</h6>
+        <h6>Obowiązki:</h6>
         <hr>
         <?php
             if ($result6) {
                 while ($row = mysqli_fetch_assoc($result6)) {
-                    echo '<div class="event-box">'; // Create a container for the event
+                    echo '<div class="event-box" onclick="komentarz(' . $row['id'] . ')">';
+                    echo '<div class="event-content">';
                     if ($row['waznosc'] == 'bardzo') {
                         echo '<img src="img/red.png" width="40vw" height="auto">';
                     } else if ($row['waznosc'] == 'srednio') {
@@ -555,21 +586,23 @@ $nextDay5 = $dates['date_6'];
                     if ($row['zrobione'] == 0) {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_done" type="submit" id="form">Niezrobione <img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_undone" type="submit" id="form">Zrobione <img src="img/check.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     }
-                    echo '</div>'; // Close the container for the event
+                    echo '</div>';
+                    echo '<div class="comment-text">Kliknij aby wyświetlić/schować komentarz do tego wydarzenia:</div>'; 
+                    echo '<div class="comment" id="komentarz_' . $row['id'] . '" style="display: none;">Komentarz: ' . $row['komentarz'] . '</div>'; 
+                    echo '</div>';
                 }
             } else {
                 // Handle the case when the query fails
                 echo "Error: " . mysqli_error($con);
             }
-
             // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
@@ -582,7 +615,8 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -602,7 +636,7 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -610,9 +644,9 @@ $nextDay5 = $dates['date_6'];
                 }
             }
             ?>
-      </div>
-      </div>
+        </div>
     </div>
+</div>
           <!-- DZIEN 7 #################################################################################################### -->
     <div class="accordion-item">
       <h2 class="accordion-header">
@@ -622,12 +656,13 @@ $nextDay5 = $dates['date_6'];
       </h2>
       <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse">
         <div class="accordion-body">
-        <h6>Wydarzenia:</h6>
+        <h6>Obowiązki:</h6>
         <hr>
         <?php
             if ($result7) {
                 while ($row = mysqli_fetch_assoc($result7)) {
-                    echo '<div class="event-box">'; // Create a container for the event
+                    echo '<div class="event-box" onclick="komentarz(' . $row['id'] . ')">';
+                    echo '<div class="event-content">';
                     if ($row['waznosc'] == 'bardzo') {
                         echo '<img src="img/red.png" width="40vw" height="auto">';
                     } else if ($row['waznosc'] == 'srednio') {
@@ -642,21 +677,23 @@ $nextDay5 = $dates['date_6'];
                     if ($row['zrobione'] == 0) {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_done" type="submit" id="form"><img src="img/cross.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_done" type="submit" id="form">Niezrobione <img src="img/cross.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     } else {
                         echo '<form method="post">';
                         echo '<input type="hidden" name="event_id" value="' . $row["id"] . '">';
-                        echo '<button name="mark_as_undone" type="submit" id="form"><img src="img/check.png" width="30vw" height="auto"></button>';
+                        echo '<button name="mark_as_undone" type="submit" id="form">Zrobione <img src="img/check.png" width="30vw" height="auto"></button>';
                         echo '</form>';
                     }
-                    echo '</div>'; // Close the container for the event
+                    echo '</div>';
+                    echo '<div class="comment-text">Kliknij aby wyświetlić/schować komentarz do tego wydarzenia:</div>'; 
+                    echo '<div class="comment" id="komentarz_' . $row['id'] . '" style="display: none;">Komentarz: ' . $row['komentarz'] . '</div>'; 
+                    echo '</div>';
                 }
             } else {
                 // Handle the case when the query fails
                 echo "Error: " . mysqli_error($con);
             }
-
             // Check if the form has been submitted to mark an event as done
             if (isset($_POST['mark_as_done'])) {
                 // Retrieve the event ID from the submitted form data
@@ -669,7 +706,8 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -689,7 +727,7 @@ $nextDay5 = $dates['date_6'];
                 if (mysqli_query($con, $updateQuery)) {
                     // The record has been updated successfully
                     // You can add a success message or redirect the user as needed
-                    header('Location: kalendarz3.php'); // Replace 'your_page.php' with the URL of the page you want to redirect to
+                    echo '<script>location.href = "kalendarz3.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
                     exit;
                 } else {
                     // Handle any errors that may occur during the update
@@ -697,9 +735,9 @@ $nextDay5 = $dates['date_6'];
                 }
             }
             ?>
-      </div>
-      </div>
+        </div>
     </div>
+</div>
   </div>
 </div>
 
@@ -707,10 +745,17 @@ $nextDay5 = $dates['date_6'];
     
 </body>
 <style>
+.comment{
+    font-size: 1.3rem;
+    white-space: normal;      /* Prevent text from wrapping */
+    overflow: hidden;         /* Hide overflowed text */
+    text-overflow: ellipsis; 
+}
+
     #form{
         background: transparent ;
+        color: white;
     }
-
 
   .event-box{
     background: rgb(192,172,255);
@@ -721,25 +766,38 @@ $nextDay5 = $dates['date_6'];
     border-radius:15px;
     color: white;
     display: flex;
+    flex-direction: column;
+}
+
+.event-content {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center; 
+    width: 100%;
+    /* Add any other styling for the event content */
 }
 #nazwa{
     font-size: 2rem;
     padding-top: 1.5%;
-    width: 60%;
-
+    white-space: normal;      /* Prevent text from wrapping */
+    overflow: hidden;         /* Hide overflowed text */
+    text-overflow: ellipsis;  /* Display an ellipsis (...) for overflowed text */
+    max-width: 60%;  
 }
 @media only screen and (max-width: 900px) {
-    .event-box{
-        flex-direction: column;
-    }
     #nazwa{
         width: 100%;
         text-align: center;
-        font-size: 1.6rem;
+        font-size: 1.2rem;
     }
+    .comment{
+        font-size: 0.9rem;
+    }
+    .event-content {
+    display: flex;
+    flex-direction: column;
+}
 }
 #accordionPanelsStayOpenExample{
   width: 100%;
