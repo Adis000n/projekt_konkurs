@@ -738,6 +738,7 @@ if(!isset($_SESSION['logged in']))
                       $idInDB++;
                       $k++;
                       $j++;
+                      $jII++;
                            
                            }
                         echo  "</div>
