@@ -32,7 +32,7 @@
             <script>
             Swal.fire({
                 title:  "<?php   echo $_SESSION['status']; ?>",
-                icon: 'warning',
+                icon: 'success',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Rozumiem',
               }).then((result) => {
@@ -116,7 +116,7 @@
                                 <div class="form-group">
                                     <label class="form-label">Powtórz nowe hasło</label>
                                     <input type="password" name="nowe_haslo2" class="form-control">
-                                    <button type="submit" name="zapisz1" class="btn btn-primary">Zapisz hasło</button>&nbsp;
+                                    <button type="submit" name="zapisz1" class="btn btn-primary" style="margin-top:10px;">Zapisz hasło</button>&nbsp;
 </form>                         
 
                                 </div>
@@ -125,7 +125,7 @@
                         <div class="tab-pane fade" id="Usuwanie">
                             <form action="Usuwanie_konta.php" method="POST">
                         <div class="form-group">  
-                        <button type="submit" name="Usun"  class="btn btn-primary">Usuń Konto</button>&nbsp;
+                        <button type="submit" name="Usun"  class="btn btn-primary" style="margin-top:10px;">Usuń Konto</button>&nbsp;
     </form>
                         </div>
                         </div>
@@ -147,13 +147,6 @@
 
     </script>
 
-
-    <?php 
-        echo $_SESSION['user'];
-    ?>
-    <form>
-    <?php echo '<a class="dropdowntext" href="logout.php">Logout</a>'; ?> 
-    </form>
  </body>
 
 
