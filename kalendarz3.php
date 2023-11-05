@@ -845,7 +845,6 @@ body{
     border-bottom: 3px solid white; 
     left: 5%;
     text-align: center;
-    
 }
 
 .menu_btn{       

@@ -14,30 +14,124 @@
     <p1 id="tekst">DO</p1>
     <p1 id="tekst">IT</p1>
     <p1 id="tekst2">NOW!</p1>
+    <section id="section07" class="demo">
+    <a href="#section08"><span></span><span>
+    </span><span></span>Kliknij aby przejść dalej</a>
+    </section>
+    <section id="section08" class="demo">
     <hr class="new5">
     <h1>O nas:</h1>
     <h2>(cos tu trzebo napisać ale nie mam pomysłu )</h2>
     <hr class="new5">
     <form action="login.php">  
-    <button  type="submit" method="post">Zaloguj się</button>
+        <div class="text-center"> <!-- Add a new container to center the button -->
+            <button type="submit" method="post">Zaloguj się</button>
+        </div>
+    </section>
 </body>
 <style>
+
+.text-center {
+        text-align: center;
+    }
+
+    .text-center button {
+        display: inline-block;
+    }
+
+
+.demo a {
+  z-index: 2;
+  display: inline-block;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  color: #fff;
+  font : normal 400 20px/1 'Josefin Sans', sans-serif;
+  letter-spacing: .1em;
+  text-decoration: none;
+  transition: opacity .3s;
+}
+.demo a:hover {
+  opacity: .5;
+}
+
+
+#section07 a {
+  padding-top: 80px;
+}
+#section07 a span {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-animation: sdb07 2s infinite;
+  animation: sdb07 2s infinite;
+  opacity: 0;
+  box-sizing: border-box;
+}
+#section07 a span:nth-of-type(1) {
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+}
+#section07 a span:nth-of-type(2) {
+  top: 16px;
+  -webkit-animation-delay: .15s;
+  animation-delay: .15s;
+}
+#section07 a span:nth-of-type(3) {
+  top: 32px;
+  -webkit-animation-delay: .3s;
+  animation-delay: .3s;
+}
+@-webkit-keyframes sdb07 {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes sdb07 {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+
+
     @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 
     hr.new5 {
   border: 7px solid #ffffff;
   border-radius: 5px;
-  width:80%;
+  width:100%;
   opacity: 0.8;
 }
 h1{
     font-family: 'Pacifico', cursive;
     font-size: 4rem;
+    text-align: center;
 }
 h2{
     font-family: 'Kalam', cursive;
     font-size: 3rem;
-    width: 80%;
+    width: 100%;
     text-align: center;
 }
 
@@ -72,10 +166,11 @@ h2{
     color: white;
     flex-direction: column;
     font-family: 'Raleway', sans-serif;
-    font-size: 10rem;
+    font-size: 8rem;
     font-weight: 800;
     min-height: 100vh;
     place-items: center;
+    justify-content: center;
     background: linear-gradient(120deg, rgba(0, 185, 255, 1) 0%, rgba(44, 232, 255, 1) 48%, rgba(130, 251, 255, 1) 100%);
     background-size: cover;
     background-attachment: fixed;
@@ -107,5 +202,13 @@ button:hover{
      -webkit-box-reflect:below 1px linear-gradient(transparent, #0009);
 }
 </style>
+<script>
+    $(function() {
+  $('a[href*=#]').on('click', function(e) {
+    e.preventDefault();
+    $('html, body').animate({ scrollTop: $($(this).attr('href')).offset().top}, 500, 'linear');
+  });
+});
+</script>
 </html>
 
