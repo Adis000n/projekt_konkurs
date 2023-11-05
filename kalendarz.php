@@ -92,11 +92,26 @@ if(!isset($_SESSION['logged in']))
                                 $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
                                 $addDay = 0;
                                 // $m = 0;
-                                $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                                $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                                $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                                $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                                $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
+                                $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE();");
+                                $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE();");
+                                // $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                                $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE();");
+                                $typ = mysqli_query($con,"SELECT `typ` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE();");
+                                $importance = mysqli_query($con,"SELECT `waznosc` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE();");
+                              
+                            
+                                while($result = mysqli_fetch_row($importance)){
+                                  if(is_null($result)){
+                                    $importanceT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $importanceT[] = implode($result);
+                                  $empty = 1;
+                                  
+                                  
+                                  }             
+                                }
                           
                                 
                                 while($result = mysqli_fetch_row($typ)){
@@ -128,18 +143,18 @@ if(!isset($_SESSION['logged in']))
                                   }             
                                 }
 
-                                while($result = mysqli_fetch_row($endDate)){
-                                  if(is_null($result)){
-                                    $eDateT[] = '';
-                                    $empty = 0;
+                                // while($result = mysqli_fetch_row($endDate)){
+                                //   if(is_null($result)){
+                                //     $eDateT[] = '';
+                                //     $empty = 0;
             
-                                  }else{
-                                  $eDateT[] = implode($result);
-                                  $empty = 1;
-                                  // print_r($eDateT);
+                                //   }else{
+                                //   $eDateT[] = implode($result);
+                                //   $empty = 1;
+                                //   // print_r($eDateT);
                                   
-                                  }             
-                                }
+                                //   }             
+                                // }
 
                                 while($result = mysqli_fetch_row($info)){ 
                       
@@ -186,24 +201,10 @@ if(!isset($_SESSION['logged in']))
                                         // echo '<br>'.$learnDates;
                                         while($counter > $j){
                                           
-                                          $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `id`=$idInDB;");
-                              
-                            
-                                            while($result = mysqli_fetch_row($importance)){
-                                              if(is_null($result)){
-                                                $importanceT[] = '';
-                                                $empty = 0;
-                        
-                                              }else{
-                                              $importanceT[] = implode($result);
-                                              $empty = 1;
-                                              
-                                              
-                                              }             
-                                            }
+                                         
                                           
                                           
-                                          if($learnDates == $sDateT[$j]){
+                                          if($learnDatesInLoop == $sDateT[$j] ){
                                           
                                             if($importanceT[$j] == "bardzo"){
                                               echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
@@ -228,52 +229,31 @@ if(!isset($_SESSION['logged in']))
                                               
                                           
                                           $k++;
-                                          $j++;
-                                          $idInDB++;
+                                          // $j++;
+                                          // $idInDB++;
                                           
                                           }
-                                          else{
-                                            if($sDateT[$j] < $learnDates && $eDateT[$j] > $learnDates){ 
-                                              if($importanceT[$j] == "bardzo"){
-                                                echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                                                <div class='break'></div>
-                                                <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                                              </div>";
-                                              
-                                              }
-                                              if($importanceT[$j] == "srednio"){
-                                                echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                                                <div class='break'></div>
-                                                <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                                              </div>";
-                                              }
-                                              if($importanceT[$j] == "malo"){
-                                                echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                                                <div class='break'></div>
-                                                <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                                              </div>";
-                                              }
-
-                                              $k++;
-                                              $j++;
-                                              $idInDB++;
-                                            }
-                                            
-                                            $j++;
+                                          // else{
                                            
-                                          }
+                                          //     break;
+                                          // }
+                                          $idInDB++;
+                                          $j++;
+                                          // echo $j;
+                                         
                                       }
                                       // $learnDates = date('Y-m-d', strtotime("+1 day"));
                                       // echo $learnDates;
                               
                              echo   "</div> <div class='events'>
                                 <div class='eventsW'>Wydarzenia</div>";
-                    // WYDARZENIA
+                    // WYDARZENIA-------------------------------------------------------------------------------------------
                     
                     $empty =0;
                     $infoT = null;
                     $commentT =null;
-                    $counter = null;
+                    $counter = null;                   
+                      $importance = null;
                     $importanceT = null;
                     $idInDB = 1;
                     $typ = null;
@@ -282,7 +262,22 @@ if(!isset($_SESSION['logged in']))
                     $addDay = 0;
                     $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay  AND `typ` NOT LIKE 'obowiazek' ;");                    
                     $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay  AND `typ` NOT LIKE 'obowiazek' ;");
-                    $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
+                    $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay;");
+                    $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay ;");
+                              
+                            
+                      while($result = mysqli_fetch_row($importance)){
+                           if(is_null($result)){
+                           $importanceT[] = '';
+                           $empty = 0;                        
+                             }else{
+                              $importanceT[] = implode($result);
+                              $empty = 1;
+                                              
+                                              
+                              }             
+                          }
+
                           
                                 
                                 while($result = mysqli_fetch_row($typ)){
@@ -340,22 +335,8 @@ if(!isset($_SESSION['logged in']))
                      
 
                     while($counter > $j){
-                      $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `id`=$idInDB;");
-                              
-                            
-                      while($result = mysqli_fetch_row($importance)){
-                           if(is_null($result)){
-                           $importanceT[] = '';
-                           $empty = 0;                        
-                             }else{
-                              $importanceT[] = implode($result);
-                              $empty = 1;
-                                              
-                                              
-                              }             
-                          }
-
-
+                      
+                          
                           if($importanceT[$j] == "bardzo"){
                             echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                             <div class='break'></div>
@@ -405,6 +386,8 @@ if(!isset($_SESSION['logged in']))
                 $eDateT = null;
                 $typ = null;
                 $typT = null;
+                $importanceT = null;
+                      $importance = null;
 
 
                 echo "<div class='container'><div class='nameDay'>".$nameDays[$today]."&nbsp;".$learnDatesInLoop."</div>
@@ -417,9 +400,25 @@ if(!isset($_SESSION['logged in']))
                      
                       $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
                       $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                      $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                      // $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
                       $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
                       $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
+                      $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' ;");
+                    
+                  
+                                  while($result = mysqli_fetch_row($importance)){
+                                    if(is_null($result)){
+                                      $importanceT[] = '';
+                                      $empty = 0;
+              
+                                    }else{
+                                    $importanceT[] = implode($result);
+                                    $empty = 1;
+                                    
+                                    
+                                    }             
+                                  }
+                                
                           
                                 
                                 while($result = mysqli_fetch_row($typ)){
@@ -450,18 +449,18 @@ if(!isset($_SESSION['logged in']))
                         }             
                       }
 
-                      while($result = mysqli_fetch_row($endDate)){
-                        if(is_null($result)){
-                          $eDateT[] = '';
-                          $empty = 0;
+                      // while($result = mysqli_fetch_row($endDate)){
+                      //   if(is_null($result)){
+                      //     $eDateT[] = '';
+                      //     $empty = 0;
   
-                        }else{
-                        $eDateT[] = implode($result);
-                        $empty = 1;
-                        // print_r($eDateT);
+                      //   }else{
+                      //   $eDateT[] = implode($result);
+                      //   $empty = 1;
+                      //   // print_r($eDateT);
                         
-                        }             
-                      }
+                      //   }             
+                      // }
 
                       while($result = mysqli_fetch_row($info)){ 
             
@@ -508,22 +507,6 @@ if(!isset($_SESSION['logged in']))
                               // echo '<br>'.$learnDates;
                               while($counter > $j){
                                 
-                                $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND
-                                `id`=$idInDB;");
-                    
-                  
-                                  while($result = mysqli_fetch_row($importance)){
-                                    if(is_null($result)){
-                                      $importanceT[] = '';
-                                      $empty = 0;
-              
-                                    }else{
-                                    $importanceT[] = implode($result);
-                                    $empty = 1;
-                                    
-                                    
-                                    }             
-                                  }
                                 
                                 
                                 
@@ -534,6 +517,7 @@ if(!isset($_SESSION['logged in']))
                                 if(!empty($sDateT[$j])){
                                   if($learnDatesInLoop == $sDateT[$j]){
                                     
+
                                     if($importanceT[$j] == "bardzo"){
                                       echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                                       <div class='break'></div>
@@ -556,41 +540,41 @@ if(!isset($_SESSION['logged in']))
                                   
                                   // $idInDB++;
                                   $k++;
-                                  $j++;
-                                  
+                                  // $j++;
+                                    
                                   }
-                                  else{
-                                    if($sDateT[$j] <= $learnDatesInLoop && $eDateT[$j] > $learnDatesInLoop){ 
-                                      if($importanceT[$j] == "bardzo"){
-                                        echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                                        <div class='break'></div>
-                                        <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                                      </div>";
+                                //  $idInDB++;
+                                  //   if($sDateT[$j] <= $learnDatesInLoop && $eDateT[$j] > $learnDatesInLoop){ 
+                                  //     if($importanceT[$j] == "bardzo"){
+                                  //       echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                  //       <div class='break'></div>
+                                  //       <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                  //     </div>";
                                       
-                                      }
-                                      if($importanceT[$j] == "srednio"){
-                                        echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                                        <div class='break'></div>
-                                        <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                                      </div>";
-                                      }
-                                      if($importanceT[$j] == "malo"){
-                                        echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                                        <div class='break'></div>
-                                        <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                                      </div>";
-                                      }
+                                  //     }
+                                  //     if($importanceT[$j] == "srednio"){
+                                  //       echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                  //       <div class='break'></div>
+                                  //       <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                  //     </div>";
+                                  //     }
+                                  //     if($importanceT[$j] == "malo"){
+                                  //       echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                  //       <div class='break'></div>
+                                  //       <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                  //     </div>";
+                                  //     }
                                     
                                     // $idInDB++;
-                                    $k++;
+                                    // $k++;
                                     // $j++;
                                       
                                     }
                                     
                                     
-                                  }
+                                  // }
                                   $j++;
-                                }
+                                
                                 $idInDB++;
                               }
                             // $learnDates = date('Y-m-d', strtotime("+1 day"));
@@ -608,11 +592,30 @@ if(!isset($_SESSION['logged in']))
                       $counter = null;
                       $sDateT = null;
                       $eDateT = null;
+                      $importanceT = null;
+                      $importance = null;
                       $typT  =null;
                       $typ = null;
+                      // echo $addDay;
                           $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay AND `typ` NOT LIKE 'obowiazek';");                    
                           $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay AND `typ` NOT LIKE 'obowiazek';");
-                          $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
+                          $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek'AND `data` = CURDATE()+$addDay;");
+                          $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND 
+                          `data` = CURDATE()+$addDay ;");
+                                                     
+                            
+                          while($result = mysqli_fetch_row($importance)){
+                               if(is_null($result)){
+                               $importanceT[] = '';
+                               $empty = 0;                        
+                                 }else{
+                                  $importanceT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($importanceT);
+                                                  
+                                                  
+                                  }             
+                              }
                           
                                 
                                 while($result = mysqli_fetch_row($typ)){
@@ -666,68 +669,22 @@ if(!isset($_SESSION['logged in']))
                           }
                           
                           while($counter > $j){
-                            $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' ;");
-                            $dataToCheck = mysqli_query($con,"SELECT `data` FROM `wydarzenia` WHERE `user_id` = $id AND `typ` NOT LIKE 'obowiazek';");
-                            
-                            while($result = mysqli_fetch_row($dataToCheck)){
-                              if(is_null($result)){
-                              $dataToCheckT[] = '';
-                              $empty = 0;                        
-                                }else{
-                                 $dataToCheckT[] = implode($result);
-                                 $empty = 1;
-                                                 
-                                                 
-                                 }             
-                             }    
-                            
-                        $empty = 0;
-                            
-                      while($result = mysqli_fetch_row($importance)){
-                           if(is_null($result)){
-                           $importanceT[] = '';
-                           $empty = 0;                        
-                             }else{
-                              $importanceT[] = implode($result);
-                              $empty = 1;
-                              // print_r($importanceT);
-                                              
-                                              
-                              }             
-                          }
-
-                          
-                          
-                          
-                          while($dataToCheckT[$jII] < $learnDatesInLoop){
-                            $idInDB++;
-                            $jII++;
-                            // echo $jII;
                            
-                          }
-                        
-                          // if($dataToCheckT[$j] < $learnDatesInLoop){
-                          //   $j++;
-                          //   $idInDB++;
-
-                          // }
-
-
-
-                          if($importanceT[$jII] == "bardzo"){
+                      
+                          if($importanceT[$j] == "bardzo"){
                             echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                             <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
                           
                           }
-                          if($importanceT[$jII] == "srednio"){
+                          if($importanceT[$j] == "srednio"){
                             echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                             <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
                           }
-                          if($importanceT[$jII] == "malo"){
+                          if($importanceT[$j] == "malo"){
                             echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
                             <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
@@ -738,7 +695,7 @@ if(!isset($_SESSION['logged in']))
                       $idInDB++;
                       $k++;
                       $j++;
-                      $jII++;
+                      // $jII++;
                            
                            }
                         echo  "</div>
