@@ -23,7 +23,7 @@ session_start();
  }
 ?>
 <body>
-    <button type="button" class="btn btn-dark btn-lg" onclick="goBack()" id="back">Wróć</button>
+    <button type="button" class="btn btn-primary btn-lg" onclick="goBack()" id="back">Wróć</button>
             <!-- ########################################################################### -->
             <form method="post">
             <!-- potrzebna nazwa, co to jest(kartkówka,sprawdzian,czy zadanie), jak ważne, komentarz, data na kiedy, i od kiedy do kiedy chcesz to robić -->
@@ -107,7 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id = $_SESSION['id'];
 
         // Create and execute a prepared statement to insert into wydarzenia table
-        $stmt = mysqli_prepare($con, "INSERT INTO `wydarzenia` (`id`, `nazwa`, `typ`, `waznosc`, `data`, `komentarz`, `user_id`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+        $stmt = mysqli_prepare($con, "INSERT INTO `wydarzenia` (`id`, `nazwa`, `typ`, `waznosc`, `data`, `komentarz`, `user_id`, `zrobione`)
+        VALUES (NULL, ?, ?, ?, ?, ?, ?, 0);");
         mysqli_stmt_bind_param($stmt, "sssssi", $nazwa, $typ, $waznosc, $data_wydarzenia, $komentarz, $id);
 
         if (mysqli_stmt_execute($stmt)) {
@@ -121,7 +122,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $studyDate = $value;
 
                         // Create and execute a prepared statement to insert into daty_nauki table
-                        $studyStmt = mysqli_prepare($con, "INSERT INTO `daty_nauki` (`id`, `wydarzenie_id`, `data_nauki`) VALUES (NULL, ?, ?)");
+                        $studyStmt = mysqli_prepare($con, "INSERT INTO `daty_nauki` (`id`, `wydarzenie_id`, `data_nauki`, `zrobione`)
+                        VALUES (NULL, ?, ?, 0);
+                        ");
                         mysqli_stmt_bind_param($studyStmt, "is", $event_id, $studyDate);
                         mysqli_stmt_execute($studyStmt);
                     }
@@ -166,12 +169,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     body{
         justify-content: center;
         display: flex;
-        background-image: url("img/cool-background.png");
+        background-image: url("img/cool-background4.png");
         background-size: cover;
         background-position: center;
     }
     form{
-        background: rgba(200, 200, 200, 0.6); /* Transparent white background */
+        background: rgba(200, 200, 200, 0.8); /* Transparent white background */
         backdrop-filter: blur(1.5px); /* Adjust the blur intensity as needed */
         border-radius: 3%;
         padding: 2%;

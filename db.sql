@@ -1,4 +1,7 @@
--- Tu macie bazke danych konkurs i tabele "user" jak cos bedziecie chcieli dodac to dodajcie.
+create database konkurs;
+use konkurs;
+
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -75,6 +78,7 @@ CREATE TABLE IF NOT EXISTS `wydarzenia` (
     `data` DATE NOT NULL,
     `komentarz` TEXT,
     `user_id` INT,
+    `zrobione` BOOLEAN,
     FOREIGN KEY (`user_id`) REFERENCES `user`(`id`)
 );
 
@@ -82,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `daty_nauki` (
     `id`INT AUTO_INCREMENT PRIMARY KEY,
     `wydarzenie_id` INT, -- Klucz obcy powiązany z tabelą "wydarzenia"
     `data_nauki` DATE NOT NULL,
+    `zrobione` BOOLEAN,
     FOREIGN KEY (`wydarzenie_id`) REFERENCES `wydarzenia`(`id`)
 );
 

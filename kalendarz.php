@@ -8,30 +8,46 @@
     <link type="text/css" rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="sweetalert2.min.css">
+    <link rel="stylesheet" href="sweetalert2.min.css"> 
     <title>Kalendarz</title>
 </head>
 <?php 
- session_start();
- if(!isset($_SESSION['logged in']))
- {
-    header('Location: login.php');
-    exit();
- }
+$con = mysqli_connect("localhost","root","");
+mysqli_select_db($con,"konkurs");
+session_start();
+if(!isset($_SESSION['logged in']))
+{
+   header('Location: login.php');
+   exit();
+}
  ?>
 <body onClick="collapseAll()">
    <div class="web"> 
    <button onclick="topFunction()" id="goUpBtn" title="Go to top">Do Góry!</button>
     <div class="menu">
         <button class="menu_btn" onclick="goToDodawanie()">➕ Dodaj&nbsp;</button>
-        <button  class="menu_btn">widok1</button>
+        <button  class="menu_btn" onclick="goto1()" style="background-color:rgba(47, 204, 255, 1)">widok1</button>
         <button  class="menu_btn" onclick="goto2()">widok2</button>
-        <button  class="menu_btn">widok3</button>       
-       
+        <button  class="menu_btn" onclick="goto3()">widok3</button>       
+        
         <button class="menu_btn" type="button">
           <img src="img/awatar.png" width="20% "  height="auto"> 
     <?php 
-        echo $_SESSION['user'];
+       $id = $_SESSION['id'];
+       $numOfChars = mysqli_query($con,"SELECT LENGTH(`username`) FROM `user` where id = $id;");
+       $nameQ = mysqli_query($con,"SELECT `username` FROM `user` WHERE id =$id;");
+       while ($row = $numOfChars->fetch_assoc()) {
+         $numChars = implode($row);         
+       }
+       while ($row = $nameQ->fetch_assoc()) {
+        $name = implode($row);         
+      }
+
+      // do skończenia ilość liter...
+
+
+
+        echo $name;
     ?>
         </button>        
                        
@@ -39,71 +55,674 @@
           <button class="l_Btn" onclick="document.location='myaccount.php'">⚙️ Ustawienia profilu&nbsp;</button>
           <button class="l_Btn" onclick="alert()">⚠️ Wyloguj się&nbsp;</button>
         </div>
- 
+      <?php
+       
+      ?>
     </div>
 
     </div>
-    <div class="calendar">
+    <div class="calendar">Wydarzenia w tym Tygodniu:
         
     
-        
-        
-        <!-- drugi -->
-        <div class="container">
-              <div class="nameDay">Dzisiaj</div>
-              <div class="toDo">
-                <div class="toDoW">Do zrobienia</div >
-
-                <div class="information" id='Info1' onclick=" infomation('Info1'); comment('1')" >Zadanie
-                  <div class="comment" id='1'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus quam nec posuere dapibus. Vestibulum id nibh at felis mollis interdum. Morbi ac euismod mi. In eget purus semper, placerat orci sed, consectetur ligula. Phasellus eu leo suscipit, mollis odio efficitur, egestas sapien. Suspendisse lacus nisl, viverra et lacinia nec, interdum eget nunc. Nunc molestie magna libero. Praesent venenatis tortor neque, id egestas ex tincidunt ac. Vivamus eget elit arcu.
-                  In ac eros vel ante lacinia sagittis. In sagittis faucibus convallis. Sed nec suscipit velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec feugiat magna lorem, eget ullamcorper enim euismod volutpat. Duis tincidunt sit amet felis sed ullamcorper. Phasellus nec ullamcorper dolor, a laoreet diam. Quisque maximus volutpat turpis, id blandit tellus commodo sit amet. Nulla gravida leo sit amet semper lacinia. Vestibulum rutrum in ante accumsan volutpat. Morbi magna tellus, elementum in elementum non, tincidunt eu elit. Nunc nunc magna, eleifend nec aliquet lobortis, tempus ut lectus. Sed feugiat laoreet imperdiet. Ut tempus sapien sit amet purus maximus, sit amet ultricies libero fermentum. Duis tincidunt in est ac lobortis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras.
-                  </div>
-               
-                </div>
-
-                <div class="information" id=Info2 onclick=" infomation('Info2'); comment('2')">Zadanie2
-                  <div class="comment" id='2'>TEST</div>
-                </div>   
-              
-                <div class="information" id=Info3 onclick=" infomation('Info3'); comment('3')">Zadanie3
-                  <div class="comment" id='3'>TEST</div>
-                </div>
-                         
-              </div>  
-
-              <div class="events">
-                <div class="eventsW">Wydarzenia</div>             
-               
-              </div>
-              
-                 
-          </div>
-                 
-        </div>
         <?php
- 
-          // $nameDays = array(" ","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"); // od 0 zaczyna sie array!
-          // $rawDate = date("Y-m-d H:i:s");
-          // $today = date('N', strtotime($rawDate)); 
-          // $i = 1;
+          $id = $_SESSION['id'];
+          $nameDays = array(" ","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela"); // od 0 zaczyna sie array!
+          $rawDate = date("Y-m-d");
+          $learnDates = $rawDate; // data do "DO ZROBIENIA"
+          // $learnDatesInLoop = $rawDate;
+          $learnDatesInLoop = date('Y-m-d',strtotime('Today'));
           
-          //   while($i <= 8){
-          //     if($i==1){
-          //       echo '<div class="container"><div class="nameDay">'."Dzisiaj".'</div></div>';
-          //       $i++;
-        
-          //     }else{
-          //        echo '<div class="container"><div class="nameDay">'.$nameDays[$today].'</div></div>';
-          //     } 
+          $today = date('N', strtotime($rawDate)); 
+          $i = 1;
+          $k =1; // przypisuje id 
+          $m = 0; // dodaje do daty
+          $idInDB =1;
+          $dayToAdd = 0;
+          $empty = 0; // 1 coś jest 0 pusto
 
-          //   $today++;
+          
+            while($i <= 7){
+             
+              if($i==1){  // TU JEST IF ----------------------------------------------------------------------------------------------------------------
+                    // NAUKA
+                      echo "<div class='container'><div class='nameDay'>Dzisiaj&nbsp;".$learnDatesInLoop."</div>
+                                <div class='toDo'>
+                                  <div class='toDoW'>Do zrobienia</div>";        
+                                
+                                $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
+                                $addDay = 0;
+                                // $m = 0;
+                                $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE();");
+                                $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE();");
+                                // $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                                $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE();");
+                                $typ = mysqli_query($con,"SELECT `typ` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE();");
+                                $importance = mysqli_query($con,"SELECT `waznosc` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE();");
+                              
+                            
+                                while($result = mysqli_fetch_row($importance)){
+                                  if(is_null($result)){
+                                    $importanceT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $importanceT[] = implode($result);
+                                  $empty = 1;
+                                  
+                                  
+                                  }             
+                                }
+                          
+                                
+                                while($result = mysqli_fetch_row($typ)){
+                                  if(is_null($result)){
+                                    $typT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $typT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($typT);
+                                  
+                                  }             
+                                }
+
+                                $empty = 0;
+
+
+                                while($result = mysqli_fetch_row($startDate)){
+                                  if(is_null($result)){
+                                    $sDateT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $sDateT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($sDateT);
+                                  
+                                  }             
+                                }
+
+                                // while($result = mysqli_fetch_row($endDate)){
+                                //   if(is_null($result)){
+                                //     $eDateT[] = '';
+                                //     $empty = 0;
+            
+                                //   }else{
+                                //   $eDateT[] = implode($result);
+                                //   $empty = 1;
+                                //   // print_r($eDateT);
+                                  
+                                //   }             
+                                // }
+
+                                while($result = mysqli_fetch_row($info)){ 
+                      
+                                  if(is_null($result)){
+                                    $infoT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $infoT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($infoT);
+                                  
+            
+                                  }             
+                                                 
+                                                    
+                                }
+                                while($result = mysqli_fetch_row($comment)){ 
+                                  
+                                  if(is_null($result)){
+                                     $commentT[] = '';
+                                     $empty = 0; 
+                                  }else{
+                                  $commentT[] = implode($result);
+                                  // print_r($commentT);
+                                  $empty = 1;
+                                  }      
+                                                    
+                                }
+                             
+                                if($empty == 1){
+                                  $counter = count($infoT);
+                                  // echo $counter;
+                                }else{
+                                  $counter = 0;
+                                }
+                                
+                                  
+                                    $j = 0;
+                                   
+
+                                      
+                                     
+                                        // echo '<br>'.$learnDates;
+                                        while($counter > $j){
+                                          
+                                         
+                                          
+                                          
+                                          if($learnDatesInLoop == $sDateT[$j] ){
+                                          
+                                            if($importanceT[$j] == "bardzo"){
+                                              echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>                                              
+                                              <div class='break'></div>
+                                              <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                            </div>";
+                                            
+                                            }
+                                            if($importanceT[$j] == "srednio"){
+                                              echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                              <div class='break'></div>
+                                              <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                            </div>";
+                                            }
+                                            if($importanceT[$j] == "malo"){
+                                              echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                              <div class='break'></div>
+                                              <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                            </div>";
+                                            }
+                                             
+                                              
+                                          
+                                          $k++;
+                                          // $j++;
+                                          // $idInDB++;
+                                          
+                                          }
+                                          // else{
+                                           
+                                          //     break;
+                                          // }
+                                          $idInDB++;
+                                          $j++;
+                                          // echo $j;
+                                         
+                                      }
+                                      // $learnDates = date('Y-m-d', strtotime("+1 day"));
+                                      // echo $learnDates;
+                              
+                             echo   "</div> <div class='events'>
+                                <div class='eventsW'>Wydarzenia</div>";
+                    // WYDARZENIA-------------------------------------------------------------------------------------------
+                    
+                    $empty =0;
+                    $infoT = null;
+                    $commentT =null;
+                    $counter = null;                   
+                      $importance = null;
+                    $importanceT = null;
+                    $idInDB = 1;
+                    $typ = null;
+                    $typT = null;
+                    $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
+                    $addDay = 0;
+                    $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay  AND `typ` NOT LIKE 'obowiazek' ;");                    
+                    $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay  AND `typ` NOT LIKE 'obowiazek' ;");
+                    $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay;");
+                    $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay ;");
+                              
+                            
+                      while($result = mysqli_fetch_row($importance)){
+                           if(is_null($result)){
+                           $importanceT[] = '';
+                           $empty = 0;                        
+                             }else{
+                              $importanceT[] = implode($result);
+                              $empty = 1;
+                                              
+                                              
+                              }             
+                          }
+
+                          
+                                
+                                while($result = mysqli_fetch_row($typ)){
+                                  if(is_null($result)){
+                                    $typT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $typT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($typT);
+                                  
+                                  }             
+                                }
+
+                                $empty = 0;
+                                                            
+                    // $counter=mysql_fetch_assoc($infoCounter);                                 
+                   
+                    while($result = mysqli_fetch_row($info)){ 
+                      
+                      if(is_null($result)){
+                        $infoT[] = '';
+                        $empty = 0;
+                        
+
+                      }else{
+                      $infoT[] = implode($result);
+                     
+                      $empty = 1;
+
+                      }             
+                                     
+                                        
+                    }
+                    while($result = mysqli_fetch_row($comment)){ 
+                      
+                      if(is_null($result)){
+                         $commentT[] = '';
+                         $empty = 0; 
+                         
+                      }else{
+                      $commentT[] = implode($result);
+                      
+                      $empty = 1;
+                      }      
+                                        
+                    }
+                 
+                    if($empty == 1){
+                      $counter = count($infoT);
+                    }else{
+                      $counter = 0;
+                    }
+                     
+
+                    while($counter > $j){
+                      
+                          
+                          if($importanceT[$j] == "bardzo"){
+                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a>
+                           
+                            
+                            
+                            <div class='break'></div>
+                            <a style='font-size:1.7vh; color:white; margin-left:0.5vh;'>Kliknij, aby schować/pokazać komentarz</a>             
+                            <div class='break'></div>
+                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                          </div>";
+                          
+                          }
+                          if($importanceT[$j] == "srednio"){
+                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            <div class='break'></div>
+                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                          </div>";
+                          }
+                          if($importanceT[$j] == "malo"){
+                            echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            <div class='break'></div>
+                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                          </div>";
+                          }
+                           
+                      
+                      $idInDB++;
+                      $k++;
+                      $j++;
+                      
+                     }
+                
+              echo  "</div>
+                </div>";
+
+                $i++;
+                $addDay = 1;
+              
+                
+        
+              }         // w else reszta ------------------------------------------------------------------------------------------------
+              else{
+                $learnDatesInLoop = date('Y-m-d', strtotime("+".$m." day"));
+                // echo $learnDatesInLoop;
+                $j = 0;
+                $idInDB = 1;
+                $empty =0;
+                $infoT = null;
+                $commentT =null;
+                $counter = null;
+                $sDateT = null;
+                $eDateT = null;
+                $typ = null;
+                $typT = null;
+                $importanceT = null;
+                      $importance = null;
+
+
+                echo "<div class='container'><div class='nameDay'>".$nameDays[$today]."&nbsp;".$learnDatesInLoop."</div>
+                    <div class='toDo'>
+                      <div class='toDoW'>Do zrobienia</div>";         
+                     
+                           
+                      $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
+                      
+                     
+                 
+                      
+                      $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                      $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                      // $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                      $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                      $typ = mysqli_query($con,"SELECT `typ` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                      $importance = mysqli_query($con,"SELECT `waznosc` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                    
+                  
+                                  while($result = mysqli_fetch_row($importance)){
+                                    if(is_null($result)){
+                                      $importanceT[] = '';
+                                      $empty = 0;
+              
+                                    }else{
+                                    $importanceT[] = implode($result);
+                                    $empty = 1;
+                                    
+                                    
+                                    }             
+                                  }
+                                
+                          
+                                
+                                while($result = mysqli_fetch_row($typ)){
+                                  if(is_null($result)){
+                                    $typT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $typT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($typT);
+                                  
+                                  }             
+                                }
+
+                                $empty = 0;
+                    
+                      while($result = mysqli_fetch_row($startDate)){
+                        if(is_null($result)){
+                          $sDateT[] = '';
+                          $empty = 0;
+  
+                        }else{
+                        $sDateT[] = implode($result);
+                        $empty = 1;
+                        // print_r($sDateT);
+                        
+                        }             
+                      }
+
+                      // while($result = mysqli_fetch_row($endDate)){
+                      //   if(is_null($result)){
+                      //     $eDateT[] = '';
+                      //     $empty = 0;
+  
+                      //   }else{
+                      //   $eDateT[] = implode($result);
+                      //   $empty = 1;
+                      //   // print_r($eDateT);
+                        
+                      //   }             
+                      // }
+
+                      while($result = mysqli_fetch_row($info)){ 
+            
+                        if(is_null($result)){
+                          $infoT[] = '';
+                          $empty = 0;
+  
+                        }else{
+                        $infoT[] = implode($result);
+                        $empty = 1;
+                        // print_r($infoT);
+                        
+  
+                        }             
+                                       
+                                          
+                      }
+                      while($result = mysqli_fetch_row($comment)){ 
+                        
+                        if(is_null($result)){
+                           $commentT[] = '';
+                           $empty = 0; 
+                        }else{
+                        $commentT[] = implode($result);
+                        // print_r($commentT);
+                        $empty = 1;
+                        }      
+                                          
+                      }
+                   
+                      if($empty == 1){
+                        $counter = count($infoT);
+                        // echo $counter;
+                      }else{
+                        $counter = 0;
+                      }
+                      
+                        
+                          $j = 0;
+                         
+
+                            
+                           
+                              // echo '<br>'.$learnDates;
+                              while($counter > $j){
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                if(!empty($sDateT[$j])){
+                                  if($learnDatesInLoop == $sDateT[$j]){
+                                    
+
+                                    if($importanceT[$j] == "bardzo"){
+                                      echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                      <div class='break'></div>
+                                      <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                    </div>";
+                                    
+                                    }
+                                    if($importanceT[$j] == "srednio"){
+                                      echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                      <div class='break'></div>
+                                      <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                    </div>";
+                                    }
+                                    if($importanceT[$j] == "malo"){
+                                      echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                      <div class='break'></div>
+                                      <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                    </div>";
+                                    }
+                                  
+                                  // $idInDB++;
+                                  $k++;
+                                  // $j++;
+                                    
+                                  }
+                                //  $idInDB++;
+                                  //   if($sDateT[$j] <= $learnDatesInLoop && $eDateT[$j] > $learnDatesInLoop){ 
+                                  //     if($importanceT[$j] == "bardzo"){
+                                  //       echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                  //       <div class='break'></div>
+                                  //       <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                  //     </div>";
+                                      
+                                  //     }
+                                  //     if($importanceT[$j] == "srednio"){
+                                  //       echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                  //       <div class='break'></div>
+                                  //       <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                  //     </div>";
+                                  //     }
+                                  //     if($importanceT[$j] == "malo"){
+                                  //       echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                  //       <div class='break'></div>
+                                  //       <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                                  //     </div>";
+                                  //     }
+                                    
+                                    // $idInDB++;
+                                    // $k++;
+                                    // $j++;
+                                      
+                                    }
+                                    
+                                    
+                                  // }
+                                  $j++;
+                                
+                                $idInDB++;
+                              }
+                            // $learnDates = date('Y-m-d', strtotime("+1 day"));
+                            // echo $learnDates;
+          
+                      // wydarzenia ------------------------------------------------------------------------------------------------------
+                   echo   "</div> <div class='events'>
+                      <div class='eventsW'>Wydarzenia</div>";
+                      $j = 0;
+                      $jII = 0;
+                      $idInDB = 1;                      
+                      $empty =0;
+                      $infoT = null;
+                      $commentT =null;
+                      $counter = null;
+                      $sDateT = null;
+                      $eDateT = null;
+                      $importanceT = null;
+                      $importance = null;
+                      $typT  =null;
+                      $typ = null;
+                      // echo $addDay;
+                          $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay AND `typ` NOT LIKE 'obowiazek';");                    
+                          $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay AND `typ` NOT LIKE 'obowiazek';");
+                          $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek'AND `data` = CURDATE()+$addDay;");
+                          $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND 
+                          `data` = CURDATE()+$addDay ;");
+                                                     
+                            
+                          while($result = mysqli_fetch_row($importance)){
+                               if(is_null($result)){
+                               $importanceT[] = '';
+                               $empty = 0;                        
+                                 }else{
+                                  $importanceT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($importanceT);
+                                                  
+                                                  
+                                  }             
+                              }
+                          
+                                
+                                while($result = mysqli_fetch_row($typ)){
+                                  if(is_null($result)){
+                                    $typT[] = '';
+                                    $empty = 0;
+            
+                                  }else{
+                                  $typT[] = implode($result);
+                                  $empty = 1;
+                                  // print_r($typT);
+                                  
+                                  }             
+                                }
+
+                                $empty = 0;
+                                                                  
+                          // $counter=mysql_fetch_assoc($infoCounter);                                 
+                        
+                          
+                          while($result = mysqli_fetch_row($info)){ 
+                      
+                            if(is_null($result)){
+                              $infoT[] = '';
+                              $empty = 0;
+      
+                            }else{
+                            $infoT[] = implode($result);
+                            $empty = 1;
+      
+                            }             
+                                           
+                                              
+                          }
+                          while($result = mysqli_fetch_row($comment)){ 
+                            
+                            if(is_null($result)){
+                               $commentT[] = '';
+                               $empty = 0; 
+                            }else{
+                            $commentT[] = implode($result);
+                            $empty = 1;
+                            }      
+                                              
+                          }
+                       
+                          if($empty == 1){
+                            $counter = count($infoT);
+                          }else{
+                            $counter = null;
+                          }
+                          
+                          while($counter > $j){
+                           
+                      
+                          if($importanceT[$j] == "bardzo"){
+                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            <div class='break'></div>
+                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                          </div>";
+                          
+                          }
+                          if($importanceT[$j] == "srednio"){
+                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            <div class='break'></div>
+                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                          </div>";
+                          }
+                          if($importanceT[$j] == "malo"){
+                            echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            <div class='break'></div>
+                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                          </div>";
+                          }
+                           
+                      
+                      $idInDB++;
+                      $k++;
+                      $j++;
+                      // $jII++;
+                           
+                           }
+                        echo  "</div>
+                          </div>";
+           
+                        $i++;
+                        $j = 0;
+                        $addDay++;
+                
+              } 
+
+            $today++;
+            $m++;
    
-          //   if($today >= 8){
-          //    $today = 1;
-          //   }
+            if($today >= 8){
+             $today = 1;
+            }
     
-          //   $i++;
-          //   }
+            // $i++;
+            }
  
         ?>
        
@@ -114,7 +733,7 @@
       
 </body>
 <script>
-    // przycisk do góry! UWAGA ZAWSZE TEN SKRYPT MA BYĆ PIERWSZY INACZEJ NIE DZIAŁA niewiadomo czemu.
+    
     
  let timer;
  let active =0;
@@ -159,7 +778,7 @@ timer = setTimeout(function() {
 
 function alert(){
     Swal.fire({
-  title: 'Jestes pewien?',
+  title: 'Jesteś pewien?',
   icon: 'warning',
   showCancelButton: true,
   confirmButtonColor: '#3085d6',
@@ -188,6 +807,12 @@ document.getElementById('normalny').addEventListener('click',function(){
    
   function goto2(){
     location.href = "kalendarz2.php";
+  }
+  function goto1(){
+    location.href = "kalendarz.php";
+  }
+  function goto3(){
+    location.href = "kalendarz3.php";
   }
 
 
@@ -221,7 +846,8 @@ document.getElementById('normalny').addEventListener('click',function(){
       // active = 0;
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="3vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="12vh";
+      // document.getElementById(`Info${dd}`).style.height="10vh";
       
       if(dd != i){
         dd = i;
@@ -260,7 +886,8 @@ document.getElementById('normalny').addEventListener('click',function(){
      
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="3vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="12vh";
+      // document.getElementById(`Info${dd}`).style.height="10vh";
       
       if(dd != i){
         dd = i;
@@ -285,6 +912,7 @@ document.getElementById('normalny').addEventListener('click',function(){
     
      function infomation(i){
       document.getElementById(i).style.maxHeight="100vh";
+      document.getElementById(i).style.height="auto";
     }
    
    
@@ -297,7 +925,8 @@ document.getElementById('normalny').addEventListener('click',function(){
         console.log(dd)
         document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0';      
-      document.getElementById(`Info${dd}`).style.maxHeight="3vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="12vh";
+      // document.getElementById(`Info${dd}`).style.height="10vh";
       // dd = null;
       active= 0;
     
@@ -310,11 +939,3 @@ document.getElementById('normalny').addEventListener('click',function(){
   </script>
 
 </html>
-
-
-
-
-
-
-
-

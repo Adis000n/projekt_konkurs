@@ -6,6 +6,7 @@
     header('Location: login.php');
     exit();
  }
+ 
  ?>
  <!DOCTYPE html>
  <html lang="en">
@@ -14,6 +15,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Dodaj link do biblioteki SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
  </head>
  <body>
 
@@ -22,10 +28,24 @@
  <div class="container light-style flex-grow-1 container-p-y">
     <?php 
         if(isset($_SESSION['status'])) {
-                
-
-                
-                echo "<h4>".$_SESSION['status']."</h4>";
+                ?>
+            <script>
+            Swal.fire({
+                title:  "<?php   echo $_SESSION['status']; ?>",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Rozumiem',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire(
+                    location.href = "myaccount.php"
+                  )
+                  
+                }
+              })
+                  
+                  </script>
+                  <?php
                 unset($_SESSION['status']);
         }
 
@@ -44,7 +64,11 @@
                             href="#account-general">Ogólne</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                             href="#account-change-password">Zmiana hasła</a>
+                            <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#Usuwanie">Usuwanie Konta</a>
                     </div>
+                    
+                   
                     
                 </div>
                 <div class="col-md-9">
@@ -69,6 +93,7 @@
                                     <label class="form-label">Aktualny adres e-mail</label>
                                     <input type="text" class="form-control mb-1" value="<?php echo $_SESSION['Email']; ?>" readonly>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label class="form-label">Nowy adres e-mail</label>
                                     <input type="text" class="form-control mb-1" name="nowy_email">
@@ -91,10 +116,18 @@
                                 <div class="form-group">
                                     <label class="form-label">Powtórz nowe hasło</label>
                                     <input type="password" name="nowe_haslo2" class="form-control">
-                                    <button type="submit" name="zapisz1" class="btn btn-primary">Zapisz hasło</button>&nbsp;
+                                    <button type="submit" name="zapisz1" class="btn btn-primary" style="margin-top:10px;">Zapisz hasło</button>&nbsp;
 </form>                         
+
                                 </div>
                             </div>
+                        </div>
+                        <div class="tab-pane fade" id="Usuwanie">
+                            <form action="Usuwanie_konta.php" method="POST">
+                        <div class="form-group">  
+                        <button type="submit" name="Usun"  class="btn btn-danger btn-lg" style="margin-top:10px;">Usuń Konto</button>&nbsp;
+    </form>
+                        </div>
                         </div>
                                     </label>
         <div class="text-right mt-3">
@@ -114,13 +147,6 @@
 
     </script>
 
-
-    <?php 
-        echo $_SESSION['user'];
-    ?>
-    <form>
-    <?php echo '<a class="dropdowntext" href="logout.php">Logout</a>'; ?> 
-    </form>
  </body>
 
 
