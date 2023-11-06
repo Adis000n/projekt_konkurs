@@ -207,7 +207,7 @@ if(!isset($_SESSION['logged in']))
                                           if($learnDatesInLoop == $sDateT[$j] ){
                                           
                                             if($importanceT[$j] == "bardzo"){
-                                              echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                              echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>                                              
                                               <div class='break'></div>
                                               <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                             </div>";
@@ -338,7 +338,12 @@ if(!isset($_SESSION['logged in']))
                       
                           
                           if($importanceT[$j] == "bardzo"){
-                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a>
+                           
+                            
+                            
+                            <div class='break'></div>
+                            <a style='font-size:1.7vh; color:white; margin-left:0.5vh;'>Kliknij, aby schować/pokazać komentarz</a>             
                             <div class='break'></div>
                             <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                           </div>";
@@ -398,12 +403,19 @@ if(!isset($_SESSION['logged in']))
                       $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
                       
                      
-                      $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                      $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                      // $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                      // $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                      // // $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                      // $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                      // $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
+                      // $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' ;");
+                      
+                      $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                      $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
                       // $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                      $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                      $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
-                      $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' ;");
+                      $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                      $typ = mysqli_query($con,"SELECT `typ` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                      $importance = mysqli_query($con,"SELECT `waznosc` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
                     
                   
                                   while($result = mysqli_fetch_row($importance)){
@@ -839,7 +851,7 @@ document.getElementById('normalny').addEventListener('click',function(){
       // active = 0;
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="10vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="12vh";
       // document.getElementById(`Info${dd}`).style.height="10vh";
       
       if(dd != i){
@@ -879,7 +891,7 @@ document.getElementById('normalny').addEventListener('click',function(){
      
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="10vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="12vh";
       // document.getElementById(`Info${dd}`).style.height="10vh";
       
       if(dd != i){
@@ -918,7 +930,7 @@ document.getElementById('normalny').addEventListener('click',function(){
         console.log(dd)
         document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0';      
-      document.getElementById(`Info${dd}`).style.maxHeight="10vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="12vh";
       // document.getElementById(`Info${dd}`).style.height="10vh";
       // dd = null;
       active= 0;
@@ -932,11 +944,3 @@ document.getElementById('normalny').addEventListener('click',function(){
   </script>
 
 </html>
-
-
-
-
-
-
-
-

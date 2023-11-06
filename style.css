@@ -293,7 +293,7 @@ body{
         color: white;
         display: flex;
         flex-direction:row;
-        flex-wrap: wrap;
+        flex-wrap:wrap;
         justify-content:space-between;
         align-items: center; 
        cursor: pointer;          
@@ -302,7 +302,7 @@ body{
        color: black;
        height: auto;
        font-size: 5vh;
-       max-height: 10vh;
+       max-height: 12vh;
        width: 100%;
        padding-left: 5px; 
        padding-top: 1vh;  
@@ -329,7 +329,13 @@ background: linear-gradient(90deg, rgba(24,153,219,1) 0%, rgba(124,211,255,1) 10
         background: linear-gradient(90deg, rgba(124,211,255,1) 0%, rgba(124,250,255,1) 100%);
     }
 
+    .readyBtn{
+        font-size: 2vh;
+        width: 8%;
+        height: auto;
+        background-color: transparent;
 
+    }
 
    .text{
     /* margin: 0 auto; */
