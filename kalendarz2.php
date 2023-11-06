@@ -192,8 +192,192 @@ $result_obowiazek = mysqli_query($con, $q_obowiazek);
                 ?>
             </div>
         </div>
-    </div>          
-    </div>  
+        <script>
+function toggleArchivalItems() {
+    var elementy_archiwalne = document.getElementById("elementy-archiwalne");
+    var pokaz_schowaj_tekst = document.getElementById("pokaz-schowaj-tekst");
+    if (elementy_archiwalne.style.display === "none") {
+        elementy_archiwalne.style.display = "block";
+        pokaz_schowaj_tekst.innerHTML = "Naciśnij aby schować elementy archiwalne";
+    } else {
+        elementy_archiwalne.style.display = "none";
+        pokaz_schowaj_tekst.innerHTML = "Naciśnij aby pokazać elementy archiwalne";
+    }
+}
+</script>
+        <div id="archiwalne">
+            <h2 onclick="toggleArchivalItems()" id="pokaz-schowaj-tekst" style="cursor: pointer; user-select: none;">Naciśnij aby pokazać elementy archiwalne</h2>
+            <hr>
+            <div id="elementy-archiwalne" style="display: none;">
+                <?php
+                // Modify the SQL queries to filter records within the next week using DATE_ADD
+                $q_sprawdzian = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'sprawdzian' AND `data` < CURDATE() OR `zrobione` = 1";
+                $result_sprawdzian = mysqli_query($con, $q_sprawdzian);
+
+                $q_kartkowka = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'kartkowka' AND `data` < CURDATE() OR `zrobione` = 1";
+                $result_kartkowka = mysqli_query($con, $q_kartkowka);
+
+                $q_zadanie = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'zadanie' AND `data` < CURDATE() OR `zrobione` = 1";
+                $result_zadanie = mysqli_query($con, $q_zadanie);
+
+                $q_obowiazek = "SELECT * FROM wydarzenia WHERE user_id = $id AND typ = 'obowiazek' AND `data` < CURDATE() OR `zrobione` = 1";
+                $result_obowiazek = mysqli_query($con, $q_obowiazek);
+                ?>
+                <div id="archiwalne-sprawdzian">
+                    <?php
+                    // Count the number of "sprawdzian" elements
+                    $count_sprawdzian = mysqli_num_rows($result_sprawdzian);
+                    if($count_sprawdzian > 0){
+                        echo "<h3>Sprawdziany: " . $count_sprawdzian . "</h3>";
+                        echo "<hr>";
+                    }
+                    ?>
+                    <div id="elementy-archiwalne-sprawdzian">
+                        <?php
+                        if ($result_sprawdzian) {
+                            while ($row = mysqli_fetch_assoc($result_sprawdzian)) {
+                                echo '<div class="event-box">'; // Create a container for the event
+                                if($row['waznosc']=='bardzo'){
+                                    echo '<img src="img/red.png" width="50vw" height="auto">';
+                                }
+                                else if($row['waznosc']=='srednio'){
+                                    echo '<img src="img/yellow.png" width="50vw"
+                                height="auto">';
+                                }
+                                else{
+                                    echo '<img src="img/green.png" width="50vw" height="auto">';
+                                }
+                                echo '<h3 id="nazwa">';
+                                echo"  ". $row['nazwa'];
+                                echo '</h3>';
+                                echo '<p id="data">' . $row['data'] . '</p>';
+                                echo '</div>'; // Close the container for the event
+                            }
+                        } else {
+                            // Handle the case when the query fails
+                            echo "Error: " . mysqli_error($con);
+                        }
+                        ?>
+                    </div>
+                </div>  
+                <!--  -->
+                <div id="archiwalne-kartkowka">
+                    <?php
+                    // Count the number of "sprawdzian" elements
+                    $count_kartkowka = mysqli_num_rows($result_kartkowka);
+                    if($count_kartkowka > 0){
+                    echo "<h3>Kartkówki: ". $count_kartkowka ."</h3>";
+                    echo "<hr>";
+                    }
+                    ?>
+                    <div id="elementy-archiwalne-kartkowka">
+                        <?php
+                        if ($result_kartkowka) {
+                            while ($row = mysqli_fetch_assoc($result_kartkowka)) {
+                                echo '<div class="event-box">'; // Create a container for the event
+                                if($row['waznosc']=='bardzo'){
+                                    echo '<img src="img/red.png" width="50vw" height="auto">';
+                                }
+                                else if($row['waznosc']=='srednio'){
+                                    echo '<img src="img/yellow.png" width="50vw"
+                                height="auto">';
+                                }
+                                else{
+                                    echo '<img src="img/green.png" width="50vw" height="auto">';
+                                }
+                                echo '<h3 id="nazwa">';
+                                echo"  ". $row['nazwa'];
+                                echo '</h3>';
+                                echo '<p id="data">' . $row['data'] . '</p>';
+                                echo '</div>'; // Close the container for the event
+                            }
+                        } else {
+                            // Handle the case when the query fails
+                            echo "Error: " . mysqli_error($con);
+                        }
+                        ?>
+                    </div>
+                </div>  
+                <!--  -->
+                <div id="archiwalne-zadanie">
+                    <?php
+                    // Count the number of "sprawdzian" elements
+                    $count_zadanie = mysqli_num_rows($result_zadanie);
+                    if($count_zadanie > 0){
+                    echo "<h3>Zadania: ". $count_zadanie ."</h3>";
+                    echo "<hr>";
+                    }
+                    ?>
+                    <div id="elementy-archiwalne-zadanie">
+                        <?php
+                        if ($result_zadanie) {
+                            while ($row = mysqli_fetch_assoc($result_zadanie)) {
+                                echo '<div class="event-box">'; // Create a container for the event
+                                if($row['waznosc']=='bardzo'){
+                                    echo '<img src="img/red.png" width="50vw" height="auto">';
+                                }
+                                else if($row['waznosc']=='srednio'){
+                                    echo '<img src="img/yellow.png" width="50vw"
+                                height="auto">';
+                                }
+                                else{
+                                    echo '<img src="img/green.png" width="50vw" height="auto">';
+                                }
+                                echo '<h3 id="nazwa">';
+                                echo"  ". $row['nazwa'];
+                                echo '</h3>';
+                                echo '<p id="data">' . $row['data'] . '</p>';
+                                echo '</div>'; // Close the container for the event
+                            }
+                        } else {
+                            // Handle the case when the query fails
+                            echo "Error: " . mysqli_error($con);
+                        }
+                        ?>
+                    </div>
+                </div>
+                <!--  -->
+                <div id="archiwalne-obowiazek">
+                    <?php
+                    // Count the number of "sprawdzian" elements
+                    $count_obowiazek = mysqli_num_rows($result_obowiazek);
+                    if($count_obowiazek > 0){
+                    echo "<h3>Obowiązki: ". $count_obowiazek ."</h3>";
+                    echo "<hr>";
+                    }
+                    ?>
+                    <div id="elementy-archiwalne-obowiazek">
+                        <?php
+                        if ($result_obowiazek) {
+                            while ($row = mysqli_fetch_assoc($result_obowiazek)) {
+                                echo '<div class="event-box">'; // Create a container for the event
+                                if($row['waznosc']=='bardzo'){
+                                    echo '<img src="img/red.png" width="50vw" height="auto">';
+                                }
+                                else if($row['waznosc']=='srednio'){
+                                    echo '<img src="img/yellow.png" width="50vw"
+                                height="auto">';
+                                }
+                                else{
+                                    echo '<img src="img/green.png" width="50vw" height="auto">';
+                                }
+                                echo '<h3 id="nazwa">';
+                                echo"  ". $row['nazwa'];
+                                echo '</h3>';
+                                echo '<p id="data">' . $row['data'] . '</p>';
+                                echo '</div>'; // Close the container for the event
+                            }
+                        } else {
+                            // Handle the case when the query fails
+                            echo "Error: " . mysqli_error($con);
+                        }
+                        ?>
+                    </div>
+            </div> 
+        </div> 
+    </div>
+</div>
+
     <footer>© by Nazwiska</footer>
     
 </body>
@@ -241,7 +425,7 @@ hr{
     border-radius: 10px;
 }
 
-#sprawdzian,#kartkowka,#zadanie,#obowiazek{
+#sprawdzian,#kartkowka,#zadanie,#obowiazek,#archiwalne{
     padding: 1.5%;
     background-color: rgba(255, 255, 255, 0.6);
     width:90%;
