@@ -850,6 +850,7 @@ function komentarz(eventId) {
     #form{
         background: transparent ;
         color: white;
+        border: transparent;
     }
 
   .event-box{
