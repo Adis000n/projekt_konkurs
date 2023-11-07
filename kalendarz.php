@@ -1736,7 +1736,7 @@ document.getElementById('normalny').addEventListener('click',function(){
     }
     else{
       
-     if(szerokoscOkna >= 750){
+     if(szerokoscOkna >= 900){
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
       document.getElementById(`Info${dd}`).style.maxHeight="12vh";
@@ -1744,7 +1744,7 @@ document.getElementById('normalny').addEventListener('click',function(){
 
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="30vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="27vh";
 
      } 
     
@@ -1788,7 +1788,7 @@ document.getElementById('normalny').addEventListener('click',function(){
     }
     else{
      
-      if(szerokoscOkna >= 750){
+      if(szerokoscOkna >= 900){
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
       document.getElementById(`Info${dd}`).style.maxHeight="12vh";
@@ -1796,7 +1796,7 @@ document.getElementById('normalny').addEventListener('click',function(){
 
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="30vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="27vh";
 
      } 
       
@@ -1835,7 +1835,7 @@ document.getElementById('normalny').addEventListener('click',function(){
         console.log('Collapse ->')
         console.log(dd)
 
-        if(szerokoscOkna >= 750){
+        if(szerokoscOkna >= 900){
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
       document.getElementById(`Info${dd}`).style.maxHeight="12vh";
@@ -1843,7 +1843,7 @@ document.getElementById('normalny').addEventListener('click',function(){
 
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="30vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="27vh";
 
      } 
       // document.getElementById(`Info${dd}`).style.height="10vh";

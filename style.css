@@ -373,6 +373,7 @@ background: linear-gradient(90deg, rgba(24,153,219,1) 0%, rgba(124,211,255,1) 10
    }
    .text1{
     font-size: 4vh;
+    height: 6vh;
     width: 60%;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -476,21 +477,28 @@ footer::before{ /* linia pod elementem*/
     /* background-color: red; */
    }
 }
-@media (max-width: 750px){
+@media (max-width: 900px){
    
    
     
    
     .text{
-    font-size: 2.5vh;
+    font-size: 2vh;
+    text-overflow: ellipsis;
+    overflow: hidden;
+        
        }
        .text1{
-        font-size: 3vh;
+        font-size: 2.5vh;
         text-align: center;
         width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+       
+   
        }
        .comment{
-        font-size: 2.5vh;
+        font-size: 2.3vh;
         width: 100%;
        }
    
@@ -500,7 +508,7 @@ footer::before{ /* linia pod elementem*/
    }
     .information,.infoB,.infoS,.infoM{
         height: auto;
-        max-height: 30vh;
+        max-height: 27vh;
         display: flex;
         text-align: center;
         flex-direction: column;
