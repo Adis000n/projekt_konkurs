@@ -9,6 +9,7 @@
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
     <title>Kalendarz</title>
+    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
 </head>
 <?php 
 include ("db.php");
@@ -850,6 +851,7 @@ function komentarz(eventId) {
     #form{
         background: transparent ;
         color: white;
+        border: transparent;
     }
 
   .event-box{

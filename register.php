@@ -23,7 +23,7 @@
   }
   $password = $_POST['password'];
   $confirm_password = $_POST['confirm_password'];
-  if((strlen($password)<8)||(strlen($password)>20))
+  if((strlen($password)<4)||(strlen($password)>20))
   {
     $everything_okay=false;
     $_SESSION['error_password']="Hasło musi mieć od 8 do 20 znaków!";
@@ -170,11 +170,11 @@
                 str.innerHTML = "słabe";
                 pass.style.borderColor = "#ff5925";
                 msg.style.color = "#ff5925";
-            } if(pass.value.length >=6 && pass.value.length<10) {
+            } if(pass.value.length >=6 && pass.value.length<8) {
                 str.innerHTML = "średnie";
                 pass.style.borderColor = "yellow";
                 msg.style.color = "yellow";
-            }if(pass.value.length >= 10) {
+            }if(pass.value.length >=8) {
                 str.innerHTML = "silne";
                 pass.style.borderColor = "#036e2c";
                 msg.style.color = "#036e2c";

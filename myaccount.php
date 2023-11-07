@@ -20,6 +20,7 @@
 
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
+    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
  </head>
  <body>
 
@@ -111,11 +112,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label"> Wpisz nowe hasło</label>
-                                    <input type="password" name="nowe_haslo" class="form-control">
+                                    <input type="password" name="nowe_haslo" class="form-control" maxlength="20" minlength="4">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Powtórz nowe hasło</label>
-                                    <input type="password" name="nowe_haslo2" class="form-control">
+                                    <input type="password" name="nowe_haslo2" class="form-control" maxlength="20" minlength="4">
                                     <button type="submit" name="zapisz1" class="btn btn-primary" style="margin-top:10px;">Zapisz hasło</button>&nbsp;
 </form>                         
 
