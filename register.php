@@ -23,7 +23,7 @@
   }
   $password = $_POST['password'];
   $confirm_password = $_POST['confirm_password'];
-  if((strlen($password)<8)||(strlen($password)>20))
+  if((strlen($password)<4)||(strlen($password)>20))
   {
     $everything_okay=false;
     $_SESSION['error_password']="Hasło musi mieć od 8 do 20 znaków!";
