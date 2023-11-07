@@ -14,7 +14,7 @@
 </html>
 <?php 
 session_start();
-$con = mysqli_connect("localhost","root","","konkurs");
+include ("db.php");
 
 if(isset($_POST['Usun'])) 
 {

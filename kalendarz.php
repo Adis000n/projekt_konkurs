@@ -12,8 +12,7 @@
     <title>Kalendarz</title>
 </head>
 <?php 
-$con = mysqli_connect("localhost","root","");
-mysqli_select_db($con,"konkurs");
+include ("db.php");
 session_start();
 if(!isset($_SESSION['logged in']))
 {
@@ -46,6 +45,7 @@ if(!isset($_SESSION['logged in']))
         </button>        
                        
         <div class="list_Menu">
+        <button type="button" class="l_Btn" data-bs-toggle="modal" data-bs-target="#exampleModal">📈 Statystyki</button>
           <button class="l_Btn" onclick="document.location='myaccount.php'">⚙️ Ustawienia profilu&nbsp;</button>
           <button class="l_Btn" onclick="alert()">⚠️ Wyloguj się&nbsp;</button>
         </div>
@@ -53,6 +53,90 @@ if(!isset($_SESSION['logged in']))
        
       ?>
     </div>
+    <!-- Modal -->
+    <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Statystyki z ostatniego tygodnia</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <?php
+            $q_sprawdzian_pods = "SELECT * FROM wydarzenia WHERE typ = 'sprawdzian' AND user_id = $id AND data BETWEEN DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) + 7 DAY) AND DATE_SUB(CURDATE(), INTERVAL 1 DAY);";
+            $result_sprawdzian_pods = mysqli_query($con, $q_sprawdzian_pods);
+            $count_sprawdzian_pods = mysqli_num_rows($result_sprawdzian_pods);
+            
+            $q_kartkowka_pods = "SELECT * FROM wydarzenia WHERE typ = 'kartkowka' AND user_id = $id AND data BETWEEN DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) + 7 DAY) AND DATE_SUB(CURDATE(), INTERVAL 1 DAY);";
+            $result_kartkowka_pods = mysqli_query($con, $q_kartkowka_pods);
+            $count_kartkowka_pods = mysqli_num_rows($result_kartkowka_pods);
+            
+            $q_zadanie_pods = "SELECT * FROM wydarzenia WHERE typ = 'zadanie' AND user_id = $id AND data BETWEEN DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) + 7 DAY) AND DATE_SUB(CURDATE(), INTERVAL 1 DAY);";
+            $result_zadanie_pods = mysqli_query($con, $q_zadanie_pods);
+            $count_zadanie_pods = mysqli_num_rows($result_zadanie_pods);
+            
+            $q_obowiazek_pods = "SELECT * FROM wydarzenia WHERE typ = 'obowiazek' AND user_id = $id AND data BETWEEN DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) + 7 DAY) AND DATE_SUB(CURDATE(), INTERVAL 1 DAY);";
+            $result_obowiazek_pods = mysqli_query($con, $q_obowiazek_pods);
+            $count_obowiazek_pods = mysqli_num_rows($result_obowiazek_pods);
+            
+            function displayEventCount($count, $type) {
+                $typeText = '';
+            
+                // Define the event type text based on the provided $type
+                switch ($type) {
+                    case 'primary':
+                        $typeText = 'sprawdzianów';
+                        break;
+                    case 'success':
+                        $typeText = 'kartkówek';
+                        break;
+                    case 'info':
+                        $typeText = 'zadań';
+                        break;
+                    case 'warning':
+                        $typeText = 'obowiązków';
+                        break;
+                    default:
+                        $typeText = 'wydarzeń';
+                }
+            
+                if ($count > 0) {
+                    echo "<h2>W tym tygodniu miałeś: $count <a class='text-$type' style='text-decoration: none;'>$typeText</a></h2>";
+                } else {
+                    echo "<h2>W tym tygodniu nie ukończyłeś jeszcze żadnych <a class='text-$type' style='text-decoration: none;'>$typeText</a></h2>";
+                }
+            }
+            
+            displayEventCount($count_sprawdzian_pods, 'primary');
+            displayEventCount($count_kartkowka_pods, 'success');
+            displayEventCount($count_zadanie_pods, 'info');
+            displayEventCount($count_obowiazek_pods, 'warning');
+            
+            
+            $total = $count_sprawdzian_pods + $count_kartkowka_pods + $count_zadanie_pods + $count_obowiazek_pods;
+            if ($total > 0) {
+                echo '<div class="progress-stacked">
+                    <div class="progress" role="progressbar" aria-label="Sprawdzian" aria-valuenow="' . $count_sprawdzian_pods . '" aria-valuemin="0" aria-valuemax="' . $total . '" style="width: ' . ($count_sprawdzian_pods / $total) * 100 . '%">
+                        <div class="progress-bar">' . round(($count_sprawdzian_pods / $total) * 100) . '%</div>
+                    </div>
+                    <div class="progress" role="progressbar" aria-label="Kartkowka" aria-valuenow="' . $count_kartkowka_pods . '" aria-valuemin="0" aria-valuemax="' . $total . '" style="width: ' . ($count_kartkowka_pods / $total) * 100 . '%">
+                        <div class="progress-bar bg-success">' . round(($count_kartkowka_pods / $total) * 100) . '%</div>
+                    </div>
+                    <div class="progress" role="progressbar" aria-label="Zadanie" aria-valuenow="' . $count_zadanie_pods . '" aria-valuemin="0" aria-valuemax="' . $total . '" style="width: ' . ($count_zadanie_pods / $total) * 100 . '%">
+                        <div class="progress-bar bg-info">' . round(($count_zadanie_pods / $total) . 100) . '%</div>
+                    </div>
+                    <div class="progress" role="progressbar" aria-label="Obowiazek" aria-valuenow="' . $count_obowiazek_pods . '" aria-valuemin="0" aria-valuemax="' . $total . '" style="width: ' . ($count_obowiazek_pods / $total) * 100 . '%">
+                        <div class="progress-bar bg-warning">' . round(($count_obowiazek_pods / $total) * 100) . '%</div>
+                    </div>
+                </div>';
+            }
+            
+            ?>
+        </div>
+        </div>
+    </div>
+    </div>
+    <!--  -->
 
     </div>
     <div class="calendar">Wydarzenia w tym Tygodniu:

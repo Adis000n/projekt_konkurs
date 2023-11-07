@@ -13,8 +13,7 @@
     <link rel="stylesheet" href="sweetalert2.min.css">
 </head>
 <?php
-$con = mysqli_connect("localhost","root","");
-mysqli_select_db($con,"konkurs");
+include ("db.php");
 session_start();
  if(!isset($_SESSION['logged in']))
  {

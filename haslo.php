@@ -1,6 +1,6 @@
 <?php 
 session_start();
-$con = mysqli_connect("localhost","root","","konkurs");
+include ("db.php");
 if(isset($_POST['zapisz1'])) {
     $id = $_SESSION['id'];
     $obecne_haslo = $_POST['obecne_haslo'];
