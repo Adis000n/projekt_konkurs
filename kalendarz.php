@@ -369,7 +369,7 @@ if(!isset($_SESSION['logged in']))
                                         // sredni
               
                                         if($importanceT[$j] == "srednio"){
-                                          echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                                          echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                                           
                                           if ($isMadeT[$j] == 0) {
                                             echo '<form method="post">';
@@ -1744,7 +1744,7 @@ document.getElementById('normalny').addEventListener('click',function(){
 
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="27vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="31vh";
 
      } 
     
@@ -1796,7 +1796,7 @@ document.getElementById('normalny').addEventListener('click',function(){
 
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="27vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="31vh";
 
      } 
       
@@ -1843,7 +1843,7 @@ document.getElementById('normalny').addEventListener('click',function(){
 
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="27vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="30vh";
 
      } 
       // document.getElementById(`Info${dd}`).style.height="10vh";
