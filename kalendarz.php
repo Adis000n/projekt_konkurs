@@ -10,6 +10,7 @@
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css"> 
     <title>Kalendarz</title>
+    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
 </head>
 <?php 
 include ("db.php");
@@ -40,7 +41,7 @@ if(!isset($_SESSION['logged in']))
         $name = implode($row);         
       }
 
-      echo '<div class="nick"><div class="nickN">'.$name.'</div></div>';
+      echo '<div class="nick"><div class="nickN">'.$_SESSION['user'].'</div></div>';
     ?>
         </button>        
                        
