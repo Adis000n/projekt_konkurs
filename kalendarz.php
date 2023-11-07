@@ -1159,7 +1159,7 @@ if(!isset($_SESSION['logged in']))
                                   }
                                 }
                                 $k++;
-                                  $j++;                                
+                                $j++;                                
                                 $idInDB++;
                               }
                             // $learnDates = date('Y-m-d', strtotime("+1 day"));
