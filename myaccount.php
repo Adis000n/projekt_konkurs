@@ -32,7 +32,7 @@
             <script>
             Swal.fire({
                 title:  "<?php   echo $_SESSION['status']; ?>",
-                icon: 'success',
+                icon: 'warning',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Rozumiem',
               }).then((result) => {
