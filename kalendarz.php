@@ -299,7 +299,7 @@ if(!isset($_SESSION['logged in']))
                                         $updateQuery = null; 
                                       
                                         if($importanceT[$j] == "bardzo"){
-                                          echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                                          echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white;'>".$typT[$j]."</a></a>";
                                           
                                           if ($isMadeT[$j] == 0) {
                                             echo '<form method="post">';
@@ -368,7 +368,7 @@ if(!isset($_SESSION['logged in']))
                                         // sredni
               
                                         if($importanceT[$j] == "srednio"){
-                                          echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                                          echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
                                           
                                           if ($isMadeT[$j] == 0) {
                                             echo '<form method="post">';
@@ -439,7 +439,7 @@ if(!isset($_SESSION['logged in']))
                                         // malo
               
                                         if($importanceT[$j] == "malo"){
-                                          echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                                          echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                                           
                                           if ($isMadeT[$j] == 0) {
                                             echo '<form method="post">';
@@ -638,7 +638,7 @@ if(!isset($_SESSION['logged in']))
                         $event_id = null; // PAMIETAJ ------------------------------------------------------------------------------------------------------------
                           
                           if($importanceT[$j] == "bardzo"){
-                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                             
                             if ($isMadeT[$j] == 0) {
                               echo '<form method="post">';
@@ -707,7 +707,7 @@ if(!isset($_SESSION['logged in']))
                           // sredni
 
                           if($importanceT[$j] == "srednio"){
-                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                             
                             if ($isMadeT[$j] == 0) {
                               echo '<form method="post">';
@@ -776,7 +776,7 @@ if(!isset($_SESSION['logged in']))
                           // malo
 
                           if($importanceT[$j] == "malo"){
-                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                             
                             if ($isMadeT[$j] == 0) {
                               echo '<form method="post">';
@@ -1034,7 +1034,7 @@ if(!isset($_SESSION['logged in']))
                                     $updateQuery = null; 
                                   
                                     if($importanceT[$j] == "bardzo"){
-                                      echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                                      echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                                       
                                       if ($isMadeT[$j] == 0) {
                                         echo '<form method="post">';
@@ -1103,7 +1103,7 @@ if(!isset($_SESSION['logged in']))
                                     // sredni
           
                                     if($importanceT[$j] == "srednio"){
-                                      echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                                      echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                                       
                                       if ($isMadeT[$j] == 0) {
                                         echo '<form method="post">';
@@ -1174,7 +1174,7 @@ if(!isset($_SESSION['logged in']))
                                     // malo
           
                                     if($importanceT[$j] == "malo"){
-                                      echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                                      echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                                       
                                       if ($isMadeT[$j] == 0) {
                                         echo '<form method="post">';
@@ -1377,7 +1377,7 @@ if(!isset($_SESSION['logged in']))
                             $updateQuery = null; 
                           
                             if($importanceT[$j] == "bardzo"){
-                              echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                              echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                               
                               if ($isMadeT[$j] == 0) {
                                 echo '<form method="post">';
@@ -1446,7 +1446,7 @@ if(!isset($_SESSION['logged in']))
                             // sredni
   
                             if($importanceT[$j] == "srednio"){
-                              echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                              echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                               
                               if ($isMadeT[$j] == 0) {
                                 echo '<form method="post">';
@@ -1517,7 +1517,7 @@ if(!isset($_SESSION['logged in']))
                             // malo
   
                             if($importanceT[$j] == "malo"){
-                              echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                              echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='30vw' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; '>".$typT[$j]."</a></a>";
                               
                               if ($isMadeT[$j] == 0) {
                                 echo '<form method="post">';
@@ -1617,10 +1617,13 @@ if(!isset($_SESSION['logged in']))
       </div>  
       <footer></footer>
       
-</body>
+      </body>
 <script>
-    
-    
+  let szerokoscOkna = window.innerWidth;
+  monitorujISkorygujSzerokoscOkna();
+  window.addEventListener('resize', monitorujISkorygujSzerokoscOkna);
+  
+  let width = 0;
  let timer;
  let active =0;
  
@@ -1632,7 +1635,10 @@ if(!isset($_SESSION['logged in']))
     
  let mybutton = document.getElementById("goUpBtn");
  document.onmousemove = function() {
-// document.getElementById('myBtn').style.display = "block";
+
+ 
+
+  // document.getElementById('myBtn').style.display = "block";
 
   if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
      mybutton.style.visibility = "visible";
@@ -1701,6 +1707,16 @@ document.getElementById('normalny').addEventListener('click',function(){
     location.href = "kalendarz3.php";
   }
 
+  function monitorujISkorygujSzerokoscOkna() {
+  szerokoscOkna = window.innerWidth;
+  console.log('Aktualna szerokość okna: ' + szerokoscOkna + ' pikseli');
+}
+
+// Wywołanie funkcji na początku
+
+
+// Dodanie obsługi zdarzenia 'resize'
+
 
 
   function comment(i){
@@ -1719,12 +1735,21 @@ document.getElementById('normalny').addEventListener('click',function(){
     }
     else{
       
-     
-       
-      // active = 0;
+     if(szerokoscOkna >= 750){
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
       document.getElementById(`Info${dd}`).style.maxHeight="12vh";
+     }else{
+
+      document.getElementById(dd).style.visibility='hidden';
+      document.getElementById(dd).style.opacity='0'; 
+      document.getElementById(`Info${dd}`).style.maxHeight="30vh";
+
+     } 
+    
+       
+      // active = 0;
+      
       // document.getElementById(`Info${dd}`).style.height="10vh";
       
       if(dd != i){
@@ -1745,8 +1770,8 @@ document.getElementById('normalny').addEventListener('click',function(){
       
       
     }
-    
-     }
+  }
+     
 
      function commentAfter(){
       
@@ -1762,10 +1787,17 @@ document.getElementById('normalny').addEventListener('click',function(){
     }
     else{
      
+      if(szerokoscOkna >= 750){
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
       document.getElementById(`Info${dd}`).style.maxHeight="12vh";
-      // document.getElementById(`Info${dd}`).style.height="10vh";
+     }else{
+
+      document.getElementById(dd).style.visibility='hidden';
+      document.getElementById(dd).style.opacity='0'; 
+      document.getElementById(`Info${dd}`).style.maxHeight="30vh";
+
+     } 
       
       if(dd != i){
         dd = i;
@@ -1789,7 +1821,7 @@ document.getElementById('normalny').addEventListener('click',function(){
  
     
      function infomation(i){
-      document.getElementById(i).style.maxHeight="100vh";
+      document.getElementById(i).style.maxHeight="300vh";
       document.getElementById(i).style.height="auto";
     }
    
@@ -1801,13 +1833,22 @@ document.getElementById('normalny').addEventListener('click',function(){
         
         console.log('Collapse ->')
         console.log(dd)
-        document.getElementById(dd).style.visibility='hidden';
-      document.getElementById(dd).style.opacity='0';      
+
+        if(szerokoscOkna >= 750){
+      document.getElementById(dd).style.visibility='hidden';
+      document.getElementById(dd).style.opacity='0'; 
       document.getElementById(`Info${dd}`).style.maxHeight="12vh";
+     }else{
+
+      document.getElementById(dd).style.visibility='hidden';
+      document.getElementById(dd).style.opacity='0'; 
+      document.getElementById(`Info${dd}`).style.maxHeight="30vh";
+
+     } 
       // document.getElementById(`Info${dd}`).style.height="10vh";
       // dd = null;
       active= 0;
-    
+   
       
       }
        
@@ -1815,5 +1856,5 @@ document.getElementById('normalny').addEventListener('click',function(){
    }
    
   </script>
-
+ 
 </html>
