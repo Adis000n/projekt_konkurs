@@ -463,21 +463,21 @@ footer::before{ /* linia pod elementem*/
     left: 5%;
     text-align: center;    
 }
-@media (max-width: 1220px){
+/* @media (max-width: 1220px){
     
 
     .text1{
-    width: 45%;
-    font-size: 3.5;
+    width: 35%;
+    font-size: 2.75vh;
     overflow: hidden;
     
    }
    .text{
     font-size: 3vh;
-    /* background-color: red; */
+   
    }
-}
-@media (max-width: 900px){
+} */
+@media (max-width: 1300px){
    
    
     
