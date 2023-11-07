@@ -174,7 +174,7 @@
                 str.innerHTML = "średnie";
                 pass.style.borderColor = "yellow";
                 msg.style.color = "yellow";
-            }if(pass.value.length >= 10) {
+            }if(pass.value.length >=10) {
                 str.innerHTML = "silne";
                 pass.style.borderColor = "#036e2c";
                 msg.style.color = "#036e2c";
