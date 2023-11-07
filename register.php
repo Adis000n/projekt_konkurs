@@ -193,7 +193,7 @@
         }
       ?>
       <label class="container">
-        <input class="checkbox" type="checkbox" name="rules"> Akceptuję regulamin
+        <input class="checkbox" type="checkbox" name="rules"> Akceptuję <a href="regulamin.html">regulamin</a>
         <span class="checkmark"></span>
       </label>
        <div class="form__spacer"></div>
