@@ -166,15 +166,15 @@
                 msg.style.display = "block";
             } else {
                 msg.style.display = "none";
-            } if(pass.value.length <8) {
+            } if(pass.value.length <6) {
                 str.innerHTML = "słabe";
                 pass.style.borderColor = "#ff5925";
                 msg.style.color = "#ff5925";
-            } if(pass.value.length >=8 && pass.value.length<12) {
+            } if(pass.value.length >=6 && pass.value.length<8) {
                 str.innerHTML = "średnie";
                 pass.style.borderColor = "yellow";
                 msg.style.color = "yellow";
-            }if(pass.value.length >=12) {
+            }if(pass.value.length >=8) {
                 str.innerHTML = "silne";
                 pass.style.borderColor = "#036e2c";
                 msg.style.color = "#036e2c";
