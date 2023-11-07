@@ -1158,6 +1158,7 @@ if(!isset($_SESSION['logged in']))
                                     
                                   }
                                 }
+                                $k++;
                                   $j++;                                
                                 $idInDB++;
                               }
