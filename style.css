@@ -193,7 +193,7 @@ body{
     align-items: center;   
     transition: max-height 1.2s, border-radius 0.5s linear 0s;     
     margin: 2vh;
-    width: 85%;
+    width: 90%;
     background-color: rgba(255, 255, 255, 1)  ;
     border-radius: 15px;
     /* box-shadow: 1.2px 4px 3px 0px;  */
@@ -228,8 +228,9 @@ body{
     /* background-color: aquamarine; */
     color: black;    
 }
-    .toDo, .events{    
-
+    .toDo, .events{   
+    visibility: hidden;
+    opacity: 0; 
     display: flex;
     margin-top: 1.5vh;
     margin-bottom: 1.5vh;
@@ -239,6 +240,7 @@ body{
     justify-content: space-around;
     flex-direction: column;
     flex-wrap: wrap;   
+    
         
     }
   
@@ -397,6 +399,8 @@ background: linear-gradient(90deg, rgba(24,153,219,1) 0%, rgba(124,211,255,1) 10
        transition: max-height 0.7s;
     }
     .comment{
+        visibility: hidden;
+        opacity: 0;
         width: 100%;
         height: auto;
         font-size: 3.5vh;
