@@ -309,3 +309,10 @@ body {
     display: block;
     position: relative;
   }
+  .pass-check {
+    font-size: 2vh;
+    margin-bottom: 32px;
+    position: relative;
+    margin-top: -20px;
+  }
+  

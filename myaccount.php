@@ -125,7 +125,7 @@
                         <div class="tab-pane fade" id="Usuwanie">
                             <form action="Usuwanie_konta.php" method="POST">
                         <div class="form-group">  
-                        <button type="submit" name="Usun"  class="btn btn-primary" style="margin-top:10px;">Usuń Konto</button>&nbsp;
+                        <button type="submit" name="Usun"  class="btn btn-danger btn-lg" style="margin-top:10px;">Usuń Konto</button>&nbsp;
     </form>
                         </div>
                         </div>

@@ -155,6 +155,32 @@
         <input aria-label="Password" class="form__input" type="password" id="password" name="password" placeholder=" " required>
         <label class="form__input-label" for="password">Hasło</label>
       </div>
+      <div id="message" class="pass-check">Podane hasło jest <span id="strenght"></span></div>
+      <script>
+        var pass = document.getElementById("password");
+        var msg = document.getElementById("message");
+        var str = document.getElementById("strenght");
+        msg.style.display = "none";
+        pass.addEventListener('input',() => {
+            if(pass.value.length > 0){
+                msg.style.display = "block";
+            } else {
+                msg.style.display = "none";
+            } if(pass.value.length <6) {
+                str.innerHTML = "słabe";
+                pass.style.borderColor = "#ff5925";
+                msg.style.color = "#ff5925";
+            } if(pass.value.length >=6 && pass.value.length<10) {
+                str.innerHTML = "średnie";
+                pass.style.borderColor = "yellow";
+                msg.style.color = "yellow";
+            }if(pass.value.length >= 10) {
+                str.innerHTML = "silne";
+                pass.style.borderColor = "#036e2c";
+                msg.style.color = "#036e2c";
+            }
+        })
+      </script>
       <div class="form__input-container">
         <input aria-label="Confirm Password" class="form__input" type="password" id="confirm password" name="confirm password" placeholder=" " required>
         <label class="form__input-label" for="confirm password">Powtórz Hasło</label>
@@ -167,7 +193,7 @@
         }
       ?>
       <label class="container">
-        <input class="checkbox" type="checkbox" name="rules"> Akceptuję regulamin
+        <input class="checkbox" type="checkbox" name="rules"> Akceptuję <a href="regulamin.html">regulamin</a>
         <span class="checkmark"></span>
       </label>
        <div class="form__spacer"></div>

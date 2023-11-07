@@ -34,20 +34,14 @@ if(!isset($_SESSION['logged in']))
           <img src="img/awatar.png" width="20% "  height="auto"> 
     <?php 
        $id = $_SESSION['id'];
-       $numOfChars = mysqli_query($con,"SELECT LENGTH(`username`) FROM `user` where id = $id;");
+      
        $nameQ = mysqli_query($con,"SELECT `username` FROM `user` WHERE id =$id;");
-       while ($row = $numOfChars->fetch_assoc()) {
-         $numChars = implode($row);         
-       }
+     
        while ($row = $nameQ->fetch_assoc()) {
         $name = implode($row);         
       }
 
-      // do skończenia ilość liter...
-
-
-
-        echo $name;
+      echo '<div class="nick"><div class="nickN">'.$name.'</div></div>';
     ?>
         </button>        
                        
@@ -207,7 +201,7 @@ if(!isset($_SESSION['logged in']))
                                           if($learnDatesInLoop == $sDateT[$j] ){
                                           
                                             if($importanceT[$j] == "bardzo"){
-                                              echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                                              echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>                                              
                                               <div class='break'></div>
                                               <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
                                             </div>";
@@ -258,14 +252,45 @@ if(!isset($_SESSION['logged in']))
                     $idInDB = 1;
                     $typ = null;
                     $typT = null;
+                    $isMade = null; // DO POWKLEJANIA
+                    $isMadeT = null;
+                    $idDB = null;
+                    $idDBT=null; // -||-
                     $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
                     $addDay = 0;
                     $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay  AND `typ` NOT LIKE 'obowiazek' ;");                    
                     $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay  AND `typ` NOT LIKE 'obowiazek' ;");
-                    $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay;");
+                    $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay;");
                     $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay ;");
-                              
-                            
+                    $isMade = mysqli_query($con,"SELECT `zrobione` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay;");
+                    $idDB = mysqli_query($con,"SELECT `id` from `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay AND `typ` NOT LIKE 'obowiazek';");
+                    
+                    while($result = mysqli_fetch_row($idDB)){
+                      if(is_null($result)){
+                      $idDBT[] = '';
+                      $empty = 0;                        
+                        }else{
+                         $idDBT[] = implode($result);
+                         $empty = 1;
+                                    // print_r($idDBT);     
+                                         
+                         }             
+                     }
+                   
+                   
+                   
+                    while($result = mysqli_fetch_row($isMade)){
+                      if(is_null($result)){
+                      $isMadeT[] = '';
+                      $empty = 0;                        
+                        }else{
+                         $isMadeT[] = implode($result);
+                         $empty = 1;
+                                         
+                                         
+                         }             
+                     }
+                    
                       while($result = mysqli_fetch_row($importance)){
                            if(is_null($result)){
                            $importanceT[] = '';
@@ -335,28 +360,214 @@ if(!isset($_SESSION['logged in']))
                      
 
                     while($counter > $j){
-                      
+                        $event_id = null; // PAMIETAJ ------------------------------------------------------------------------------------------------------------
                           
                           if($importanceT[$j] == "bardzo"){
-                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
+                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                            
+                            if ($isMadeT[$j] == 0) {
+                              echo '<form method="post">';
+                              echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                              echo '<button class="readyBtn" name="mark_as_done" type="submit" id="form">Niezrobione&nbsp;<img src="img/cross.png" width="30vw" height="auto"></button>';
+                              echo '</form>';
+                          } else {
+                              echo '<form method="post">';
+                              echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                              echo '<button class="readyBtn" name="mark_as_undone" type="submit" id="form">Zrobione&nbsp;<img src="img/check.png" width="30vw" height="auto"></button>';
+                              echo '</form>';
+                          }                        
+                                            // Check if the form has been submitted to mark an event as done
+                                            
+                              if (isset($_POST['mark_as_done'])) {
+                              // Retrieve the event ID from the submitted form data
+                              $event_id = $_POST['event_id'];
+
+                              // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                              $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+
+                              // Execute the update query
+                              if (mysqli_query($con, $updateQuery)) {
+                                  // The record has been updated successfully
+                                  // You can add a success message or redirect the user as needed
+                                  // Replace 'your_page.php' with the URL of the page you want to redirect to
+                                  echo '<script>location.href = "kalendarz.php";</script>';
+                                  exit;
+                              } else {
+                                  // Handle any errors that may occur during the update
+                                  echo "Error updating record: " . mysqli_error($con);
+                              }
+                          }
+
+                          // Check if the form has been submitted to mark an event as undone
+                          if (isset($_POST['mark_as_undone'])) {
+                              // Retrieve the event ID from the submitted form data
+                              $event_id = $_POST['event_id'];
+
+                              // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                              $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+
+                              // Execute the update query
+                              if (mysqli_query($con, $updateQuery)) {
+                                  // The record has been updated successfully
+                                  // You can add a success message or redirect the user as needed
+                                  echo '<script>location.href = "kalendarz.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
+                                  exit;
+                              } else {
+                                  // Handle any errors that may occur during the update
+                                  echo "Error updating record: " . mysqli_error($con);
+                              }
+                          }
+
+
+
+                            
+                            echo " <div class='break'></div>
+                            <a style='font-size:1.7vh; color:white; margin-left:0.5vh;'>Kliknij, aby schować/pokazać komentarz</a>             
                             <div class='break'></div>
-                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
+                            <div class='comment' id='".$k."'>Komentarz:&nbsp;".$commentT[$j]."</div>                                              
                           </div>";
                           
                           }
+
+                          // sredni
+
                           if($importanceT[$j] == "srednio"){
-                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                            <div class='break'></div>
-                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                          </div>";
+                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                            
+                            if ($isMadeT[$j] == 0) {
+                              echo '<form method="post">';
+                              echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                              echo '<button class="readyBtn" name="mark_as_done" type="submit" id="form">Niezrobione&nbsp;<img src="img/cross.png" width="30vw" height="auto"></button>';
+                              echo '</form>';
+                          } else {
+                              echo '<form method="post">';
+                              echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                              echo '<button class="readyBtn" name="mark_as_undone" type="submit" id="form">Zrobione&nbsp;<img src="img/check.png" width="30vw" height="auto"></button>';
+                              echo '</form>';
+                          }                        
+                         
+                          // Check if the form has been submitted to mark an event as done
+                            if (isset($_POST['mark_as_done'])) {
+                              // Retrieve the event ID from the submitted form data
+                              $event_id = $_POST['event_id'];
+
+                              // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                              $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+
+                              // Execute the update query
+                              if (mysqli_query($con, $updateQuery)) {
+                                  // The record has been updated successfully
+                                  // You can add a success message or redirect the user as needed
+                                  // Replace 'your_page.php' with the URL of the page you want to redirect to
+                                  echo '<script>location.href = "kalendarz.php";</script>';
+                                  exit;
+                              } else {
+                                  // Handle any errors that may occur during the update
+                                  echo "Error updating record: " . mysqli_error($con);
+                              }
                           }
+
+                          // Check if the form has been submitted to mark an event as undone
+                          if (isset($_POST['mark_as_undone'])) {
+                              // Retrieve the event ID from the submitted form data
+                              $event_id = $_POST['event_id'];
+
+                              // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                              $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+
+                              // Execute the update query
+                              if (mysqli_query($con, $updateQuery)) {
+                                  // The record has been updated successfully
+                                  // You can add a success message or redirect the user as needed
+                                  echo '<script>location.href = "kalendarz.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
+                                  exit;
+                              } else {
+                                  // Handle any errors that may occur during the update
+                                  echo "Error updating record: " . mysqli_error($con);
+                              }
+                          }
+
+
+
+                            
+                            echo " <div class='break'></div>
+                            <a style='font-size:1.7vh; color:white; margin-left:0.5vh;'>Kliknij, aby schować/pokazać komentarz</a>             
+                            <div class='break'></div>
+                            <div class='comment' id='".$k."'>Komentarz:&nbsp;".$commentT[$j]."</div>                                              
+                          </div>";
+                          
+                          }
+
+                          // malo
+
                           if($importanceT[$j] == "malo"){
-                            echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                            <div class='break'></div>
-                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                          </div>";
+                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                            
+                            if ($isMadeT[$j] == 0) {
+                              echo '<form method="post">';
+                              echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                              echo '<button class="readyBtn" name="mark_as_done" type="submit" id="form">Niezrobione&nbsp;<img src="img/cross.png" width="30vw" height="auto"></button>';
+                              echo '</form>';
+                          } else {
+                              echo '<form method="post">';
+                              echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                              echo '<button class="readyBtn" name="mark_as_undone" type="submit" id="form">Zrobione&nbsp;<img src="img/check.png" width="30vw" height="auto"></button>';
+                              echo '</form>';
+                          }                        
+                         
+                          // Check if the form has been submitted to mark an event as done
+                            if (isset($_POST['mark_as_done'])) {
+                              // Retrieve the event ID from the submitted form data
+                              $event_id = $_POST['event_id'];
+
+                              // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                              $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+
+                              // Execute the update query
+                              if (mysqli_query($con, $updateQuery)) {
+                                  // The record has been updated successfully
+                                  // You can add a success message or redirect the user as needed
+                                  // Replace 'your_page.php' with the URL of the page you want to redirect to
+                                  echo '<script>location.href = "kalendarz.php";</script>';
+                                  exit;
+                              } else {
+                                  // Handle any errors that may occur during the update
+                                  echo "Error updating record: " . mysqli_error($con);
+                              }
                           }
-                           
+
+                          // Check if the form has been submitted to mark an event as undone
+                          if (isset($_POST['mark_as_undone'])) {
+                              // Retrieve the event ID from the submitted form data
+                              $event_id = $_POST['event_id'];
+
+                              // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                              $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+
+                              // Execute the update query
+                              if (mysqli_query($con, $updateQuery)) {
+                                  // The record has been updated successfully
+                                  // You can add a success message or redirect the user as needed
+                                  echo '<script>location.href = "kalendarz.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
+                                  exit;
+                              } else {
+                                  // Handle any errors that may occur during the update
+                                  echo "Error updating record: " . mysqli_error($con);
+                              }
+                          }
+
+
+
+                            
+                            echo " <div class='break'></div>
+                            <a style='font-size:1.7vh; color:white; margin-left:0.5vh;'>Kliknij, aby schować/pokazać komentarz</a>             
+                            <div class='break'></div>
+                            <div class='comment' id='".$k."'>Komentarz:&nbsp;".$commentT[$j]."</div>                                              
+                          </div>";
+                          
+                          }
+
+
                       
                       $idInDB++;
                       $k++;
@@ -398,12 +609,14 @@ if(!isset($_SESSION['logged in']))
                       $j = 0; // liczni wykonanych informacji/komentarzy (licznik do while)
                       
                      
-                      $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                      $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
+                 
+                      
+                      $info = mysqli_query($con,"SELECT `nazwa` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                      $startDate = mysqli_query($con,"SELECT `data_nauki` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
                       // $endDate = mysqli_query($con,"SELECT `data` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                      $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek';");
-                      $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek';");
-                      $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' ;");
+                      $comment = mysqli_query($con,"SELECT `komentarz` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                      $typ = mysqli_query($con,"SELECT `typ` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
+                      $importance = mysqli_query($con,"SELECT `waznosc` FROM `daty_nauki` d ,`wydarzenia` w WHERE d.wydarzenie_id=w.id AND user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data_nauki` = CURDATE()+$addDay;");
                     
                   
                                   while($result = mysqli_fetch_row($importance)){
@@ -591,17 +804,50 @@ if(!isset($_SESSION['logged in']))
                       $commentT =null;
                       $counter = null;
                       $sDateT = null;
-                      $eDateT = null;
+                      // $eDateT = null;
                       $importanceT = null;
                       $importance = null;
                       $typT  =null;
                       $typ = null;
+                      $idDB = null;
+                      $idDBT = null;
+                      $isMade = null;
+                      $isMadeT = null;
+                      $event_id = null;
                       // echo $addDay;
                           $info = mysqli_query($con,"SELECT nazwa from wydarzenia WHERE user_id = $id AND `data` = CURDATE()+$addDay AND `typ` NOT LIKE 'obowiazek';");                    
                           $comment = mysqli_query($con,"SELECT `komentarz` FROM `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay AND `typ` NOT LIKE 'obowiazek';");
-                          $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `nazwa` NOT LIKE 'obowiazek'AND `data` = CURDATE()+$addDay;");
+                          $typ = mysqli_query($con,"SELECT `typ` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek'AND `data` = CURDATE()+$addDay;");
                           $importance = mysqli_query($con,"SELECT `waznosc` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND 
                           `data` = CURDATE()+$addDay ;");
+                            $isMade = mysqli_query($con,"SELECT `zrobione` FROM `wydarzenia` WHERE user_id = $id AND `typ` NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay;");
+                            $idDB = mysqli_query($con,"SELECT `id` from `wydarzenia` WHERE `user_id` = $id AND `data` = CURDATE()+$addDay AND `typ` NOT LIKE 'obowiazek';");
+                            
+                            while($result = mysqli_fetch_row($idDB)){
+                              if(is_null($result)){
+                              $idDBT[] = '';
+                              $empty = 0;                        
+                                }else{
+                                 $idDBT[] = implode($result);
+                                 $empty = 1;
+                                            // print_r($idDBT);     
+                                                 
+                                 }             
+                             }
+                           
+                           
+                           
+                            while($result = mysqli_fetch_row($isMade)){
+                              if(is_null($result)){
+                              $isMadeT[] = '';
+                              $empty = 0;                        
+                                }else{
+                                 $isMadeT[] = implode($result);
+                                 $empty = 1;
+                                  // print_r($isMadeT);
+                                                 
+                                 }             
+                             }
                                                      
                             
                           while($result = mysqli_fetch_row($importance)){
@@ -611,7 +857,7 @@ if(!isset($_SESSION['logged in']))
                                  }else{
                                   $importanceT[] = implode($result);
                                   $empty = 1;
-                                  // print_r($importanceT);
+                                  
                                                   
                                                   
                                   }             
@@ -670,26 +916,217 @@ if(!isset($_SESSION['logged in']))
                           
                           while($counter > $j){
                            
-                      
-                          if($importanceT[$j] == "bardzo"){
-                            echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                            <div class='break'></div>
-                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                          </div>";
+                            
+                            $event_id = null;
+                            $updateQuery = null; 
                           
-                          }
-                          if($importanceT[$j] == "srednio"){
-                            echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                            <div class='break'></div>
-                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                          </div>";
-                          }
-                          if($importanceT[$j] == "malo"){
-                            echo "<div class='infoM' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text'>".$infoT[$j]."<a class='text' style='color:white; font-size: 2.5vh;'>".$typT[$j]."</a></a><div>a</div>
-                            <div class='break'></div>
-                            <div class='comment' id='".$k."'>".$commentT[$j]."</div>                                              
-                          </div>";
-                          }
+                            if($importanceT[$j] == "bardzo"){
+                              echo "<div class='infoB' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/red.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                              
+                              if ($isMadeT[$j] == 0) {
+                                echo '<form method="post">';
+                                echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                                echo '<button class="readyBtn" name="mark_as_done'.$k.'" type="submit" id="form">Niezrobione&nbsp;<img src="img/cross.png" width="30vw" height="auto"></button>';
+                                echo '</form>';
+                            } else {
+                                echo '<form method="post">';
+                                echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                                echo '<button class="readyBtn" name="mark_as_undone'.$k.'" type="submit" id="form">Zrobione&nbsp;<img src="img/check.png" width="30vw" height="auto"></button>';
+                                echo '</form>';
+                            }                        
+                                              // Check if the form has been submitted to mark an event as done
+                                              
+                                if (isset($_POST['mark_as_done'.$k])) {
+                                // Retrieve the event ID from the submitted form data
+                                $event_id = $_POST['event_id'];
+  
+                                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                                $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+  
+                                // Execute the update query
+                                if (mysqli_query($con, $updateQuery)) {
+                                    // The record has been updated successfully
+                                    // You can add a success message or redirect the user as needed
+                                    // Replace 'your_page.php' with the URL of the page you want to redirect to
+                                    echo '<script>location.href = "kalendarz.php";</script>';
+                                    exit;
+                                } else {
+                                    // Handle any errors that may occur during the update
+                                    echo "Error updating record: " . mysqli_error($con);
+                                }
+                            }
+  
+                            // Check if the form has been submitted to mark an event as undone
+                            if (isset($_POST['mark_as_undone'.$k])) {
+                                // Retrieve the event ID from the submitted form data
+                                $event_id = $_POST['event_id'];
+  
+                                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                                $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+  
+                                // Execute the update query
+                                if (mysqli_query($con, $updateQuery)) {
+                                    // The record has been updated successfully
+                                    // You can add a success message or redirect the user as needed
+                                    echo '<script>location.href = "kalendarz.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
+                                    exit;
+                                } else {
+                                    // Handle any errors that may occur during the update
+                                    echo "Error updating record: " . mysqli_error($con);
+                                }
+                            }
+  
+  
+  
+                              
+                              echo " <div class='break'></div>
+                              <a style='font-size:1.7vh; color:white; margin-left:0.5vh;'>Kliknij, aby schować/pokazać komentarz</a>             
+                              <div class='break'></div>
+                              <div class='comment' id='".$k."'>Komentarz:&nbsp;".$commentT[$j]."</div>                                              
+                            </div>";
+                            
+                            }
+  
+                            // sredni
+  
+                            if($importanceT[$j] == "srednio"){
+                              echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/yellow.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                              
+                              if ($isMadeT[$j] == 0) {
+                                echo '<form method="post">';
+                                echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                                echo '<button class="readyBtn" name="mark_as_done'.$k.'" type="submit" id="form">Niezrobione&nbsp;<img src="img/cross.png" width="30vw" height="auto"></button>';
+                                echo '</form>';
+                            } else {
+                                echo '<form method="post">';
+                                echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                                echo '<button class="readyBtn" name="mark_as_undone'.$k.'" type="submit" id="form">Zrobione&nbsp;<img src="img/check.png" width="30vw" height="auto"></button>';
+                                echo '</form>';
+                            }                        
+                           
+                            // Check if the form has been submitted to mark an event as done
+                              if (isset($_POST['mark_as_done'.$k])) {
+                                // Retrieve the event ID from the submitted form data
+                                $event_id = $_POST['event_id'];
+  
+                                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                                $updateQuery = "UPDATE wydarzenia SET zrobione = 1 WHERE id = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+  
+                                // Execute the update query
+                                if (mysqli_query($con, $updateQuery)) {
+                                    // The record has been updated successfully
+                                    // You can add a success message or redirect the user as needed
+                                    // Replace 'your_page.php' with the URL of the page you want to redirect to
+                                    echo '<script>location.href = "kalendarz.php";</script>';
+                                    // echo 'tst';
+                                    exit;
+                                } else {
+                                    // Handle any errors that may occur during the update
+                                    echo "Error updating record: " . mysqli_error($con);
+                                }
+                            }
+  
+                            // Check if the form has been submitted to mark an event as undone
+                            if (isset($_POST['mark_as_undone'.$k])) {
+                                // Retrieve the event ID from the submitted form data
+                                $event_id = $_POST['event_id'];
+  
+                                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                                $updateQuery = "UPDATE `wydarzenia` SET `zrobione` = 0 WHERE `id` = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+  
+                                // Execute the update query
+                                if (mysqli_query($con, $updateQuery)) {
+                                    // The record has been updated successfully
+                                    // You can add a success message or redirect the user as needed
+                                    echo '<script>location.href = "kalendarz.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
+                                    // echo 'test';
+                                    exit;
+                                } else {
+                                    // Handle any errors that may occur during the update
+                                    echo "Error updating record: " . mysqli_error($con);
+                                }
+                            }
+  
+  
+  
+                              
+                              echo " <div class='break'></div>
+                              <a style='font-size:1.7vh; color:white; margin-left:0.5vh;'>Kliknij, aby schować/pokazać komentarz</a>             
+                              <div class='break'></div>
+                              <div class='comment' id='".$k."'>Komentarz:&nbsp;".$commentT[$j]."</div>                                              
+                            </div>";
+                            
+                            }
+  
+                            // malo
+  
+                            if($importanceT[$j] == "malo"){
+                              echo "<div class='infoS' id='Info".$k."' onclick=\" infomation('Info".$k."'); comment('".$k."')\"><img src='img/green.png' width='6%' height='auto'><a class='text1'>".$infoT[$j]."<a class='text' style='color:white; font-size: 3.5vh;'>".$typT[$j]."</a></a>";
+                              
+                              if ($isMadeT[$j] == 0) {
+                                echo '<form method="post">';
+                                echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                                echo '<button class="readyBtn" name="mark_as_done'.$k.'" type="submit" id="form">Niezrobione&nbsp;<img src="img/cross.png" width="30vw" height="auto"></button>';
+                                echo '</form>';
+                            } else {
+                                echo '<form method="post">';
+                                echo '<input type="hidden" name="event_id" value="'.$idDBT[$j].'">';
+                                echo '<button class="readyBtn" name="mark_as_undone'.$k.'" type="submit" id="form">Zrobione&nbsp;<img src="img/check.png" width="30vw" height="auto"></button>';
+                                echo '</form>';
+                            }                        
+                           
+                            // Check if the form has been submitted to mark an event as done
+                              if (isset($_POST['mark_as_done'.$k])) {
+                                // Retrieve the event ID from the submitted form data
+                                $event_id = $_POST['event_id'];
+  
+                                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 1 for the specified event
+                                $updateQuery = "UPDATE `wydarzenia` SET `zrobione` = 1 WHERE `id` = $event_id AND `typ` NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+  
+                                // Execute the update query
+                                if (mysqli_query($con, $updateQuery)) {
+                                    // The record has been updated successfully
+                                    // You can add a success message or redirect the user as needed
+                                    // Replace 'your_page.php' with the URL of the page you want to redirect to
+                                    echo '<script>location.href = "kalendarz.php";</script>';
+                                    exit;
+                                } else {
+                                    // Handle any errors that may occur during the update
+                                    echo "Error updating record: " . mysqli_error($con);
+                                }
+                            }
+  
+                            // Check if the form has been submitted to mark an event as undone
+                            if (isset($_POST['mark_as_undone'.$k])) {
+                                // Retrieve the event ID from the submitted form data
+                                $event_id = $_POST['event_id'];
+  
+                                // Update the 'zrobione' column in the 'wydarzenia' table to set it to 0 for the specified event
+                                $updateQuery = "UPDATE wydarzenia SET zrobione = 0 WHERE id = $event_id AND typ NOT LIKE 'obowiazek' AND `data` = CURDATE()+$addDay";
+  
+                                // Execute the update query
+                                if (mysqli_query($con, $updateQuery)) {
+                                    // The record has been updated successfully
+                                    // You can add a success message or redirect the user as needed
+                                    echo '<script>location.href = "kalendarz.php";</script>';// Replace 'your_page.php' with the URL of the page you want to redirect to
+                                    exit;
+                                } else {
+                                    // Handle any errors that may occur during the update
+                                    echo "Error updating record: " . mysqli_error($con);
+                                }
+                            }
+  
+  
+  
+                              
+                              echo " <div class='break'></div>
+                              <a style='font-size:1.7vh; color:white; margin-left:0.5vh;'>Kliknij, aby schować/pokazać komentarz</a>             
+                              <div class='break'></div>
+                              <div class='comment' id='".$k."'>Komentarz:&nbsp;".$commentT[$j]."</div>                                              
+                            </div>";
+                            
+                            }
+  
                            
                       
                       $idInDB++;
@@ -722,7 +1159,7 @@ if(!isset($_SESSION['logged in']))
         </div>          
     
       </div>  
-      <footer>© by Nazwiska</footer>
+      <footer></footer>
       
 </body>
 <script>
@@ -839,7 +1276,7 @@ document.getElementById('normalny').addEventListener('click',function(){
       // active = 0;
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="10vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="12vh";
       // document.getElementById(`Info${dd}`).style.height="10vh";
       
       if(dd != i){
@@ -879,7 +1316,7 @@ document.getElementById('normalny').addEventListener('click',function(){
      
       document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0'; 
-      document.getElementById(`Info${dd}`).style.maxHeight="10vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="12vh";
       // document.getElementById(`Info${dd}`).style.height="10vh";
       
       if(dd != i){
@@ -918,7 +1355,7 @@ document.getElementById('normalny').addEventListener('click',function(){
         console.log(dd)
         document.getElementById(dd).style.visibility='hidden';
       document.getElementById(dd).style.opacity='0';      
-      document.getElementById(`Info${dd}`).style.maxHeight="10vh";
+      document.getElementById(`Info${dd}`).style.maxHeight="12vh";
       // document.getElementById(`Info${dd}`).style.height="10vh";
       // dd = null;
       active= 0;
@@ -932,11 +1369,3 @@ document.getElementById('normalny').addEventListener('click',function(){
   </script>
 
 </html>
-
-
-
-
-
-
-
-
