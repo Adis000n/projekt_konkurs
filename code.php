@@ -8,6 +8,11 @@
 
     <script src="sweetalert2.min.js"></script>
     <link rel="stylesheet" href="sweetalert2.min.css">
+    <style>
+    .swal2-popup {
+      font-family: 'Roboto', sans-serif;
+    }
+  </style>
  </head>
  <body>
 </body>
