@@ -510,12 +510,13 @@ footer::before{ /* linia pod elementem*/
    }
     .information,.infoB,.infoS,.infoM{
         height: auto;
-        max-height: 40vh;
+        max-height: 45vh;
         display: flex;
         text-align: center;
         flex-direction: column;
         justify-content: space-between;
-        padding:0;
+        padding: 0;
+        padding-bottom: 5px;
     }
     .menu_btn{
         font-size: 1.7vh;
