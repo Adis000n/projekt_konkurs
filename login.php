@@ -14,6 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="login_styles.css" />
   <title>Strona logowania</title>
+  <link rel="icon" href="img/logo.jpg" type="image/jpeg">
 </head>
 <body>
   <div class="bg" aria-hidden="true">
